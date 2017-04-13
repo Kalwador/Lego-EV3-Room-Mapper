@@ -21,12 +21,6 @@ public class TXTLoader {
 
             int i = 0;
             int j = 0;
-
-            /**
-             * W przyszłośći zostanie to zastąpione metodą powiększająco-realokującą 
-             * obecną macierz
-             */
-            
             
             while ((linia = bufor.readLine()) != null) {
                 String[] pola = linia.split(";");
