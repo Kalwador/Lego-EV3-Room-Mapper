@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Java/RobotLego/src/utils/TXTLoader.java</file>
-            <file>file:/D:/Java/RobotLego/src/core/RobotLego.java</file>
-            <file>file:/D:/Java/RobotLego/src/matrix/AbstractMatrix.java</file>
-            <file>file:/D:/Java/RobotLego/src/matrix/Matrix.java</file>
-            <file>file:/D:/Java/RobotLego/src/matrix/ExpandMatrix.java</file>
-            <file>file:/D:/Java/RobotLego/src/core/FXMLDocumentController.java</file>
+            <file>file:/D:/GitHub/RobotLego/src/drawing/Grid.java</file>
+            <file>file:/D:/GitHub/RobotLego/src/core/RobotLego.java</file>
         </group>
     </open-files>
 </project-private>
