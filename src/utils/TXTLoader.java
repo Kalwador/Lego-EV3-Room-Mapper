@@ -13,7 +13,7 @@ import java.io.IOException;
 public class TXTLoader {
 
     public Matrix loadData(String path) throws IOException {
-        int[][] matrix = new int[100][100];
+        Integer[][] matrix = new Integer[100][100];
         try {
             FileReader file = new FileReader(path);
             BufferedReader bufor = new BufferedReader(file);
@@ -39,6 +39,6 @@ public class TXTLoader {
         } catch (NumberFormatException w3) {
             System.out.println("WRONG NUMBER FORMAT");
         }
-        return new Matrix(matrix, 100, 100);
+        return new Matrix<Integer>(matrix);
     }
 }

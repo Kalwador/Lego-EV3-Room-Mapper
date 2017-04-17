@@ -1,22 +1,38 @@
 package matrix;
 
 /**
- * Matrix Model
+ * Class which allows build two dimmesnions arrays of generic type.
  *
  * @author Kalvador
+ * @param <T>
  * @since 23.03.2017
  */
-public class Matrix extends AbstractMatrix {
+public class Matrix<T> extends AbstractMatrix {
 
-    private AbstractMatrix matrix;
+    private AbstractMatrix<T> matrix;
 
+    /**
+     * New Matrix 100x100
+     */
     public Matrix() {
+        super();
     }
 
-    public Matrix(int[][] matrix, int sizeX, int sizeY) {
-        super(matrix, sizeX, sizeY);
+    /**
+     * Copy Constructor
+     *
+     * @param matrix
+     */
+    public Matrix(T[][] matrix) {
+        super(matrix);
     }
 
+    /**
+     * New Empty Matrix with specified dimension
+     *
+     * @param witdh requested width
+     * @param height requested height
+     */
     public Matrix(int witdh, int height) {
         super(witdh, height);
     }
