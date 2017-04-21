@@ -25,7 +25,9 @@ public class Axis {
         x4 = 600;
 
         y1 = 0;
+        y2 = 450;
         y3 = 800;
+        y4 = 450;
 
         vertical = new Line2D.Double(
                 x1,

@@ -10,12 +10,16 @@ import core.VisualizationGUI;
 public class Camera {
 
     /**
+     * Scalar of view, zoom in.
+     */
+//    private short cameraZoom;
+    /**
      * Corners of camera view
      */
-    private int xCameraStart;
-    private int xCameraEnd;
-    private int yCameraStart;
-    private int yCameraEnd;
+    private int xPointWhereCameraStart;
+    private int xPointWhereCameraEnds;
+    private int yPointWhereCameraStart;
+    private int yPointWhereCameraEnds;
 
     /**
      * Maximum position that camera can reach
@@ -40,44 +44,44 @@ public class Camera {
      * Moves Camera in LEFT direction, by 10 rectangles.
      */
     public void moveCameraLEFT() {
-        xCameraStart -= cameraStep * core.VisualizationGUI.resoulution;
-        if (xCameraStart < 0) {
-            xCameraStart = 0;
+        xPointWhereCameraStart -= cameraStep * core.VisualizationGUI.resoulution;
+        if (xPointWhereCameraStart < 0) {
+            xPointWhereCameraStart = 0;
         }
-        xCameraEnd = xCameraStart + core.VisualizationGUI.windowWidth;
+        xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowWidth;
     }
 
     /**
      * Moves Camera in RIGHT direction, by 10 rectangles.
      */
     public void moveCameraRIGHT() {
-        xCameraStart += cameraStep * core.VisualizationGUI.resoulution;
-        if (xCameraStart > xCameraMaxPosition) {
-            xCameraStart = xCameraMaxPosition;
+        xPointWhereCameraStart += cameraStep * core.VisualizationGUI.resoulution;
+        if (xPointWhereCameraStart > xCameraMaxPosition) {
+            xPointWhereCameraStart = xCameraMaxPosition;
         }
-        xCameraEnd = xCameraStart + core.VisualizationGUI.windowWidth;
+        xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowWidth;
     }
 
     /**
      * Moves Camera in UP direction, by 10 rectangles.
      */
     public void moveCameraUP() {
-        yCameraStart -= cameraStep * VisualizationGUI.resoulution;
-        if (yCameraStart < 0) {
-            yCameraStart = 0;
+        yPointWhereCameraStart -= cameraStep * VisualizationGUI.resoulution;
+        if (yPointWhereCameraStart < 0) {
+            yPointWhereCameraStart = 0;
         }
-        yCameraEnd = yCameraStart + VisualizationGUI.windowHeight;
+        yPointWhereCameraEnds = yPointWhereCameraStart + VisualizationGUI.windowHeight;
     }
 
     /**
      * Moves Camera in DOWN direction, by 10 rectangles.
      */
     public void moveCameraDOWN() {
-        yCameraStart += cameraStep * VisualizationGUI.resoulution;
-        if (yCameraStart > yCameraMaxPosition) {
-            yCameraStart = yCameraMaxPosition;
+        yPointWhereCameraStart += cameraStep * VisualizationGUI.resoulution;
+        if (yPointWhereCameraStart > yCameraMaxPosition) {
+            yPointWhereCameraStart = yCameraMaxPosition;
         }
-        yCameraEnd = yCameraStart + VisualizationGUI.windowHeight;
+        yPointWhereCameraEnds = yPointWhereCameraStart + VisualizationGUI.windowHeight;
     }
 
     /**
@@ -117,69 +121,69 @@ public class Camera {
 
     private void updateCenterOfMatrixView(Vector matrixDimensions) {
         int widthOfMatrixInPixels = matrixDimensions.getX() * core.VisualizationGUI.resoulution;
-        System.out.println("1. " + widthOfMatrixInPixels);
+//        System.out.println("1. " + widthOfMatrixInPixels);
         
         int heightOfMatrixInPixels = matrixDimensions.getY() * core.VisualizationGUI.resoulution;
-        System.out.println("2. " + heightOfMatrixInPixels);
+//        System.out.println("2. " + heightOfMatrixInPixels);
         
-        xCameraStart = (widthOfMatrixInPixels / 2) - (core.VisualizationGUI.windowWidth / 2);
-        System.out.println("3. " + xCameraStart);
+        xPointWhereCameraStart = (widthOfMatrixInPixels / 2) - (core.VisualizationGUI.windowWidth / 2);
+//        System.out.println("3. " + xPointWhereCameraStart);
         
-        yCameraStart = (heightOfMatrixInPixels / 2) - (core.VisualizationGUI.windowHeight / 2);
-        System.out.println("4. " + yCameraStart);
+        yPointWhereCameraStart = (heightOfMatrixInPixels / 2) - (core.VisualizationGUI.windowHeight / 2);
+//        System.out.println("4. " + yPointWhereCameraStart);
         
         xCameraMaxPosition = widthOfMatrixInPixels - core.VisualizationGUI.windowWidth;
-        System.out.println("5. " + xCameraMaxPosition);
+//        System.out.println("5. " + xPointWhereCameraEnds);
         
         yCameraMaxPosition = heightOfMatrixInPixels - core.VisualizationGUI.windowHeight;
-        System.out.println("6. " + yCameraMaxPosition);
+//        System.out.println("6. " + yPointWhereCameraEnds);
 
         //Zabezpieczenia niedopracowane, nie wiem jeszcze jak będzie się to zmieniało
-        if (xCameraStart < 0) {
-            xCameraStart = 0;
+        if (xPointWhereCameraStart < 0) {
+            xPointWhereCameraStart = 0;
         }
 
-        if (yCameraStart < 0) {
-            yCameraStart = 0;
+        if (yPointWhereCameraStart < 0) {
+            yPointWhereCameraStart = 0;
         }
 
-        xCameraEnd = xCameraStart + core.VisualizationGUI.windowWidth;
-        System.out.println("7. " + xCameraEnd);
+        xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowWidth;
+        System.out.println("7. " + xPointWhereCameraEnds);
         
-        yCameraEnd = yCameraStart + core.VisualizationGUI.windowHeight;
-        System.out.println("8. " + yCameraEnd);
+        yPointWhereCameraEnds = yPointWhereCameraStart + core.VisualizationGUI.windowHeight;
+        System.out.println("8. " + yPointWhereCameraEnds);
     }
 
     public int getxCameraStart() {
-        return xCameraStart;
+        return xPointWhereCameraStart;
     }
 
     public void setxCameraStart(int xCameraStart) {
-        this.xCameraStart = xCameraStart;
+        this.xPointWhereCameraStart = xCameraStart;
     }
 
     public int getxCameraEnd() {
-        return xCameraEnd;
+        return xPointWhereCameraEnds;
     }
 
     public void setxCameraEnd(int xCameraEnd) {
-        this.xCameraEnd = xCameraEnd;
+        this.xPointWhereCameraEnds = xCameraEnd;
     }
 
     public int getyCameraStart() {
-        return yCameraStart;
+        return yPointWhereCameraStart;
     }
 
     public void setyCameraStart(int yCameraStart) {
-        this.yCameraStart = yCameraStart;
+        this.yPointWhereCameraStart = yCameraStart;
     }
 
     public int getyCameraEnd() {
-        return yCameraEnd;
+        return yPointWhereCameraEnds;
     }
 
     public void setyCameraEnd(int yCameraEnd) {
-        this.yCameraEnd = yCameraEnd;
+        this.yPointWhereCameraEnds = yCameraEnd;
     }
 
     public int getxCameraMaxPosition() {
