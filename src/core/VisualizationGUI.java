@@ -1,7 +1,7 @@
 package core;
 
-import drawing.Axis;
-import drawing.Grid;
+import window.Axis;
+import window.Grid;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,13 +29,13 @@ public class VisualizationGUI extends JFrame implements ActionListener {
     public static short resoulution;
 
     private Matrix matrix;
-    private drawing.Axis axis;
-    private drawing.Grid grid ;
+    private window.Axis axis;
+    private window.Grid grid ;
     public static utils.Camera camera;
 
-    private utils.MenuBar menuBar;
-    private utils.ToolBar toolBar;
-    private utils.ToolBarTwo toolBarTwo;
+    private window.MenuBar menuBar;
+    private window.ToolBar toolBar;
+    private window.ToolBarTwo toolBarTwo;
 
     public VisualizationGUI() {
         /**
@@ -47,14 +47,14 @@ public class VisualizationGUI extends JFrame implements ActionListener {
         camera = new utils.Camera(matrix.getSize());
 
         // Setting menu bar
-        menuBar = new utils.MenuBar();
+        menuBar = new window.MenuBar();
         setJMenuBar(menuBar.getMenuBar(this.rootPane));
 
-        toolBar = new utils.ToolBar();
-        add(toolBar.getToolBar(this.rootPane), BorderLayout.NORTH);
+        toolBar = new window.ToolBar();
+        add(toolBar.getToolBar(this.rootPane), BorderLayout.PAGE_END);
 
-        toolBarTwo = new utils.ToolBarTwo();
-        add(toolBarTwo.getToolBarTwo(this.rootPane), BorderLayout.EAST);
+        toolBarTwo = new window.ToolBarTwo();
+        add(toolBarTwo.getToolBarTwo(this.rootPane), BorderLayout.NORTH);
 
         setResizable(true);
         setTitle("Obstacle Visualization for EV3 Robot");

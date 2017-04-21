@@ -1,4 +1,4 @@
-package drawing;
+package window;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -11,7 +11,7 @@ import java.awt.Color;
  * @author Kalvador
  */
 public class Grid {
-
+    
     private matrix.RectangleMatrix rectalngleMatrix;
 
     public Grid() {
