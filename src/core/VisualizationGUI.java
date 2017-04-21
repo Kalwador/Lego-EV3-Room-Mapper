@@ -31,6 +31,7 @@ public class VisualizationGUI extends JFrame implements ActionListener {
     public static utils.Vector camera;
     private utils.MenuBar menuBar;
     private utils.ToolBar toolBar;
+    private utils.ToolBarTwo toolBarTwo;
 
 
     public VisualizationGUI() {
@@ -51,7 +52,12 @@ public class VisualizationGUI extends JFrame implements ActionListener {
         
         toolBar= new utils.ToolBar();
         add(toolBar.getToolBar(this.rootPane), BorderLayout.WEST);
+        add(scrollPane, BorderLayout.PAGE_END);
+        
+        toolBarTwo= new utils.ToolBarTwo();
+        add(toolBarTwo.getToolBarTwo(this.rootPane), BorderLayout.EAST);
         add(scrollPane, BorderLayout.CENTER);
+        
         
         setResizable(true);       
 
