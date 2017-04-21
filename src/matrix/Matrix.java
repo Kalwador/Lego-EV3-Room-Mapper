@@ -4,7 +4,7 @@ package matrix;
  * Class which allows build two dimmesnions arrays of generic type.
  *
  * @author Kalvador
- * @param <T>
+ * @param <T> any kind of Referenced Type of object
  * @since 23.03.2017
  */
 public class Matrix<T> extends AbstractMatrix {
@@ -39,13 +39,13 @@ public class Matrix<T> extends AbstractMatrix {
 
     @Override
     public void put(int x, int y, int value) {
-        if (x >= super.getSixeX()) {
+        if (x >= super.getSizeX()) {
             matrix.ExpadDown(10);
         }
         if (x < 0) {
             matrix.ExpadUp(10);
         }
-        if (y >= super.getSixeY()) {
+        if (y >= super.getSizeY()) {
             matrix.ExpadRight(10);
         }
         if (y < 0) {

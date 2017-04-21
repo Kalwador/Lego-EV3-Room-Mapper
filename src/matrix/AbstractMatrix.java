@@ -1,13 +1,18 @@
 package matrix;
 
+import utils.Vector;
 
+/**
+ * Abstract Matrix
+ *
+ * @author Kalvador
+ */
 public abstract class AbstractMatrix<T> implements ExpandMatrix {
 
     private T[][] matrix;
     private int sizeX;
     private int sizeY;
 
-   
     public AbstractMatrix() {
         this.sizeX = 100;
         this.sizeY = 100;
@@ -19,7 +24,6 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
         this.sizeX = matrix.length;
         this.sizeY = matrix[0].length;
     }
-
 
     public AbstractMatrix(int witdh, int height) {
         this.sizeX = witdh;
@@ -83,20 +87,24 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
         this.matrix = matrix;
     }
 
-    public int getSixeX() {
+    public int getSizeX() {
         return sizeX;
     }
 
-    public void setSixeX(int sixeX) {
-        this.sizeX = sixeX;
+    public void setSizeX(int sizeX) {
+        this.sizeX = sizeX;
     }
 
-    public int getSixeY() {
+    public int getSizeY() {
         return sizeY;
     }
 
-    public void setSixeY(int sixeY) {
-        this.sizeY = sixeY;
+    public void setSizeY(int sizeY) {
+        this.sizeY = sizeY;
+    }
+
+    public utils.Vector getSize() {
+        return new Vector(sizeX, sizeY);
     }
 
     public abstract void put(int x, int y, int value);

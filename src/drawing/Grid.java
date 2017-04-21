@@ -13,7 +13,6 @@ public class Grid {
     public Grid() {
         rectalngleMatrix = new RectangleMatrix();
     }
-    
     public void draw(){
         
     }

@@ -33,4 +33,10 @@ public class Vector {
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "Vector{" + "x=" + x + ", y=" + y + '}';
+    }
+    
 }

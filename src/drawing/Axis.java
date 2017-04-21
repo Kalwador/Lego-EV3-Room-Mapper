@@ -19,15 +19,13 @@ public class Axis {
     double y1, y2, y3, y4;
 
     public void updateAxis(utils.Camera camera) {
-        x1 = (camera.getxCameraStart() + (VisualizationGUI.windowWidth / 2));
-        x2 = camera.getyCameraStart();
-        x3 = (camera.getxCameraEnd() - (VisualizationGUI.windowWidth / 2));
-        x4 = camera.getyCameraEnd();
+        x1 = 400;
+        x2 = 0;
+        x3 = 400;
+        x4 = 600;
 
-        y1 = camera.getxCameraStart();
-        y2 = (camera.getyCameraStart() + (VisualizationGUI.windowHeight / 2));
-        y3 = camera.getxCameraEnd();
-        y4 = (camera.getyCameraEnd() - (VisualizationGUI.windowHeight / 2));
+        y1 = 0;
+        y3 = 800;
 
         vertical = new Line2D.Double(
                 x1,
@@ -43,8 +41,6 @@ public class Axis {
     }
 
     public void drawAxis(Graphics2D g) {
-        System.out.println(x1 + " x " + x2 + " x " + x3 + " x " + x4);
-        System.out.println(y1 + " x " + y2 + " x " + y3 + " x " + y4);
         g.setColor(Color.red);
         g.draw(vertical);
         g.draw(horizontal);
