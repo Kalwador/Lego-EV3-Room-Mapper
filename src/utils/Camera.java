@@ -12,10 +12,6 @@ public class Camera {
     /**
      * Scalar of view, zoom in.
      */
-//    private short cameraZoom;
-    /**
-     * Corners of camera view
-     */
     private int xPointWhereCameraStart;
     private int xPointWhereCameraEnds;
     private int yPointWhereCameraStart;
@@ -122,23 +118,23 @@ public class Camera {
     private void updateCenterOfMatrixView(Vector matrixDimensions) {
         int widthOfMatrixInPixels = matrixDimensions.getX() * core.VisualizationGUI.resoulution;
 //        System.out.println("1. " + widthOfMatrixInPixels);
-        
+
         int heightOfMatrixInPixels = matrixDimensions.getY() * core.VisualizationGUI.resoulution;
 //        System.out.println("2. " + heightOfMatrixInPixels);
-        
+
         xPointWhereCameraStart = (widthOfMatrixInPixels / 2) - (core.VisualizationGUI.windowWidth / 2);
 //        System.out.println("3. " + xPointWhereCameraStart);
-        
+
         yPointWhereCameraStart = (heightOfMatrixInPixels / 2) - (core.VisualizationGUI.windowHeight / 2);
 //        System.out.println("4. " + yPointWhereCameraStart);
-        
+
         xCameraMaxPosition = widthOfMatrixInPixels - core.VisualizationGUI.windowWidth;
 //        System.out.println("5. " + xPointWhereCameraEnds);
-        
+
         yCameraMaxPosition = heightOfMatrixInPixels - core.VisualizationGUI.windowHeight;
 //        System.out.println("6. " + yPointWhereCameraEnds);
 
-        //Zabezpieczenia niedopracowane, nie wiem jeszcze jak będzie się to zmieniało
+        //Zabezpieczenie aby kamera nie wyszła przed sitake
         if (xPointWhereCameraStart < 0) {
             xPointWhereCameraStart = 0;
         }
@@ -148,10 +144,18 @@ public class Camera {
         }
 
         xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowWidth;
-        System.out.println("7. " + xPointWhereCameraEnds);
-        
+//        System.out.println("7. " + xPointWhereCameraEnds);
+
         yPointWhereCameraEnds = yPointWhereCameraStart + core.VisualizationGUI.windowHeight;
-        System.out.println("8. " + yPointWhereCameraEnds);
+//        System.out.println("8. " + yPointWhereCameraEnds);
+
+        //Zabezpieczenie aby kamera nie wyszła poza siatkę
+        if (xPointWhereCameraEnds > xCameraMaxPosition) {
+            xPointWhereCameraEnds = xCameraMaxPosition;
+        }
+        if (yPointWhereCameraEnds > yCameraMaxPosition) {
+            yPointWhereCameraEnds = yCameraMaxPosition;
+        }
     }
 
     public int getxCameraStart() {

@@ -16,13 +16,11 @@ public class RectangleMatrix extends Matrix<Rectangle2D>{
     public RectangleMatrix() {
         super();
     }
+    public RectangleMatrix(int width, int height) {
+        super(width,height);
+    }
 
     public RectangleMatrix(Rectangle2D[][] matrix) {
         super(matrix);
     }
-
-    public RectangleMatrix(int witdh, int height) {
-        super(witdh, height);
-    }
-    
 }

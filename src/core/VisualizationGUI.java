@@ -1,6 +1,7 @@
 package core;
 
 import drawing.Axis;
+import drawing.Grid;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,7 @@ public class VisualizationGUI extends JFrame implements ActionListener {
 
     private Matrix matrix;
     private drawing.Axis axis;
+    private drawing.Grid grid ;
     public static utils.Camera camera;
 
     private utils.MenuBar menuBar;
@@ -55,12 +57,13 @@ public class VisualizationGUI extends JFrame implements ActionListener {
         add(toolBarTwo.getToolBarTwo(this.rootPane), BorderLayout.EAST);
 
         setResizable(true);
+        setTitle("Obstacle Visualization for EV3 Robot");
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        //obsługa klawiatóry
     }
 
     public void run() {
@@ -69,7 +72,10 @@ public class VisualizationGUI extends JFrame implements ActionListener {
         //shapes[1] = new Rectangle2D.Double(10.0, 100.0, 200.0, 200.0);
         axis = new Axis();
         axis.updateAxis(camera);
-
+        
+        grid = new Grid();
+        grid.updateGrid(camera);
+        
         setSize(windowWidth, windowHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -80,7 +86,8 @@ public class VisualizationGUI extends JFrame implements ActionListener {
         @Override
         public void paint(Graphics graphics) {
             Graphics2D g = (Graphics2D) graphics;
-            axis.drawAxis(g);
+            grid.drawGrid(camera, g);
+            axis.drawAxis(camera, g);
         }
     }
 }

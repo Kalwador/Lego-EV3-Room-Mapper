@@ -88,23 +88,15 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
     }
 
     public int getSizeX() {
-        return sizeX;
-    }
-
-    public void setSizeX(int sizeX) {
-        this.sizeX = sizeX;
+        return (sizeX - 1);
     }
 
     public int getSizeY() {
-        return sizeY;
-    }
-
-    public void setSizeY(int sizeY) {
-        this.sizeY = sizeY;
+        return (sizeY - 1);
     }
 
     public utils.Vector getSize() {
-        return new Vector(sizeX, sizeY);
+        return new Vector(sizeX - 1, sizeY - 1);
     }
 
     public abstract void put(int x, int y, int value);

@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import core.VisualizationGUI;
+import java.awt.BasicStroke;
 
 /**
  *
@@ -25,9 +26,9 @@ public class Axis {
         x4 = 600;
 
         y1 = 0;
-        y2 = 450;
+        y2 = 250;
         y3 = 800;
-        y4 = 450;
+        y4 = 250;
 
         vertical = new Line2D.Double(
                 x1,
@@ -42,8 +43,10 @@ public class Axis {
         );
     }
 
-    public void drawAxis(Graphics2D g) {
+    public void drawAxis(utils.Camera camera, Graphics2D g) {
+        updateAxis(camera);
         g.setColor(Color.red);
+        g.setStroke(new BasicStroke(3));
         g.draw(vertical);
         g.draw(horizontal);
     }
