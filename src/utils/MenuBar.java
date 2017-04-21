@@ -1,8 +1,13 @@
 package utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 
 /**
@@ -20,12 +25,21 @@ public class MenuBar {
     JMenuItem newFile;
     JMenuItem open;
     JMenuItem save;
+    JMenuItem saveAs;
+    JMenuItem exit;
+    JMenuItem copy;
+    JMenuItem paste;
+    JMenuItem cut;
+    JMenuItem delete;
+    JMenuItem info;
 
     public MenuBar() {
     }
     
     
     public JMenuBar getMenuBar(JRootPane root) {
+        
+        
         menuBar = new JMenuBar();
 
         menuFirst = new JMenu("File");
@@ -34,27 +48,66 @@ public class MenuBar {
         newFile = new JMenuItem("New");
         menuFirst.add(newFile);
         newFile.addActionListener((e) -> {
-            
+            //Creating new project
         });
 
         open = new JMenuItem("Open");
         menuFirst.add(open);
-//        open.addActionListener(this);
+        open.addActionListener((e) -> {            
+            
+            JFileChooser fc = new JFileChooser();
+            File selectedFile;
+
+            if (fc.showOpenDialog(root) == JFileChooser.APPROVE_OPTION){
+
+            try{   
+                selectedFile = fc.getSelectedFile();
+                JOptionPane.showMessageDialog(null, "File selected.");
+                }catch(Exception r){
+                    JOptionPane.showMessageDialog(null,r);
+                   }
+            }   
+        
+        });
 
         save = new JMenuItem("Save");
         menuFirst.add(save);
-//        save.addActionListener(this);
+        save.addActionListener((e)->{
+        
+            File selectedFile = null;
+            try {
+                PrintWriter save = new PrintWriter(selectedFile);
+                save.close();
+            } catch (FileNotFoundException q) {
+                JOptionPane.showMessageDialog(null, q);
+            }
+            JOptionPane.showMessageDialog(null, "File saved.");
+        });
 
         
         // od tąd Twoja działka
-        JMenuItem saveAs = new JMenuItem("Save as");
+        saveAs = new JMenuItem("Save as");
         menuFirst.add(saveAs);
-//        saveAs.addActionListener(this);
+        saveAs.addActionListener((e)->{
+            
+            JFileChooser fc = new JFileChooser();
+            
+            if (fc.showSaveDialog(root) == JFileChooser.APPROVE_OPTION) {                
+                File selectedFile = fc.getSelectedFile();
+                try {
+                    PrintWriter save = new PrintWriter(selectedFile);
+                    save.close();
+                } catch (FileNotFoundException q) {
 
-        JMenuItem exit = new JMenuItem("Exit");
+                    JOptionPane.showMessageDialog(null, q);
+                }
+                JOptionPane.showMessageDialog(null, "File saved.");
+            }
+        });
+
+        exit = new JMenuItem("Exit");
         menuFirst.add(exit);
-        exit.addActionListener((e) -> {
-            System.out.println("Siemanero");
+        exit.addActionListener((e) -> {           
             root.setVisible(false);
             System.exit(0);
         });
@@ -62,28 +115,42 @@ public class MenuBar {
         menuSecond = new JMenu("Edit");
         menuBar.add(menuSecond);
 
-        JMenuItem copy = new JMenuItem("Copy");
+        copy = new JMenuItem("Copy");
         menuSecond.add(copy);
-//        copy.addActionListener(this);
+        copy.addActionListener((e)->{
+            
+            //If copy...
+        });
 
-        JMenuItem paste = new JMenuItem("Paste");
+        paste = new JMenuItem("Paste");
         menuSecond.add(paste);
-//        paste.addActionListener(this);
+        paste.addActionListener((e)->{
+        
+            //If paste...
+        });
 
-        JMenuItem cut = new JMenuItem("Cut");
+        cut = new JMenuItem("Cut");
         menuSecond.add(cut);
-//        cut.addActionListener(this);
+        cut.addActionListener((e)->{
+        
+            //If cut...
+        });
 
-        JMenuItem delete = new JMenuItem("Delete");
+        delete = new JMenuItem("Delete");
         menuSecond.add(delete);
-//        delete.addActionListener(this);
+        delete.addActionListener((e)->{
+        
+            //If delete...
+        });
 
         menuThird = new JMenu("Help");
         menuBar.add(menuThird);
 
-        JMenuItem info = new JMenuItem("Info");
+        info = new JMenuItem("Info");
         menuThird.add(info);
-//        info.addActionListener(this);
+        info.addActionListener((e)->{
+            JOptionPane.showMessageDialog(null, "Information!");
+        });
 
         return menuBar;
     }
