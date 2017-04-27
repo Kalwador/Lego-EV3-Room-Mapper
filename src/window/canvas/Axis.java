@@ -1,4 +1,4 @@
-package window;
+package window.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

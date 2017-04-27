@@ -5,76 +5,77 @@ import utils.Vector;
 /**
  * Abstract Matrix
  *
- * @author Kalvador
+ * @author Kalwador
+ * @param <T>
  */
 public abstract class AbstractMatrix<T> implements ExpandMatrix {
 
     private T[][] matrix;
-    private int sizeX;
-    private int sizeY;
+    private int width;
+    private int height;
 
     public AbstractMatrix() {
-        this.sizeX = 100;
-        this.sizeY = 100;
-        this.matrix = (T[][]) new Object[sizeX][sizeY];
+        this.width = 100;
+        this.height = 100;
+        this.matrix = (T[][]) new Object[width][height];
     }
 
     public AbstractMatrix(Object[][] matrix) {
         this.matrix = (T[][]) matrix;
-        this.sizeX = matrix.length;
-        this.sizeY = matrix[0].length;
+        this.width = matrix.length;
+        this.height = matrix[0].length;
     }
 
     public AbstractMatrix(int witdh, int height) {
-        this.sizeX = witdh;
-        this.sizeY = height;
-        this.matrix = (T[][]) new Object[sizeX][sizeY];
+        this.width = witdh;
+        this.height = height;
+        this.matrix = (T[][]) new Object[width][this.height];
     }
 
     @Override
     public void ExpadRight(int size) {
-        this.sizeX = this.sizeX + size;
+        this.width = this.width + size;
 
-        Object[][] tempMatrix = (T[][]) new Object[sizeX][sizeY];
+        Object[][] tempMatrix = (T[][]) new Object[width][height];
 
-        for (int i = 0; i < sizeY; i++) {
-            System.arraycopy(matrix[i], 0, tempMatrix[i], 0, sizeX);
+        for (int i = 0; i < height; i++) {
+            System.arraycopy(matrix[i], 0, tempMatrix[i], 0, width);
         }
         this.matrix = (T[][]) tempMatrix;
     }
 
     @Override
     public void ExpadLeft(int size) {
-        this.sizeX = this.sizeX + size;
+        this.width = this.width + size;
 
-        Object[][] tempMatrix = (T[][]) new Object[sizeX][sizeY];
+        Object[][] tempMatrix = (T[][]) new Object[width][height];
 
-        for (int i = 0; i < sizeY; i++) {
-            System.arraycopy(matrix[i], size, tempMatrix[i], size, sizeX - size);
+        for (int i = 0; i < height; i++) {
+            System.arraycopy(matrix[i], size, tempMatrix[i], size, width - size);
         }
         this.matrix = (T[][]) tempMatrix;
     }
 
     @Override
     public void ExpadUp(int size) {
-        this.sizeY = this.sizeY + size;
+        this.height = this.height + size;
 
-        Object[][] tempMatrix = (T[][]) new Object[sizeX][sizeY];
+        Object[][] tempMatrix = (T[][]) new Object[width][height];
 
-        for (int i = size; i < sizeY; i++) {
-            System.arraycopy(matrix[i], 0, tempMatrix[i], 0, sizeX);
+        for (int i = size; i < height; i++) {
+            System.arraycopy(matrix[i], 0, tempMatrix[i], 0, width);
         }
         this.matrix = (T[][]) tempMatrix;
     }
 
     @Override
     public void ExpadDown(int size) {
-        this.sizeY = this.sizeY + size;
+        this.height = this.height + size;
 
-        Object[][] tempMatrix = (T[][]) new Object[sizeX][sizeY];
+        Object[][] tempMatrix = (T[][]) new Object[width][height];
 
-        for (int i = 0; i < sizeY; i++) {
-            System.arraycopy(matrix[i], 0, tempMatrix[i], 0, sizeX);
+        for (int i = 0; i < height; i++) {
+            System.arraycopy(matrix[i], 0, tempMatrix[i], 0, width);
         }
         this.matrix = (T[][]) tempMatrix;
     }
@@ -87,17 +88,19 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
         this.matrix = matrix;
     }
 
-    public int getSizeX() {
-        return (sizeX - 1);
+    public int getWidth() {
+        return (width - 1);
     }
 
-    public int getSizeY() {
-        return (sizeY - 1);
+    public int getHeight() {
+        return (height - 1);
     }
 
     public utils.Vector getSize() {
-        return new Vector(sizeX - 1, sizeY - 1);
+        return new Vector(width - 1, height - 1);
     }
 
-    public abstract void put(int x, int y, int value);
+    public void putObject(int x, int y, Object object) {
+        matrix[x][y] = (T) object;
+    }
 }

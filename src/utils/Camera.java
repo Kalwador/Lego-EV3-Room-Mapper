@@ -40,7 +40,7 @@ public class Camera {
      * Moves Camera in LEFT direction, by 10 rectangles.
      */
     public void moveCameraLEFT() {
-        xPointWhereCameraStart -= cameraStep * core.VisualizationGUI.resoulution;
+        xPointWhereCameraStart -= cameraStep * core.VisualizationGUI.RESOLUTION;
         if (xPointWhereCameraStart < 0) {
             xPointWhereCameraStart = 0;
         }
@@ -51,7 +51,7 @@ public class Camera {
      * Moves Camera in RIGHT direction, by 10 rectangles.
      */
     public void moveCameraRIGHT() {
-        xPointWhereCameraStart += cameraStep * core.VisualizationGUI.resoulution;
+        xPointWhereCameraStart += cameraStep * core.VisualizationGUI.RESOLUTION;
         if (xPointWhereCameraStart > xCameraMaxPosition) {
             xPointWhereCameraStart = xCameraMaxPosition;
         }
@@ -62,7 +62,7 @@ public class Camera {
      * Moves Camera in UP direction, by 10 rectangles.
      */
     public void moveCameraUP() {
-        yPointWhereCameraStart -= cameraStep * VisualizationGUI.resoulution;
+        yPointWhereCameraStart -= cameraStep * VisualizationGUI.RESOLUTION;
         if (yPointWhereCameraStart < 0) {
             yPointWhereCameraStart = 0;
         }
@@ -73,7 +73,7 @@ public class Camera {
      * Moves Camera in DOWN direction, by 10 rectangles.
      */
     public void moveCameraDOWN() {
-        yPointWhereCameraStart += cameraStep * VisualizationGUI.resoulution;
+        yPointWhereCameraStart += cameraStep * VisualizationGUI.RESOLUTION;
         if (yPointWhereCameraStart > yCameraMaxPosition) {
             yPointWhereCameraStart = yCameraMaxPosition;
         }
@@ -84,9 +84,9 @@ public class Camera {
      * Adds one step of camera zoom.
      */
     public void plusCameraZoom() {
-        VisualizationGUI.resoulution += 1;
-        if (VisualizationGUI.resoulution > 20) {
-            VisualizationGUI.resoulution = 20;
+        VisualizationGUI.RESOLUTION += 1;
+        if (VisualizationGUI.RESOLUTION > 20) {
+            VisualizationGUI.RESOLUTION = 20;
         }
     }
 
@@ -94,9 +94,9 @@ public class Camera {
      * Substract one step of camera zoom.
      */
     public void minusCameraZoom() {
-        VisualizationGUI.resoulution -= 1;
-        if (VisualizationGUI.resoulution < 1) {
-            VisualizationGUI.resoulution = 1;
+        VisualizationGUI.RESOLUTION -= 1;
+        if (VisualizationGUI.RESOLUTION < 1) {
+            VisualizationGUI.RESOLUTION = 1;
         }
     }
 
@@ -112,14 +112,14 @@ public class Camera {
         if (value < 1) {
             value = 1;
         }
-        VisualizationGUI.resoulution = (short) value;
+        VisualizationGUI.RESOLUTION = (short) value;
     }
 
     private void updateCenterOfMatrixView(Vector matrixDimensions) {
-        int widthOfMatrixInPixels = matrixDimensions.getX() * core.VisualizationGUI.resoulution;
+        int widthOfMatrixInPixels = matrixDimensions.getX() * core.VisualizationGUI.RESOLUTION;
 //        System.out.println("1. " + widthOfMatrixInPixels);
 
-        int heightOfMatrixInPixels = matrixDimensions.getY() * core.VisualizationGUI.resoulution;
+        int heightOfMatrixInPixels = matrixDimensions.getY() * core.VisualizationGUI.RESOLUTION;
 //        System.out.println("2. " + heightOfMatrixInPixels);
 
         xPointWhereCameraStart = (widthOfMatrixInPixels / 2) - (core.VisualizationGUI.windowWidth / 2);
