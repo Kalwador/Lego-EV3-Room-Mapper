@@ -2,36 +2,42 @@ package window.canvas;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 import static javax.swing.SwingConstants.CENTER;
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import window.canvas.Axis;
+import window.canvas.Grid;
+
 
 public class ScrollablePane extends JLabel
         implements Scrollable,
         MouseMotionListener {
-
+    
+   
+    public static utils.Camera camera;
     private int maxUnitIncrement = 1;
+    private window.canvas.Axis axis;
+    private window.canvas.Grid grid;
+    
 
-
-
-    public ScrollablePane(int m, utils.Camera camera, Axis axis, Grid grid) {
-        super();
-
+    public ScrollablePane(int m, Axis axis, Grid grid, utils.Camera camera) {
+//        public ScrollablePane(int m,ImageIcon i) {
+//        super(i);
+//        super();
+        
+        
         setHorizontalAlignment(CENTER);
         setOpaque(true);
-        setBackground(Color.white);
-
+        setBackground(Color.yellow);
+        
         maxUnitIncrement = m;
-
-        paint(new Line2D.Double(10,10,10,10);
-//        Graphics2D g = (Graphics2D) 
-//        grid.drawGrid(camera, g);
-//        axis.drawAxis(camera, g);
 
         //Let the user scroll by dragging to outside the window.
         setAutoscrolls(true); //enable synthetic drag events
-        addMouseMotionListener(this); //handle mouse drags
+        addMouseMotionListener(this); //handle mouse drags     
+
+        add(new MyCanvas(),BorderLayout.CENTER);
     }
 
     //Methods required by the MouseMotionListener interface:
@@ -110,5 +116,17 @@ public class ScrollablePane extends JLabel
 
     public void setMaxUnitIncrement(int pixels) {
         maxUnitIncrement = pixels;
+        
+        
+    }
+    
+         class MyCanvas extends Canvas {
+
+        @Override
+        public void paint(Graphics graphics) {
+            Graphics2D g =  (Graphics2D) graphics;
+            grid.drawGrid(camera, g);
+            axis.drawAxis(camera, g);          
+        }
     }
 }
