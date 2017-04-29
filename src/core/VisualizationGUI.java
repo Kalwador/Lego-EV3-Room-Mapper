@@ -1,15 +1,21 @@
 package core;
 
-import window.Axis;
-import window.Grid;
+import window.canvas.Axis;
+import window.canvas.Grid;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import matrix.Matrix;
+import window.MainPane;
+import static window.MainPane.camera;
 
 /**
- * Object of this clas contains method 'run'
+ * Class contain Frame and hadle his actions
  *
  * @author Kalvador
  * @author Wilk
@@ -26,68 +32,99 @@ public class VisualizationGUI extends JFrame implements ActionListener {
     /**
      * Default dimension of every rectangle in pixels
      */
-    public static short resoulution;
+    public static short RESOLUTION;
+    JButton button;
 
-    private Matrix matrix;
-    private window.Axis axis;
-    private window.Grid grid ;
-    public static utils.Camera camera;
+    /**
+     * Matrix contains data from robot
+     * 0 - 
+     * 1 - 
+     * 2 - 
+     */
+    private Matrix<Short> matrix;
 
+    private window.MainPane mainPane;
     private window.MenuBar menuBar;
     private window.ToolBar toolBar;
     private window.ToolBarTwo toolBarTwo;
+//       private window.canvas.Axis axis;
+//    private window.canvas.Grid grid;
 
+
+
+    /**
+     * Default Constructor set up main options
+     */
     public VisualizationGUI() {
+
         /**
          * Default size and zoom of every rectangle
          */
-        resoulution = 10;
+        RESOLUTION = 10;
 
         matrix = new Matrix(100, 100);
-        camera = new utils.Camera(matrix.getSize());
-
-        // Setting menu bar
-        menuBar = new window.MenuBar();
-        setJMenuBar(menuBar.getMenuBar(this.rootPane));
-
-        toolBar = new window.ToolBar();
-        add(toolBar.getToolBar(this.rootPane), BorderLayout.PAGE_END);
-
-        toolBarTwo = new window.ToolBarTwo();
-        add(toolBarTwo.getToolBarTwo(this.rootPane), BorderLayout.NORTH);
-
-        setResizable(true);
-        setTitle("Obstacle Visualization for EV3 Robot");
-
+        
     }
 
+    /**
+     * Main method that runs all program
+     */
+    public void run() {
+
+        //Create and set up the window.
+        JFrame frame = new JFrame("Obstacle Visualization for EV3 Robot");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        menuBar = new window.MenuBar();
+        frame.setJMenuBar(menuBar.getMenuBar(this.getRootPane()));
+        
+         toolBar = new window.ToolBar();
+        add(toolBar.getToolBar(this.getRootPane()), BorderLayout.SOUTH);
+        
+        toolBarTwo = new window.ToolBarTwo();
+        add(toolBarTwo.getToolBarTwo(this.getRootPane()), BorderLayout.NORTH);
+
+        //Create and set up the content pane.
+        //JComponent newContentPane = new MainPane(matrix);
+        JComponent newContentPane = new MainPane(matrix);
+        newContentPane.setOpaque(true); //content panes must be opaque
+       // frame.setContentPane(newContentPane);
+        frame.add(newContentPane,BorderLayout.CENTER);
+        
+        newContentPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent mouse) {
+                System.out.println(mouse.getX() + "   " + mouse.getY());
+            }
+        });
+        
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+
+//        stara metoda
+//        frame.add("Center", new MyCanvas());
+
+        //Display the window.
+        frame.setSize(windowWidth, windowHeight);
+        frame.setResizable(true);
+        frame.setVisible(true);
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-        //obsługa klawiatóry
+        //obsługa klawiatury
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
-    public void run() {
-        add("Center", new MyCanvas());
-
-        //shapes[1] = new Rectangle2D.Double(10.0, 100.0, 200.0, 200.0);
-        axis = new Axis();
-        axis.updateAxis(camera);
-        
-        grid = new Grid();
-        grid.updateGrid(camera);
-        
-        setSize(windowWidth, windowHeight);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-    }
-
-    class MyCanvas extends Canvas {
-
-        @Override
-        public void paint(Graphics graphics) {
-            Graphics2D g = (Graphics2D) graphics;
-            grid.drawGrid(camera, g);
-            axis.drawAxis(camera, g);
-        }
-    }
+//    class MyCanvas extends Canvas {
+//
+//        @Override
+//        public void paint(Graphics graphics) {
+//            Graphics2D g = (Graphics2D) graphics;
+//            grid.drawGrid(camera, g);
+//            axis.drawAxis(camera, g);
+//        }
+//    }
 }
