@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import matrix.Matrix;
 import window.MainPane;
+import static window.MainPane.camera;
 
 /**
  * Class contain Frame and hadle his actions
@@ -32,6 +33,7 @@ public class VisualizationGUI extends JFrame implements ActionListener {
      * Default dimension of every rectangle in pixels
      */
     public static short RESOLUTION;
+    JButton button;
 
     /**
      * Matrix contains data from robot
@@ -43,6 +45,10 @@ public class VisualizationGUI extends JFrame implements ActionListener {
 
     private window.MainPane mainPane;
     private window.MenuBar menuBar;
+    private window.ToolBar toolBar;
+    private window.ToolBarTwo toolBarTwo;
+//       private window.canvas.Axis axis;
+//    private window.canvas.Grid grid;
 
 
 
@@ -71,12 +77,20 @@ public class VisualizationGUI extends JFrame implements ActionListener {
 
         menuBar = new window.MenuBar();
         frame.setJMenuBar(menuBar.getMenuBar(this.getRootPane()));
+        
+         toolBar = new window.ToolBar();
+        add(toolBar.getToolBar(this.getRootPane()), BorderLayout.SOUTH);
+        
+        toolBarTwo = new window.ToolBarTwo();
+        add(toolBarTwo.getToolBarTwo(this.getRootPane()), BorderLayout.NORTH);
 
         //Create and set up the content pane.
+        //JComponent newContentPane = new MainPane(matrix);
         JComponent newContentPane = new MainPane(matrix);
         newContentPane.setOpaque(true); //content panes must be opaque
-        frame.setContentPane(newContentPane);
-
+       // frame.setContentPane(newContentPane);
+        frame.add(newContentPane,BorderLayout.CENTER);
+        
         newContentPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouse) {
@@ -88,7 +102,7 @@ public class VisualizationGUI extends JFrame implements ActionListener {
         frame.pack();
         frame.setVisible(true);
 
-        //stara metoda
+//        stara metoda
 //        frame.add("Center", new MyCanvas());
 
         //Display the window.
@@ -99,16 +113,18 @@ public class VisualizationGUI extends JFrame implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        //obsługa klawiatóry
+        //obsługa klawiatury
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
     }
 
-    class MyCanvas extends Canvas {
-
+//    class MyCanvas extends Canvas {
+//
 //        @Override
 //        public void paint(Graphics graphics) {
-
+//            Graphics2D g = (Graphics2D) graphics;
+//            grid.drawGrid(camera, g);
+//            axis.drawAxis(camera, g);
 //        }
-    }
+//    }
 }
