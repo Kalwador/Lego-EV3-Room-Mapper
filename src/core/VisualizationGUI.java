@@ -1,18 +1,16 @@
 package core;
 
-import window.canvas.Axis;
-import window.canvas.Grid;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import matrix.Matrix;
-import window.MainPane;
-import static window.MainPane.camera;
+import window.ContentPane;
+import window.Rule;
 
 /**
  * Class contain Frame and hadle his actions
@@ -21,36 +19,59 @@ import static window.MainPane.camera;
  * @author Wilk
  * @since 02.04.2017
  */
-public class VisualizationGUI extends JFrame implements ActionListener {
+public class VisualizationGUI extends JFrame implements MouseListener, KeyListener  {
 
     /**
      * Size of visualization window
      */
-    public static int windowWidth = 800;
-    public static int windowHeight = 600;
+    public static int windowPreferedWidth = 1200;
+    public static int windowPreferedHeight = 600;
 
     /**
      * Default dimension of every rectangle in pixels
      */
     public static short RESOLUTION;
-    JButton button;
+
+    private window.ContentPane contentPane;
 
     /**
      * Matrix contains data from robot
-     * 0 - 
-     * 1 - 
-     * 2 - 
+     *
+     * @see 0 - obszar pusty;
+     * @see 1 - obszar zajety;
+     * @see 2 -obszar nieznany;
      */
     private Matrix<Short> matrix;
 
-    private window.MainPane mainPane;
+    /**
+     * Main Frame, contains everything;
+     */
+    private JFrame frame;
+    private JScrollPane scroll;
+    
+    /**
+     * Those variables contain actual mouse position in window. There are
+     * actualized on 'click' action.
+     */
+    public static double mouseX;
+    public static double mouseY;
+
+    /**
+     * Top bar, and side bar
+     */
     private window.MenuBar menuBar;
     private window.ToolBar toolBar;
-    private window.ToolBarTwo toolBarTwo;
-//       private window.canvas.Axis axis;
-//    private window.canvas.Grid grid;
 
+    /**
+     * Rules outside the cavnas
+     */
+    private Rule columnView;
+    private Rule rowView;
 
+    /**
+     * Class that contains camera movement information for drawing
+     */
+    public static utils.Camera camera;
 
     /**
      * Default Constructor set up main options
@@ -62,8 +83,15 @@ public class VisualizationGUI extends JFrame implements ActionListener {
          */
         RESOLUTION = 10;
 
-        matrix = new Matrix(100, 100);
-        
+        matrix = utils.TXTMatrixLoader.loadData("matrix.txt");
+//        matrix = new Matrix<>(400, 400);
+
+        camera = new utils.Camera(matrix.getWidth(), matrix.getHeight());
+
+        contentPane = new ContentPane(matrix, camera);
+
+        columnView = new Rule(Rule.HORIZONTAL, true);
+        rowView = new Rule(Rule.VERTICAL, true);
     }
 
     /**
@@ -71,60 +99,99 @@ public class VisualizationGUI extends JFrame implements ActionListener {
      */
     public void run() {
 
-        //Create and set up the window.
-        JFrame frame = new JFrame("Obstacle Visualization for EV3 Robot");
+        /**
+         * Create Window
+         */
+        frame = new JFrame("Obstacle Visualization for EV3 Robot");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        /**
+         * Top Menu
+         */
         menuBar = new window.MenuBar();
         frame.setJMenuBar(menuBar.getMenuBar(this.getRootPane()));
-        
-         toolBar = new window.ToolBar();
-        add(toolBar.getToolBar(this.getRootPane()), BorderLayout.SOUTH);
-        
-        toolBarTwo = new window.ToolBarTwo();
-        add(toolBarTwo.getToolBarTwo(this.getRootPane()), BorderLayout.NORTH);
 
-        //Create and set up the content pane.
-        //JComponent newContentPane = new MainPane(matrix);
-        JComponent newContentPane = new MainPane(matrix);
-        newContentPane.setOpaque(true); //content panes must be opaque
-       // frame.setContentPane(newContentPane);
-        frame.add(newContentPane,BorderLayout.CENTER);
-        
-        newContentPane.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent mouse) {
-                System.out.println(mouse.getX() + "   " + mouse.getY());
-            }
-        });
-        
-        //Display the window.
+        toolBar = new window.ToolBar();
+        frame.add(toolBar.getToolBar(this.getRootPane()), BorderLayout.WEST);
+
+        /**
+         * Canvas
+         */
+        scroll = new JScrollPane(contentPane);
+        scroll.setViewportBorder(
+                BorderFactory.createLineBorder(Color.black));
+        scroll.getVerticalScrollBar().setUnitIncrement(30); //Scroll speed
+        scroll.addMouseListener(this); //Scroll Pane mouse Listener
+
+        /**
+         * Rules
+         */
+        columnView.setPreferredWidth(camera.contentPaneWidth);
+        rowView.setPreferredHeight(camera.contentPaneHeight);
+
+        scroll.setColumnHeaderView(columnView);
+        scroll.setRowHeaderView(rowView);
+
+        frame.add(scroll, BorderLayout.CENTER);
+        frame.addKeyListener(this);
+
+        /**
+         * Display the window.
+         */
         frame.pack();
-        frame.setVisible(true);
-
-//        stara metoda
-//        frame.add("Center", new MyCanvas());
-
-        //Display the window.
-        frame.setSize(windowWidth, windowHeight);
+        frame.setSize(windowPreferedWidth, windowPreferedHeight);
         frame.setResizable(true);
         frame.setVisible(true);
     }
-    
+
+
     @Override
-    public void actionPerformed(ActionEvent e) {
-        //obsługa klawiatury
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseClicked(MouseEvent e) {
+        mouseX = MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
+        mouseY = MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
+
+        /**
+         * Kilka pikseli wynikających z obramowania okna
+         */
+        mouseX -= 84;
+        mouseY -= 89;
+
+        
+//        System.out.println("x="+(int)(mouseX + scroll.getHorizontalScrollBar().getValue())/10);
+//        System.out.println("y="+(int)(mouseY + scroll.getVerticalScrollBar().getValue())/10);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
 
     }
 
-//    class MyCanvas extends Canvas {
-//
-//        @Override
-//        public void paint(Graphics graphics) {
-//            Graphics2D g = (Graphics2D) graphics;
-//            grid.drawGrid(camera, g);
-//            axis.drawAxis(camera, g);
-//        }
-//    }
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        System.out.println("yo");
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println("yo");
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        System.out.println("yo");
+    }
 }

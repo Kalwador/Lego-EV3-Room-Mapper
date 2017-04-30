@@ -11,37 +11,53 @@ import java.awt.Color;
  * @author Kalvador
  */
 public class Grid {
-    
+
     private matrix.RectangleMatrix rectalngleMatrix;
 
-    public Grid() {
-        int numberOfRectanglesWidth = VisualizationGUI.windowWidth / VisualizationGUI.resoulution;
-        System.out.println(numberOfRectanglesWidth);
-        int numberOfRectanglesHeight = (VisualizationGUI.windowHeight - 100) / VisualizationGUI.resoulution;
-        System.out.println(numberOfRectanglesHeight);
-        rectalngleMatrix = new RectangleMatrix(numberOfRectanglesWidth, numberOfRectanglesHeight);
-        System.out.println(rectalngleMatrix.getSize().toString());
-    }
+    public Grid(matrix.Matrix<Short> matrix, utils.Camera camera) {
+        rectalngleMatrix = new RectangleMatrix(matrix.getWidth(), matrix.getHeight());
 
-    public void drawGrid(utils.Camera camera, Graphics2D g) {
-        updateGrid(camera);
-        g.setColor(Color.GRAY);
-        for (int i = 0; i < rectalngleMatrix.getSizeX(); i++) {
-            for (int j = 0; j < rectalngleMatrix.getSizeY(); j++) {
-                g.draw((Rectangle2D)rectalngleMatrix.getMatrix()[i][j]);
-            }
-        }
-    }
-
-    public void updateGrid(utils.Camera camera) {
-        for (int i = 0; i < rectalngleMatrix.getSizeX(); i++) {
-            for (int j = 0; j < rectalngleMatrix.getSizeY(); j++) {
+        /**
+         * Wyznaczenie wierzchołków kwadratów w siatce
+         */
+        for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
+            for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
                 rectalngleMatrix.getMatrix()[i][j] = new Rectangle2D.Double(
-                        i * VisualizationGUI.resoulution, 
-                        j * VisualizationGUI.resoulution, 
-                        VisualizationGUI.resoulution,
-                        VisualizationGUI.resoulution);
+                        i * VisualizationGUI.RESOLUTION,
+                        j * VisualizationGUI.RESOLUTION,
+                        VisualizationGUI.RESOLUTION,
+                        VisualizationGUI.RESOLUTION);
             }
         }
     }
+
+    public void drawGrid(matrix.Matrix<Short> matrix, Graphics2D g) {
+        boolean a = true;
+        for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
+            for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
+                g.setPaint(Color.GRAY);
+                
+                if((Short)matrix.getMatrix()[j][i] == 1){
+                    g.setPaint(Color.RED);
+                }
+                if((Short)matrix.getMatrix()[j][i] == 2){
+                    g.setPaint(Color.BLUE);
+                }
+            g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[i][j]);
+        }
+    }
+}
+
+//    public void updateGrid(utils.Camera camera) {
+//        for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
+//            for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
+//                rectalngleMatrix.getMatrix()[i][j] = new Rectangle2D.Double(
+//                        i * VisualizationGUI.RESOLUTION,
+//                        j * VisualizationGUI.RESOLUTION,
+//                        VisualizationGUI.RESOLUTION,
+//                        VisualizationGUI.RESOLUTION);
+//            }
+//        }
+//        System.out.println("ywołuje update grid");
+//    }
 }

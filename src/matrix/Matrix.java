@@ -1,3 +1,18 @@
+/*
+Copyright 2017 Piotr Szpila - Kalwador
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+ */
 package matrix;
 
 /**
@@ -8,8 +23,6 @@ package matrix;
  * @since 23.03.2017
  */
 public class Matrix<T> extends AbstractMatrix {
-
-    private AbstractMatrix<T> matrix;
 
     /**
      * New Matrix 100x100
@@ -37,21 +50,21 @@ public class Matrix<T> extends AbstractMatrix {
         super(witdh, height);
     }
 
-    @Override
-    public void put(int x, int y, int value) {
-        if (x >= super.getSizeX()) {
-            matrix.ExpadDown(10);
+    public void put(int x, int y, T object) {
+
+        // Możliwe że te wartości trzeba tu zamienić :) sie okaze
+        if (x >= super.getWidth()) {
+            super.ExpadDown(y + 10);
         }
         if (x < 0) {
-            matrix.ExpadUp(10);
+            super.ExpadUp(Math.abs(y));
         }
-        if (y >= super.getSizeY()) {
-            matrix.ExpadRight(10);
+        if (y >= super.getHeight()) {
+            super.ExpadRight(x + 10);
         }
         if (y < 0) {
-            matrix.ExpadLeft(10);
+            super.ExpadLeft(Math.abs(x));
         }
-        matrix.put(x, y, value);
+        super.putObject(x, y, object);
     }
-    
 }
