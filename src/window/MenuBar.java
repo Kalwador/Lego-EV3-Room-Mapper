@@ -12,7 +12,8 @@ import javax.swing.JRootPane;
 
 /**
  *
- * @author Kalvador
+ * @author Kalwador
+ * @author Wilk
  */
 public class MenuBar {
     

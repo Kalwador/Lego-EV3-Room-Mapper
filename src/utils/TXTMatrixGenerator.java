@@ -1,20 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package utils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.*;
 import java.io.IOException;
 import java.util.Random;
-import matrix.Matrix;
 
 /**
  *
- * @author Kalvador
+ * @author Kalwador
  */
 public class TXTMatrixGenerator {
 
@@ -40,13 +32,14 @@ public class TXTMatrixGenerator {
                         s.append(",");
                     }
                 }
-                else if (x < 40){
+                else if (x < 20){
                     s.append("1");
                     if(j<(height-1)){
                         s.append(",");
                     }
                 }
-                else if(x < 100){
+                else 
+                if(x < 100){
                     s.append("0");
                     if(j<(height-1)){
                         s.append(",");

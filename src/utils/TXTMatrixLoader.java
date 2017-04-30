@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Kalvador
+ * @author Kalwador
  */
 public class TXTMatrixLoader {
 

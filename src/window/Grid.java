@@ -8,7 +8,7 @@ import java.awt.Color;
 
 /**
  *
- * @author Kalvador
+ * @author Kalwador
  */
 public class Grid {
 
@@ -36,28 +36,15 @@ public class Grid {
         for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
             for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
                 g.setPaint(Color.GRAY);
-                
-                if((Short)matrix.getMatrix()[j][i] == 1){
+
+                if ((Short) matrix.getMatrix()[j][i] == 1) {
                     g.setPaint(Color.RED);
                 }
-                if((Short)matrix.getMatrix()[j][i] == 2){
+                if ((Short) matrix.getMatrix()[j][i] == 2) {
                     g.setPaint(Color.BLUE);
                 }
-            g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[i][j]);
+                g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[i][j]);
+            }
         }
     }
-}
-
-//    public void updateGrid(utils.Camera camera) {
-//        for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
-//            for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
-//                rectalngleMatrix.getMatrix()[i][j] = new Rectangle2D.Double(
-//                        i * VisualizationGUI.RESOLUTION,
-//                        j * VisualizationGUI.RESOLUTION,
-//                        VisualizationGUI.RESOLUTION,
-//                        VisualizationGUI.RESOLUTION);
-//            }
-//        }
-//        System.out.println("ywołuje update grid");
-//    }
 }

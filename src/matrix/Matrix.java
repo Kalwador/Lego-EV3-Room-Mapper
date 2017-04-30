@@ -18,7 +18,7 @@ package matrix;
 /**
  * Class which allows build two dimmesnions arrays of generic type.
  *
- * @author Kalvador
+ * @author Kalwador
  * @param <T> any kind of Referenced Type of object
  * @since 23.03.2017
  */

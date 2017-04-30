@@ -5,7 +5,7 @@ import core.VisualizationGUI;
 /**
  * Class
  *
- * @author Kalvador
+ * @author Kalwador
  */
 public class Camera {
 
