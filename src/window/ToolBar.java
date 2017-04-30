@@ -17,6 +17,14 @@ public class ToolBar {
     JButton up;
     JButton down;
     JButton next;
+    
+    JButton zoomIn;
+    JButton zoomOut;
+    JButton delete;
+    JButton copy;
+    JButton paste;
+    JButton cut;
+    JButton draw;
 
     public ToolBar() {
     }
@@ -72,8 +80,91 @@ public class ToolBar {
 
         });
         toolBar.add(next);
+        
+         try {
+            BufferedImage buttonIcon1 = ImageIO.read(new File("toolbarButtonGraphics/general/ZoomIn16.gif"));
+            zoomIn = new JButton(new ImageIcon(buttonIcon1));
+        } catch (Exception io) {
+            zoomIn.setText("ZoomIn");
+            JOptionPane.showMessageDialog(null, io);
+        }
+        zoomIn.addActionListener((e) -> {
+
+        });
+        toolBar.add(zoomIn);
+
+        try {
+            BufferedImage buttonIcon2 = ImageIO.read(new File("toolbarButtonGraphics/general/ZoomOut16.gif"));
+            zoomOut = new JButton(new ImageIcon(buttonIcon2));
+        } catch (Exception io) {
+            zoomOut.setText("ZoomOut");
+            JOptionPane.showMessageDialog(null, io);
+        }
+        zoomOut.addActionListener((e) -> {
+
+        });
+        toolBar.add(zoomOut);
+
+        try {
+            BufferedImage buttonIcon3 = ImageIO.read(new File("toolbarButtonGraphics/general/Delete16.gif"));
+            delete = new JButton(new ImageIcon(buttonIcon3));
+        } catch (Exception io) {
+            delete.setText("Delete");
+            JOptionPane.showMessageDialog(null, io);
+        }
+        delete.addActionListener((e) -> {
+
+        });
+        toolBar.add(delete);
+
+        try {
+            BufferedImage buttonIcon4 = ImageIO.read(new File("toolbarButtonGraphics/general/Copy16.gif"));
+            copy = new JButton(new ImageIcon(buttonIcon4));
+        } catch (Exception io) {
+            copy.setText("Copy");
+            JOptionPane.showMessageDialog(null, io);
+        }
+        copy.addActionListener((e) -> {
+
+        });
+        toolBar.add(copy);
+
+        try {
+            BufferedImage buttonIcon5 = ImageIO.read(new File("toolbarButtonGraphics/general/Paste16.gif"));
+            paste = new JButton(new ImageIcon(buttonIcon5));
+        } catch (Exception io) {
+            paste.setText("Paste");
+            JOptionPane.showMessageDialog(null, io);
+        }
+        paste.addActionListener((e) -> {
+
+        });
+        toolBar.add(paste);
+
+        try {
+            BufferedImage buttonIcon6 = ImageIO.read(new File("toolbarButtonGraphics/general/Cut16.gif"));
+            cut = new JButton(new ImageIcon(buttonIcon6));
+        } catch (Exception io) {
+            cut.setText("Cut");
+            JOptionPane.showMessageDialog(null, io);
+        }
+        cut.addActionListener((e) -> {
+
+        });
+        toolBar.add(cut);
+
+        try {
+            BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/general/Edit16.gif"));
+            draw = new JButton(new ImageIcon(buttonIcon7));
+        } catch (Exception io) {
+            draw.setText("Draw");
+            JOptionPane.showMessageDialog(null, io);
+        }
+        draw.addActionListener((e) -> {
+
+        });
+        toolBar.add(draw);
 
         return toolBar;
     }
-
 }

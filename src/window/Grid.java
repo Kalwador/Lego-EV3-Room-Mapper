@@ -1,4 +1,4 @@
-package window.canvas;
+package window;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -15,8 +15,8 @@ public class Grid {
     private matrix.RectangleMatrix rectalngleMatrix;
 
     public Grid() {
-        int numberOfRectanglesWidth = VisualizationGUI.windowWidth / VisualizationGUI.RESOLUTION;
-        int numberOfRectanglesHeight = (VisualizationGUI.windowHeight - 100) / VisualizationGUI.RESOLUTION;
+        int numberOfRectanglesWidth = VisualizationGUI.windowPreferedWidth / VisualizationGUI.RESOLUTION;
+        int numberOfRectanglesHeight = (VisualizationGUI.windowPreferedHeight - 100) / VisualizationGUI.RESOLUTION;
         rectalngleMatrix = new RectangleMatrix(numberOfRectanglesWidth, numberOfRectanglesHeight);
         System.out.println(rectalngleMatrix.getSize().toString());
     }

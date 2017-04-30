@@ -44,7 +44,7 @@ public class Camera {
         if (xPointWhereCameraStart < 0) {
             xPointWhereCameraStart = 0;
         }
-        xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowWidth;
+        xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowPreferedWidth;
     }
 
     /**
@@ -55,7 +55,7 @@ public class Camera {
         if (xPointWhereCameraStart > xCameraMaxPosition) {
             xPointWhereCameraStart = xCameraMaxPosition;
         }
-        xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowWidth;
+        xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowPreferedWidth;
     }
 
     /**
@@ -66,7 +66,7 @@ public class Camera {
         if (yPointWhereCameraStart < 0) {
             yPointWhereCameraStart = 0;
         }
-        yPointWhereCameraEnds = yPointWhereCameraStart + VisualizationGUI.windowHeight;
+        yPointWhereCameraEnds = yPointWhereCameraStart + VisualizationGUI.windowPreferedHeight;
     }
 
     /**
@@ -77,7 +77,7 @@ public class Camera {
         if (yPointWhereCameraStart > yCameraMaxPosition) {
             yPointWhereCameraStart = yCameraMaxPosition;
         }
-        yPointWhereCameraEnds = yPointWhereCameraStart + VisualizationGUI.windowHeight;
+        yPointWhereCameraEnds = yPointWhereCameraStart + VisualizationGUI.windowPreferedHeight;
     }
 
     /**
@@ -122,16 +122,16 @@ public class Camera {
         int heightOfMatrixInPixels = matrixDimensions.getY() * core.VisualizationGUI.RESOLUTION;
 //        System.out.println("2. " + heightOfMatrixInPixels);
 
-        xPointWhereCameraStart = (widthOfMatrixInPixels / 2) - (core.VisualizationGUI.windowWidth / 2);
+        xPointWhereCameraStart = (widthOfMatrixInPixels / 2) - (core.VisualizationGUI.windowPreferedWidth / 2);
 //        System.out.println("3. " + xPointWhereCameraStart);
 
-        yPointWhereCameraStart = (heightOfMatrixInPixels / 2) - (core.VisualizationGUI.windowHeight / 2);
+        yPointWhereCameraStart = (heightOfMatrixInPixels / 2) - (core.VisualizationGUI.windowPreferedHeight / 2);
 //        System.out.println("4. " + yPointWhereCameraStart);
 
-        xCameraMaxPosition = widthOfMatrixInPixels - core.VisualizationGUI.windowWidth;
+        xCameraMaxPosition = widthOfMatrixInPixels - core.VisualizationGUI.windowPreferedWidth;
 //        System.out.println("5. " + xPointWhereCameraEnds);
 
-        yCameraMaxPosition = heightOfMatrixInPixels - core.VisualizationGUI.windowHeight;
+        yCameraMaxPosition = heightOfMatrixInPixels - core.VisualizationGUI.windowPreferedHeight;
 //        System.out.println("6. " + yPointWhereCameraEnds);
 
         //Zabezpieczenie aby kamera nie wyszła przed sitake
@@ -143,10 +143,10 @@ public class Camera {
             yPointWhereCameraStart = 0;
         }
 
-        xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowWidth;
+        xPointWhereCameraEnds = xPointWhereCameraStart + core.VisualizationGUI.windowPreferedWidth;
 //        System.out.println("7. " + xPointWhereCameraEnds);
 
-        yPointWhereCameraEnds = yPointWhereCameraStart + core.VisualizationGUI.windowHeight;
+        yPointWhereCameraEnds = yPointWhereCameraStart + core.VisualizationGUI.windowPreferedHeight;
 //        System.out.println("8. " + yPointWhereCameraEnds);
 
         //Zabezpieczenie aby kamera nie wyszła poza siatkę
