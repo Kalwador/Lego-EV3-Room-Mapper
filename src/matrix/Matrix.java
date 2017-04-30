@@ -24,8 +24,6 @@ package matrix;
  */
 public class Matrix<T> extends AbstractMatrix {
 
-    private AbstractMatrix<T> matrix;
-
     /**
      * New Matrix 100x100
      */
@@ -56,17 +54,17 @@ public class Matrix<T> extends AbstractMatrix {
 
         // Możliwe że te wartości trzeba tu zamienić :) sie okaze
         if (x >= super.getWidth()) {
-            matrix.ExpadDown(y - super.getHeight());
+            super.ExpadDown(y + 10);
         }
         if (x < 0) {
-            matrix.ExpadUp(Math.abs(y));
+            super.ExpadUp(Math.abs(y));
         }
         if (y >= super.getHeight()) {
-            matrix.ExpadRight(x - super.getWidth());
+            super.ExpadRight(x + 10);
         }
         if (y < 0) {
-            matrix.ExpadLeft(Math.abs(x));
+            super.ExpadLeft(Math.abs(x));
         }
-        matrix.putObject(x, y, object);
+        super.putObject(x, y, object);
     }
 }

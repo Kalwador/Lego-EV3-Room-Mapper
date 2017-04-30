@@ -1,7 +1,5 @@
 package matrix;
 
-import utils.Vector;
-
 /**
  * Abstract Matrix
  *
@@ -34,50 +32,46 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
 
     @Override
     public void ExpadRight(int size) {
-        this.width = this.width + size;
-
-        Object[][] tempMatrix = (T[][]) new Object[width][height];
+        Object[][] tempMatrix = (T[][]) new Object[width + size][height];
 
         for (int i = 0; i < height; i++) {
             System.arraycopy(matrix[i], 0, tempMatrix[i], 0, width);
         }
         this.matrix = (T[][]) tempMatrix;
+        this.width += size;
     }
 
     @Override
     public void ExpadLeft(int size) {
-        this.width = this.width + size;
-
-        Object[][] tempMatrix = (T[][]) new Object[width][height];
+        Object[][] tempMatrix = (T[][]) new Object[width + size][height];
 
         for (int i = 0; i < height; i++) {
             System.arraycopy(matrix[i], size, tempMatrix[i], size, width - size);
         }
         this.matrix = (T[][]) tempMatrix;
+        this.width += size;
     }
 
     @Override
     public void ExpadUp(int size) {
-        this.height = this.height + size;
-
-        Object[][] tempMatrix = (T[][]) new Object[width][height];
+        Object[][] tempMatrix = (T[][]) new Object[width][height + size];
 
         for (int i = size; i < height; i++) {
             System.arraycopy(matrix[i], 0, tempMatrix[i], 0, width);
         }
         this.matrix = (T[][]) tempMatrix;
+        this.height += size;
     }
 
     @Override
     public void ExpadDown(int size) {
-        this.height = this.height + size;
-
-        Object[][] tempMatrix = (T[][]) new Object[width][height];
+        Object[][] tempMatrix = (T[][]) new Object[width][height + size];
 
         for (int i = 0; i < height; i++) {
             System.arraycopy(matrix[i], 0, tempMatrix[i], 0, width);
         }
         this.matrix = (T[][]) tempMatrix;
+        this.height += size;
     }
 
     public T[][] getMatrix() {
@@ -96,11 +90,16 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
         return (height - 1);
     }
 
-    public utils.Vector getSize() {
-        return new Vector(width - 1, height - 1);
-    }
-
     public void putObject(int x, int y, Object object) {
         matrix[x][y] = (T) object;
+    }
+
+    public void printMatrix() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                System.out.print(matrix[i][j] + ",");
+            }
+            System.out.println("");
+        }
     }
 }

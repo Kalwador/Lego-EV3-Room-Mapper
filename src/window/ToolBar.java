@@ -1,5 +1,6 @@
 package window;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -17,7 +18,7 @@ public class ToolBar {
     JButton up;
     JButton down;
     JButton next;
-    
+
     JButton zoomIn;
     JButton zoomOut;
     JButton delete;
@@ -31,7 +32,7 @@ public class ToolBar {
 
     public JToolBar getToolBar(JRootPane root) {
 
-        toolBar = new JToolBar("Navigation");
+        toolBar = new JToolBar("Navigation", JToolBar.VERTICAL);
 
         try {
             BufferedImage buttonIcon1 = ImageIO.read(new File("toolbarButtonGraphics/navigation/Back24.gif"));
@@ -80,8 +81,10 @@ public class ToolBar {
 
         });
         toolBar.add(next);
+
+        toolBar.add(new JToolBar.Separator(new Dimension(0, 30)));
         
-         try {
+        try {
             BufferedImage buttonIcon1 = ImageIO.read(new File("toolbarButtonGraphics/general/ZoomIn16.gif"));
             zoomIn = new JButton(new ImageIcon(buttonIcon1));
         } catch (Exception io) {

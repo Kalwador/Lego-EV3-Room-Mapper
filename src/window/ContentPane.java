@@ -1,54 +1,42 @@
 package window;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import utils.Camera;
 
 /**
  *
  * @author Kalvador
  * @author Wilk
  */
-public class ContentPane extends Canvas {
+public class ContentPane extends JPanel {
 
-    private window.ToolBar toolBar;
-
-
-    /**
-     * Class that contains camera movement information for drawing
-     */
-    public static utils.Camera camera;
-
-    private window.Axis axis;
     private window.Grid grid;
+    private matrix.Matrix<Short> matrix;
+    
+    public ContentPane(matrix.Matrix<Short> matrix, utils.Camera camera) {
+        
+        this.matrix = matrix;
+        grid = new Grid(matrix,camera);
 
-    public ContentPane(matrix.Matrix<Short> matrix) {
-//
-//        camera = new utils.Camera(matrix.getSize());
-//
-//        axis = new Axis();
-//        axis.updateAxis(camera);
-//
-//        grid = new Grid();
-//        grid.updateGrid(camera);
-//
-//        setLayout(new BorderLayout());
-//
-//        //Put it in this panel.
-//        add("Center", new DrawingCanvas());
-//        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        /**
+         * setup size of scrolledPane to size of matrix multiplied by dimension
+         * of every rectangle
+         */
+        setPreferredSize(new Dimension(camera.contentPaneWidth, camera.contentPaneHeight));
+        setOpaque(true); // nie wiem co to robi ale było więc niech zostanie
+
     }
 
-//    private class DrawingCanvas extends java.awt.Canvas {
-//
-//        @Override
-//        public void print(Graphics graphics) {
-//            Graphics2D g = (Graphics2D) graphics;
-//            grid.drawGrid(camera, g);
-//            axis.drawAxis(camera, g);
-//        }
-//    }
+    @Override
+    public void paintComponent(Graphics graphics) {
+
+        super.paintComponent(graphics);// nie wiem co to robi ale było więc nie ch zostanie
+
+        Graphics2D g = (Graphics2D) graphics;
+
+        grid.drawGrid(matrix, g);
+    }
 }
