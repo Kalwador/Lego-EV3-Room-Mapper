@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import matrix.Matrix;
 import window.ContentPane;
 import window.Rule;
+import matrix.Matrix;
 
 /**
  * Class contain Frame and hadle his actions
@@ -23,6 +25,7 @@ public class VisualizationGUI extends JFrame implements MouseListener {
     public static int windowPreferedWidth = 1200;
     public static int windowPreferedHeight = 700;
 
+
     /**
      * Default dimension of every rectangle in pixels
      */
@@ -38,12 +41,13 @@ public class VisualizationGUI extends JFrame implements MouseListener {
      * @see 2 - obszar nieznany;
      */
     public Matrix<Short> matrix;
+    public static Short a;
 
     /**
      * Main Frame, contains everything;
      */
     private JFrame frame;
-    public JScrollPane scroll;
+    public  static JScrollPane scroll;
 
     /**
      * Those variables contain actual mouse position in window. There are
@@ -150,7 +154,7 @@ public class VisualizationGUI extends JFrame implements MouseListener {
         mouseX -= 84;
         mouseY -= 89;
 
-        Short a = 1;
+        
         matrix.putObject(
                 ((int) ((mouseY + scroll.getVerticalScrollBar().getValue()) / 10)),
                 ((int) ((mouseX + scroll.getHorizontalScrollBar().getValue()) / 10)),
@@ -167,12 +171,12 @@ public class VisualizationGUI extends JFrame implements MouseListener {
          */
         mouseX -= 84;
         mouseY -= 89;
-
-        Short a = 1;
         matrix.putObject(
                 ((int) ((mouseY + scroll.getVerticalScrollBar().getValue()) / 10)),
                 ((int) ((mouseX + scroll.getHorizontalScrollBar().getValue()) / 10)),
                 a);
+        
+                //JOptionPane.showMessageDialog(null,scroll.getVerticalScrollBar().getValue());
 
     }
 
@@ -189,4 +193,8 @@ public class VisualizationGUI extends JFrame implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
     }
+
+   
+
+  
 }
