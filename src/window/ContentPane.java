@@ -12,13 +12,17 @@ import javax.swing.JPanel;
  */
 public class ContentPane extends JPanel {
 
+    private window.Obstacles obstacles;
     private window.Grid grid;
     private matrix.Matrix<Short> matrix;
+    
+    public static boolean isGrid = false;
     
     public ContentPane(matrix.Matrix<Short> matrix, utils.Camera camera) {
         
         this.matrix = matrix;
-        grid = new Grid(matrix,camera);
+        obstacles = new Obstacles(matrix);
+        grid = new Grid(matrix);
 
         /**
          * setup size of scrolledPane to size of matrix multiplied by dimension
@@ -26,9 +30,12 @@ public class ContentPane extends JPanel {
          */
         setPreferredSize(new Dimension(camera.contentPaneWidth, camera.contentPaneHeight));
         setOpaque(true); // nie wiem co to robi ale było więc niech zostanie
-
     }
 
+    public void updateContentPane(){
+        obstacles.updateObstacles();
+        grid.updateGrid();
+    }
     @Override
     public void paintComponent(Graphics graphics) {
 
@@ -36,6 +43,9 @@ public class ContentPane extends JPanel {
 
         Graphics2D g = (Graphics2D) graphics;
 
-        grid.drawGrid(matrix, g);
+        obstacles.drawOBstacles(matrix, g);
+        if(window.ContentPane.isGrid){
+            grid.drawGrid(matrix.getWidth(), matrix.getHeight(), g);
+        }
     }
 }

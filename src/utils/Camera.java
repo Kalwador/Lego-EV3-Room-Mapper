@@ -28,20 +28,20 @@ public class Camera {
     /**
      * Adds one step of camera zoom.
      */
-    public void plusCameraZoom() {
+    public static void plusCameraZoom() {
         VisualizationGUI.RESOLUTION += 1;
-        if (VisualizationGUI.RESOLUTION > 20) {
-            VisualizationGUI.RESOLUTION = 20;
+        if (VisualizationGUI.RESOLUTION > 15) {
+            VisualizationGUI.RESOLUTION = 15;
         }
     }
 
     /**
      * Substract one step of camera zoom.
      */
-    public void minusCameraZoom() {
+    public static void minusCameraZoom() {
         VisualizationGUI.RESOLUTION -= 1;
-        if (VisualizationGUI.RESOLUTION < 1) {
-            VisualizationGUI.RESOLUTION = 1;
+        if (VisualizationGUI.RESOLUTION < 5) {
+            VisualizationGUI.RESOLUTION = 5;
         }
     }
 
@@ -50,7 +50,7 @@ public class Camera {
      *
      * @param value value to set
      */
-    public void setCameraZoom(int value) {
+    public static void setCameraZoom(int value) {
         if (value > 20) {
             value = 20;
         }

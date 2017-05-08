@@ -1,50 +1,66 @@
 package window;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import matrix.RectangleMatrix;
-import core.VisualizationGUI;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author Kalwador
+ * @author Kalvador
  */
 public class Grid {
 
-    private matrix.RectangleMatrix rectalngleMatrix;
+    private matrix.Matrix<Short> matrix;
+    private List<Line2D> horizontalList;
+    private List<Line2D> verticalList;
 
-    public Grid(matrix.Matrix<Short> matrix, utils.Camera camera) {
-        rectalngleMatrix = new RectangleMatrix(matrix.getWidth(), matrix.getHeight());
+    public Grid(matrix.Matrix<Short> matrix) {
+        this.matrix = matrix;
+        horizontalList = new ArrayList<>();
+        verticalList = new ArrayList<>();
+        updateGrid();
+    }
 
-        /**
-         * Wyznaczenie wierzchołków kwadratów w siatce
-         */
-        for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
-            for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
-                rectalngleMatrix.getMatrix()[i][j] = new Rectangle2D.Double(
-                        i * VisualizationGUI.RESOLUTION,
-                        j * VisualizationGUI.RESOLUTION,
-                        VisualizationGUI.RESOLUTION,
-                        VisualizationGUI.RESOLUTION);
-            }
+    /**
+     * Used to update grid after zooming
+     *
+     * @param width
+     * @param height
+     */
+    public void updateGrid() {
+        for (int i = 1; i <= matrix.getHeight(); i++) {
+            horizontalList.add(new Line2D.Double(
+                    i * core.VisualizationGUI.RESOLUTION,
+                    0,
+                    i * core.VisualizationGUI.RESOLUTION,
+                    matrix.getHeight() * core.VisualizationGUI.RESOLUTION));
+        }
+        for (int i = 1; i <= matrix.getWidth(); i++) {
+            verticalList.add(new Line2D.Double(
+                    0,
+                    i * core.VisualizationGUI.RESOLUTION,
+                    matrix.getWidth() * core.VisualizationGUI.RESOLUTION,
+                    i * core.VisualizationGUI.RESOLUTION));
+
         }
     }
 
-    public void drawGrid(matrix.Matrix<Short> matrix, Graphics2D g) {
-        boolean a = true;
-        for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
-            for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
-                g.setPaint(Color.GRAY);
-
-                if ((Short) matrix.getMatrix()[j][i] == 1) {
-                    g.setPaint(Color.RED);
-                }
-                if ((Short) matrix.getMatrix()[j][i] == 2) {
-                    g.setPaint(Color.BLUE);
-                }
-                g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[i][j]);
-            }
+    /**
+     * Drawing grin on screen
+     *
+     * @param width
+     * @param height
+     * @param g
+     */
+    public void drawGrid(int width, int height, Graphics2D g) {
+        g.setColor(Color.BLACK);
+        for (int i = 0; i < horizontalList.size(); i++) {
+            g.draw(horizontalList.get(i));
+        }
+        for (int i = 0; i < verticalList.size(); i++) {
+            g.draw(verticalList.get(i));
         }
     }
 }

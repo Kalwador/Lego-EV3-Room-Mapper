@@ -28,22 +28,22 @@ public class VisualizationGUI extends JFrame implements MouseListener {
      */
     public static short RESOLUTION;
 
-    private window.ContentPane contentPane;
+    public static window.ContentPane contentPane;
 
     /**
      * Matrix contains data from robot
      *
      * @see 0 - obszar pusty;
      * @see 1 - obszar zajety;
-     * @see 2 -obszar nieznany;
+     * @see 2 - obszar nieznany;
      */
-    private Matrix<Short> matrix;
+    public Matrix<Short> matrix;
 
     /**
      * Main Frame, contains everything;
      */
     private JFrame frame;
-    private JScrollPane scroll;
+    public JScrollPane scroll;
 
     /**
      * Those variables contain actual mouse position in window. There are
@@ -110,7 +110,7 @@ public class VisualizationGUI extends JFrame implements MouseListener {
         toolBar = new window.ToolBar();
         frame.add(toolBar.getToolBar(this.getRootPane()), BorderLayout.WEST);
 
-        /**
+         /**
          * Canvas
          */
         scroll = new JScrollPane(contentPane);
@@ -127,7 +127,7 @@ public class VisualizationGUI extends JFrame implements MouseListener {
 
         scroll.setColumnHeaderView(columnView);
         scroll.setRowHeaderView(rowView);
-
+        
         frame.add(scroll, BorderLayout.CENTER);
 
         /**
@@ -150,7 +150,6 @@ public class VisualizationGUI extends JFrame implements MouseListener {
         mouseX -= 84;
         mouseY -= 89;
 
-//        System.out.println("x=" + (int) (mouseX + scroll.getHorizontalScrollBar().getValue()) / 10 + "  y=" + (int) (mouseY + scroll.getVerticalScrollBar().getValue()) / 10);
         Short a = 1;
         matrix.putObject(
                 ((int) ((mouseY + scroll.getVerticalScrollBar().getValue()) / 10)),
@@ -169,18 +168,17 @@ public class VisualizationGUI extends JFrame implements MouseListener {
         mouseX -= 84;
         mouseY -= 89;
 
-//        System.out.println("x=" + (int) (mouseX + scroll.getHorizontalScrollBar().getValue()) / 10 + "  y=" + (int) (mouseY + scroll.getVerticalScrollBar().getValue()) / 10);
         Short a = 1;
         matrix.putObject(
                 ((int) ((mouseY + scroll.getVerticalScrollBar().getValue()) / 10)),
                 ((int) ((mouseX + scroll.getHorizontalScrollBar().getValue()) / 10)),
                 a);
-        
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-scroll.repaint();
+        scroll.repaint();
     }
 
     @Override
@@ -190,9 +188,5 @@ scroll.repaint();
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    public static void updateCanvas() {
-
     }
 }
