@@ -1,5 +1,7 @@
 package window;
 
+
+import static core.VisualizationGUI.a;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,12 +10,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
+
+
+
 import javax.swing.JToolBar;
 import matrix.Matrix;
 
-public class ToolBar {
+
+public class ToolBar{
 
     public static JToolBar toolBar;
+    public Matrix<Short> matrix;
+
 
     JButton previous;
     JButton up;
@@ -38,56 +46,10 @@ public class ToolBar {
         toolBar = new JToolBar("Navigation", JToolBar.VERTICAL);
 
         try {
-            BufferedImage buttonIcon1 = ImageIO.read(new File("toolbarButtonGraphics/Back24.gif"));
-            previous = new JButton(new ImageIcon(buttonIcon1));
-            previous.addActionListener((e) -> {
-
-            });
-            toolBar.add(previous);
-        } catch (Exception io) {
-            JOptionPane.showMessageDialog(null, io);
-        }
-
-        try {
-            BufferedImage buttonIcon2 = ImageIO.read(new File("toolbarButtonGraphics/Up24.gif"));
-            up = new JButton(new ImageIcon(buttonIcon2));
-            up.addActionListener((e) -> {
-
-            });
-            toolBar.add(up);
-        } catch (Exception io) {
-            JOptionPane.showMessageDialog(null, io);
-        }
-
-        try {
-            BufferedImage buttonIcon3 = ImageIO.read(new File("toolbarButtonGraphics/Down24.gif"));
-            down = new JButton(new ImageIcon(buttonIcon3));
-            down.addActionListener((e) -> {
-
-            });
-            toolBar.add(down);
-        } catch (Exception io) {
-            JOptionPane.showMessageDialog(null, io);
-        }
-
-        try {
-            BufferedImage buttonIcon4 = ImageIO.read(new File("toolbarButtonGraphics/Forward24.gif"));
-            next = new JButton(new ImageIcon(buttonIcon4));
-            next.addActionListener((e) -> {
-
-            });
-            toolBar.add(next);
-        } catch (Exception io) {
-            JOptionPane.showMessageDialog(null, io);
-        }
-
-        toolBar.add(new JToolBar.Separator(new Dimension(0, 20)));
-
-        try {
             BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Edit24White.png"));
             drawWhite = new JButton(new ImageIcon(buttonIcon7));
             drawWhite.addActionListener((e) -> {
-
+                a=0;
             });
             toolBar.add(drawWhite);
         } catch (Exception io) {
@@ -97,6 +59,7 @@ public class ToolBar {
             BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Edit24Red.png"));
             drawRed = new JButton(new ImageIcon(buttonIcon7));
             drawRed.addActionListener((e) -> {
+                a=1;
 
             });
             toolBar.add(drawRed);
@@ -108,6 +71,7 @@ public class ToolBar {
             drawBlue = new JButton(new ImageIcon(buttonIcon7));
             drawBlue.addActionListener((e) -> {
 
+                a=2;
             });
             toolBar.add(drawBlue);
         } catch (Exception io) {

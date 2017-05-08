@@ -1,5 +1,8 @@
 package window;
 
+import static core.VisualizationGUI.camera;
+import static core.VisualizationGUI.contentPane;
+import static core.VisualizationGUI.scroll;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -9,6 +12,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
+import matrix.Matrix;
+
+
 
 /**
  *
@@ -33,7 +39,12 @@ public class MenuBar {
     JMenuItem cut;
     JMenuItem delete;
     JMenuItem info;
-
+    
+    File selectedFile;
+    private Rule columnView;
+    private Rule rowView;
+    private Matrix<Short> matrix;
+    
     public MenuBar() {
     }
     
@@ -55,17 +66,27 @@ public class MenuBar {
         open = new JMenuItem("Open");
         menuFirst.add(open);
         open.addActionListener((e) -> {            
-            
+                      
             JFileChooser fc = new JFileChooser();
-            File selectedFile;
+            
 
             if (fc.showOpenDialog(root) == JFileChooser.APPROVE_OPTION){
 
             try{   
-                selectedFile = fc.getSelectedFile();
-                JOptionPane.showMessageDialog(null, "File selected.");
+                //nie rozumiem dlaczego nie chce działać- nie wywala błędu
+                selectedFile = fc.getSelectedFile();               
+                matrix=utils.TXTMatrixLoader.loadData(selectedFile.getPath());               
+                camera = new utils.Camera(matrix.getWidth(), matrix.getHeight());
+                contentPane = new ContentPane(matrix, camera);
+                columnView = new Rule(Rule.HORIZONTAL, true);
+                rowView = new Rule(Rule.VERTICAL, true);
+                
+                //contentPane.repaint();
+                scroll.repaint();
+                
+                JOptionPane.showMessageDialog(null, "File selected."+" "+selectedFile.getAbsolutePath());
                 }catch(Exception r){
-                    JOptionPane.showMessageDialog(null,r);
+                    JOptionPane.showMessageDialog(null,r+" "+selectedFile.getAbsolutePath());
                    }
             }   
         
