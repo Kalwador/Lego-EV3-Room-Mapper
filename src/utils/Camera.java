@@ -46,16 +46,16 @@ public class Camera {
     }
 
     /**
-     * Value beetwen <1 to 20>, 10 is normal.
+     * Value beetwen <1 to 15>, 10 is normal.
      *
      * @param value value to set
      */
     public static void setCameraZoom(int value) {
-        if (value > 20) {
-            value = 20;
+        if (value > 15) {
+            value = 15;
         }
-        if (value < 1) {
-            value = 1;
+        if (value < 5) {
+            value = 5;
         }
         VisualizationGUI.RESOLUTION = (short) value;
     }

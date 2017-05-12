@@ -19,18 +19,12 @@ import utils.Brush;
  */
 public class VisualizationGUI extends JFrame implements MouseListener, MouseMotionListener {
 
-    /**
-     * Size of visualization window
-     */
-    public static int windowPreferedWidth = 1200;
-    public static int windowPreferedHeight = 700;
+    //Size of visualization window
+    public int windowPreferedWidth = 1200;
+    public int windowPreferedHeight = 700;
 
-    /**
-     * Default dimension of every rectangle in pixels
-     */
+    //Default dimension of every rectangle in pixels
     public static short RESOLUTION;
-
-    public window.ContentPane contentPane;
 
     /**
      * Matrix contains data from robot
@@ -41,58 +35,52 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      */
     public static Matrix<Short> matrix;
 
-    /**
-     * Main Frame, contains everything
-     */
+    //Main Frame, contains everything
     public JFrame frame;
+
+    //Scroll contains Content Pane
     public JScrollPane scroll;
 
-    /**
-     * Top bar, and side bar
-     */
+    //Contains all graphic 
+    public window.ContentPane contentPane;
+
+    // Top bar, 
     private window.MenuBar menuBar;
+
+    //Side bar
     private window.ToolBar toolBar;
 
-    /**
-     * Rules outside the cavnas
-     */
+    // Rules outside the cavnas
     private Rule columnView;
     private Rule rowView;
 
-    /**
-     * Class that contains camera movement information for drawing
-     */
+    //Class that contains camera movement information for drawing
     public static utils.Camera camera;
 
-    /**
-     * Brushes used to paint
-     */
+    // Brushes used to paint
     private Brush brush;
 
     public static String path = "matrix.txt";
 
     public static VisualizationGUI visualizationGUI;
 
-    /**
-     * Default Constructor set up main options
-     */
+    // Default Constructor set up main options
     public VisualizationGUI() {
-
         visualizationGUI = this;
 
         //Default size and zoom of every rectangle         
         RESOLUTION = 10;
 
         matrix = utils.TXT.loadData();
-        
+
+        brush = new Brush();
+
         camera = new utils.Camera(matrix.getWidth(), matrix.getHeight());
 
         contentPane = new ContentPane(matrix, camera);
 
         columnView = new Rule(Rule.HORIZONTAL, true);
         rowView = new Rule(Rule.VERTICAL, true);
-
-        brush = new Brush();
     }
 
     /**
@@ -100,33 +88,25 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      */
     public void run() {
 
-        /**
-         * Create Window
-         */
+        // Create Window
         frame = new JFrame("Obstacle Visualization for EV3 Robot");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        /**
-         * Top Menu
-         */
+        // Top Menu
         menuBar = new window.MenuBar();
         frame.setJMenuBar(menuBar.getMenuBar(this.getRootPane()));
 
         toolBar = new window.ToolBar(brush);
         frame.add(toolBar.getToolBar(this.getRootPane()), BorderLayout.WEST);
 
-        /**
-         * Canvas
-         */
+        // Canvas
         scroll = new JScrollPane(contentPane);
         scroll.setViewportBorder(
                 BorderFactory.createLineBorder(Color.black));
         scroll.getVerticalScrollBar().setUnitIncrement(30); //Scroll speed
         scroll.addMouseListener(this); //Scroll Pane mouse Listener
 
-        /**
-         * Rules
-         */
+        // Rules
         columnView.setPreferredWidth(camera.contentPaneWidth);
         rowView.setPreferredHeight(camera.contentPaneHeight);
 
@@ -135,9 +115,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
         frame.add(scroll, BorderLayout.CENTER);
 
-        /**
-         * Display the window.
-         */
+        //Display the window
         frame.pack();
         frame.setSize(windowPreferedWidth, windowPreferedHeight);
         frame.setResizable(true);
@@ -156,7 +134,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        core.VisualizationGUI.visualizationGUI.contentPane.repaint();
+        contentPane.repaint();
         //Released da Ci punkt końca do rollera
     }
 
@@ -192,8 +170,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         y -= 89;
 
         //Dodanie przesunięcia na scrollach
-        x += core.VisualizationGUI.visualizationGUI.scroll.getHorizontalScrollBar().getValue();
-        y += core.VisualizationGUI.visualizationGUI.scroll.getVerticalScrollBar().getValue();
+        x += scroll.getHorizontalScrollBar().getValue();
+        y += scroll.getVerticalScrollBar().getValue();
 
         //Podzielenie przez rozdzielczość wyświetlania
         x /= RESOLUTION;

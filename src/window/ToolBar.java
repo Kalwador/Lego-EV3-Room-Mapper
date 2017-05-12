@@ -156,7 +156,8 @@ public class ToolBar {
             BufferedImage buttonIcon1 = ImageIO.read(new File("toolbarButtonGraphics/ZoomIn24.gif"));
             zoomIn = new JButton(new ImageIcon(buttonIcon1));
             zoomIn.addActionListener((e) -> {
-                utils.Camera.plusCameraZoom();
+//                utils.Camera.plusCameraZoom();
+                
             });
             toolBar.add(zoomIn);
         } catch (Exception io) {
@@ -168,7 +169,7 @@ public class ToolBar {
             BufferedImage buttonIcon2 = ImageIO.read(new File("toolbarButtonGraphics/ZoomOut24.gif"));
             zoomOut = new JButton(new ImageIcon(buttonIcon2));
             zoomOut.addActionListener((e) -> {
-                utils.Camera.minusCameraZoom();
+//                utils.Camera.minusCameraZoom();
             });
             toolBar.add(zoomOut);
         } catch (Exception io) {
@@ -191,6 +192,7 @@ public class ToolBar {
         } catch (Exception io) {
             JOptionPane.showMessageDialog(null, io);
         }
+        toolBar.setFloatable(false);
         return toolBar;
     }
 }

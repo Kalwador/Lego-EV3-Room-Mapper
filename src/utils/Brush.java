@@ -31,9 +31,10 @@ public class Brush {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Wybierz kolor");
+            if ((dotBrush || rectangleBrush || rollBrush)) {
+                JOptionPane.showMessageDialog(null, "Wybierz kolor");
+            }
         }
-
     }
 
     /**
@@ -53,28 +54,36 @@ public class Brush {
         return false;
     }
 
-    //set up no brush
+    /**
+     * set up no brush
+     */
     public void setNoBrush() {
         rectangleBrush = false;
         rollBrush = false;
         dotBrush = false;
     }
 
-    //set up brush to dot brush
+    /**
+     * set up brush to dot brush
+     */
     public void setDotBrush() {
         rectangleBrush = false;
         rollBrush = false;
         dotBrush = true;
     }
 
-    //set up brush to rectangle brush
+    /**
+     * set up brush to rectangle brush
+     */
     public void setRectangleBrush() {
         dotBrush = false;
         rollBrush = false;
         rectangleBrush = true;
     }
 
-    //set up brush to big rectangle brush
+    /**
+     * set up brush to big rectangle brush
+     */
     public void setRollBrush() {
         dotBrush = false;
         rectangleBrush = false;
@@ -85,7 +94,10 @@ public class Brush {
 
     }
 
-    //Rysuje kwadrat o wielkości 6x6 w piejscu kursora
+    /**
+     * Rysuje kwadrat o wielkości 6x6 w piejscu kursora
+     * @param p point where mouse is 
+     */
     private void paintRectangle(Point p) {
         double xStart;
         double yStart;
@@ -139,6 +151,4 @@ public class Brush {
     public boolean isRollBrush() {
         return rollBrush;
     }
-    
-    
 }
