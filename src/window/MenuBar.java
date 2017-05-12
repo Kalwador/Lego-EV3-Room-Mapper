@@ -2,7 +2,6 @@ package window;
 
 import static core.VisualizationGUI.path;
 import static core.VisualizationGUI.matrix;
-import static core.VisualizationGUI.contentPane;
 import static core.VisualizationGUI.scroll;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +12,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
-import matrix.Matrix;
 
 
 
