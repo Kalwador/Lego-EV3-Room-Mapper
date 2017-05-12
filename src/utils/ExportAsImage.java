@@ -5,6 +5,7 @@
  */
 package utils;
 
+import core.VisualizationGUI;
 import java.awt.AWTException;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -14,9 +15,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
+ * Utile to Export Content View as various types
  *
  * @author Kalvador
  */
@@ -54,10 +59,6 @@ public class ExportAsImage {
         int makeScreenWidth = 0;
         int makeScreenHeight = 0;
 
-        //do testów
-        int i = 0;
-        long k;
-
         while (actualImageHeight < contentPaneHeight) {
             while (actualImageWidth < contentPaneWidth) {
                 System.out.println("Pętla we H=" + actualImageHeight + "   W=" + actualImageWidth);
@@ -88,34 +89,27 @@ public class ExportAsImage {
 //                        (makeScreenWidth + windowStartPoint.x),
 //                        (makeScreenHeight + windowStartPoint.y));
 
-                //Do testów
-                i++;
-
                 try {
                     //Metoda createScreenCapture tworzy screen ekranu o położeniu wyznaczonym przez screenRectangle
                     final BufferedImage tempImage = new Robot().createScreenCapture(screenRect);
                     //metoda ta łączy dotąd zrobione obrazy z nowym
                     graphic.drawImage(tempImage, null, actualImageWidth, actualImageHeight);
-                    ImageIO.write(tempImage, "png", new File("export/" + i + ".png"));
                 } catch (AWTException ex) {
                     System.out.println("AWTE Exception - image join failure");
-                } catch (IOException ex) {
-                    System.out.println("IO Exception - image save failure");
-                }
 
-                actualImageWidth += makeScreenWidth;
+                    actualImageWidth += makeScreenWidth;
 //                core.VisualizationGUI.scroll.getHorizontalScrollBar().setValue(actualImageWidth);
-                core.VisualizationGUI.visualizationGUI.scroll.getViewport().setViewPosition(new Point(actualImageWidth, actualImageHeight));
+                    core.VisualizationGUI.visualizationGUI.scroll.getViewport().setViewPosition(new Point(actualImageWidth, actualImageHeight));
 //                core.VisualizationGUI.scroll.repaint();
-            }
-            actualImageWidth = 0;
-            actualImageHeight += makeScreenHeight;
+                }
+                actualImageWidth = 0;
+                actualImageHeight += makeScreenHeight;
 
 //            core.VisualizationGUI.scroll.getHorizontalScrollBar().setValue(actualImageWidth);
-            core.VisualizationGUI.visualizationGUI.scroll.getViewport().setViewPosition(new Point(actualImageWidth, actualImageHeight));
-            core.VisualizationGUI.visualizationGUI.scroll.repaint();
-        }
-        graphic.dispose();
+                core.VisualizationGUI.visualizationGUI.scroll.getViewport().setViewPosition(new Point(actualImageWidth, actualImageHeight));
+                core.VisualizationGUI.visualizationGUI.scroll.repaint();
+            }
+            graphic.dispose();
 //        try {
 //            ImageIO.write(fullImage, "png", new File("export/export.png"));
 //        } catch (IOException ex) {
@@ -126,44 +120,133 @@ public class ExportAsImage {
 //                .setValue(0);
 //        core.VisualizationGUI.scroll.getVerticalScrollBar()
 //                .setValue(0);
-        core.VisualizationGUI.visualizationGUI.scroll.repaint();
+            core.VisualizationGUI.visualizationGUI.scroll.repaint();
+        }
     }
 
+    /**
+     * Save Content pane as JPG Image
+     */
     public void JPG() {
         BufferedImage image = getMatrixAsBufferedImage();
-        
+        FileFilter fileFilter = new FileNameExtensionFilter(".jpg", "JPG Image");
+        File file = chooseFileJPG(fileFilter);
         try {
-            ImageIO.write(image, "jpg", new File("export/rgb.jpg"));
+            ImageIO.write(image, "jpg", new File(file.getCanonicalPath() + ".jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Save Content pane as PNG Image
+     */
+    public void PNG() {
+        BufferedImage image = getMatrixAsBufferedImage();
+        FileFilter fileFilter = new FileNameExtensionFilter(".png", "PNG Image");
+        File file = chooseFileJPG(fileFilter);
+        try {
+            ImageIO.write(image, "png", new File(file.getCanonicalPath() + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Save Content pane as BMP Image
+     */
+    public void BMP() {
+        BufferedImage image = getMatrixAsBufferedImage();
+        FileFilter fileFilter = new FileNameExtensionFilter(".bmp", "BMP Image");
+        File file = chooseFileJPG(fileFilter);
+        try {
+            System.out.println(file.getCanonicalPath());
+            ImageIO.write(image, "bmp", new File(file.getCanonicalPath() + ".bmp"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Open Save dialog window and create new file
+     *
+     * @param fileFilter What type of should be saved
+     * @return new File to save
+     */
+    public File chooseFileJPG(FileFilter fileFilter) {
+        File fileToSave = null;
+        JFileChooser fs = new JFileChooser();
+        fs.setDialogTitle("Save File");
+        fs.setFileFilter(fileFilter);
+        int result = fs.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            fileToSave = fs.getSelectedFile();
+        }
+
+        return fileToSave;
+    }
+
+    /**
+     * Method scann all Content Pane, and save values into buffered Image
+     *
+     * @return Created Image
+     */
     private BufferedImage getMatrixAsBufferedImage() {
 
+        //dimensions of arrary needed to save in image
         int arrayWidth = core.VisualizationGUI.visualizationGUI.matrix.getWidth();
         int arrayHeight = core.VisualizationGUI.visualizationGUI.matrix.getHeight();
 
-        //Czysty putno na którym zmieniane będą kolory pixeli na odpowiadające im dane z macierzy
-        BufferedImage image = new BufferedImage(arrayWidth, arrayHeight, BufferedImage.TYPE_3BYTE_BGR);
+        int[] data = new int[arrayWidth * arrayHeight * 2 * VisualizationGUI.RESOLUTION];
 
-        //pętle do iteracji po macierzy
-        for (int height = 0; height < arrayWidth; height++) {
-            for (int width = 0; width < arrayWidth; width++) {
-                switch ((Short) core.VisualizationGUI.visualizationGUI.matrix.getMatrix()[height][width]) {
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+
+        BufferedImage image = new BufferedImage(
+                arrayWidth * VisualizationGUI.RESOLUTION,
+                arrayHeight * VisualizationGUI.RESOLUTION,
+                BufferedImage.TYPE_3BYTE_BGR);
+
+        int[] rgb = new int[3];
+
+        for (int height = 0; height < arrayWidth * VisualizationGUI.RESOLUTION; height += VisualizationGUI.RESOLUTION) {
+            for (int width = 0; width < arrayWidth * VisualizationGUI.RESOLUTION; width += VisualizationGUI.RESOLUTION) {
+
+                //resetowanie wartości
+                rgb[0] = 0;
+                rgb[1] = 0;
+                rgb[2] = 0;
+
+                //sprawdzanie wartośći z macierzy
+                switch ((Short) core.VisualizationGUI.matrix.getMatrix()[height / VisualizationGUI.RESOLUTION][width / VisualizationGUI.RESOLUTION]) {
                     case 0: {
-                        //przypdek 0 - kolor biały
-                        image.getRaster().setSample(height, width, 0, 500);
-                        image.getRaster().setSample(height, width, 1, 500);
-                        image.getRaster().setSample(height, width, 2, 500);
+                        //biały
+                        rgb[0] = 255;
+                        rgb[1] = 255;
+                        rgb[2] = 255;
                     }
                     case 1: {
-                        //przypdek 1 - kolor czerwony
-                        image.getRaster().setSample(height, width, 0, 125);
+                        //czerwony
+                        rgb[0] = 255;
                     }
                     case 2: {
-                        //przypdek 2 - kolor niebieski
-                        image.getRaster().setSample(height, width, 2, 125);
+                        //niebieski
+                        rgb[2] = 255;
+                    }
+                }
+
+                //pętla po wysokości pixela
+                for (int j = height; j < (height + VisualizationGUI.RESOLUTION); j++) {
+                    //pętla po szerokośći pixela
+                    for (int k = width; k < (width + VisualizationGUI.RESOLUTION); k++) {
+                        //pętla po rgb
+                        for (int l = 0; l < 3; l++) {
+                            //rysuje tylko rgb jest różne od zera
+                            if (rgb[l] != 0) {
+                                image.getRaster().setSample(k, j, l, rgb[l]);
+                            }
+                        }
                     }
                 }
             }

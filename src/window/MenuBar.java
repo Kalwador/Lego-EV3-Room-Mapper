@@ -10,6 +10,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import utils.ExportAsImage;
 
 /**
@@ -31,8 +33,8 @@ public class MenuBar {
     JMenuItem saveAs;
     JMenuItem exit;
     JMenuItem jpgExport;
-    JMenuItem paste;
-    JMenuItem cut;
+    JMenuItem pngExport;
+    JMenuItem bmpExport;
     JMenuItem delete;
     JMenuItem info;
 
@@ -74,26 +76,16 @@ public class MenuBar {
         //Opening file from files
         open.addActionListener((e) -> {
 
-            JFileChooser fc = new JFileChooser();
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            int returnValue = jfc.showOpenDialog(null);
 
-            if (fc.showOpenDialog(root) == JFileChooser.APPROVE_OPTION) {
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = jfc.getSelectedFile();
+                core.VisualizationGUI.path = selectedFile.getAbsolutePath();
+                utils.TXT.loadData();
 
-                try {
-                    //nie rozumiem dlaczego nie chce działać- nie wywala błędu
-                    core.VisualizationGUI.path = fc.getSelectedFile().toString();
-                    matrix = utils.TXTMatrixLoader.loadData(core.VisualizationGUI.path);
-                    //contentPane.repaint();
-                    //contentPane.updateContentPane();
-                    core.VisualizationGUI.visualizationGUI.contentPane.repaint();
-
-                    core.VisualizationGUI.visualizationGUI.scroll.repaint();
-                    JOptionPane.showMessageDialog(null, "File selected. " + core.VisualizationGUI.path);
-
-                } catch (Exception r) {
-                    JOptionPane.showMessageDialog(null, r + " " + core.VisualizationGUI.path);
-                }
+                //odświerzenie całego okna
             }
-
         });
 
         save = new JMenuItem("Save");
@@ -101,14 +93,14 @@ public class MenuBar {
 
         //Saving files
         save.addActionListener((e) -> {
-
-            File selectedFile = null;
+            PrintWriter save = null;
             try {
-                PrintWriter save = new PrintWriter(selectedFile);
-                save.close();
-            } catch (FileNotFoundException q) {
-                JOptionPane.showMessageDialog(null, q);
+                save = new PrintWriter(new File(core.VisualizationGUI.path));
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Error occured during save data to file");
             }
+            save.write(utils.TXT.saveData());
+            save.close();
             JOptionPane.showMessageDialog(null, "File saved.");
         });
 
@@ -116,20 +108,25 @@ public class MenuBar {
         saveAs = new JMenuItem("Save as");
         menuFirst.add(saveAs);
         saveAs.addActionListener((e) -> {
+            File fileToSave = null;
+            JFileChooser fs = new JFileChooser();
+            fs.setDialogTitle("Save File");
 
-            JFileChooser fc = new JFileChooser();
-
-            if (fc.showSaveDialog(root) == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fc.getSelectedFile();
-                try {
-                    PrintWriter save = new PrintWriter(selectedFile);
-                    save.close();
-                } catch (FileNotFoundException q) {
-
-                    JOptionPane.showMessageDialog(null, q);
-                }
-                JOptionPane.showMessageDialog(null, "File saved.");
+            fs.setFileFilter(new FileNameExtensionFilter("TXT File", "txt"));
+            int result = fs.showSaveDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                fileToSave = fs.getSelectedFile();
             }
+
+            PrintWriter save = null;
+            try {
+                save = new PrintWriter(fileToSave);
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Error occured during save data to file");
+            }
+            save.println(utils.TXT.saveData());
+            save.close();
+            JOptionPane.showMessageDialog(null, "File saved.");
         });
 
         exit = new JMenuItem("Exit");
@@ -151,18 +148,16 @@ public class MenuBar {
             exportAsImage.JPG();
         });
 
-        paste = new JMenuItem("Paste");
-        exportMenu.add(paste);
-        paste.addActionListener((e) -> {
-
-            //If paste...
+        pngExport = new JMenuItem("Export as PNG");
+        exportMenu.add(pngExport);
+        pngExport.addActionListener((e) -> {
+            exportAsImage.PNG();
         });
 
-        cut = new JMenuItem("Cut");
-        exportMenu.add(cut);
-        cut.addActionListener((e) -> {
-
-            //If cut...
+        bmpExport = new JMenuItem("Export as BMP");
+        exportMenu.add(bmpExport);
+        bmpExport.addActionListener((e) -> {
+            exportAsImage.BMP();
         });
 
         delete = new JMenuItem("Delete");

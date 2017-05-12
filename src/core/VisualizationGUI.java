@@ -69,22 +69,22 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      */
     private Brush brush;
 
-    public static String path;
-    
+    public static String path = "matrix.txt";
+
     public static VisualizationGUI visualizationGUI;
-    
+
     /**
      * Default Constructor set up main options
      */
     public VisualizationGUI() {
 
         visualizationGUI = this;
-        
+
         //Default size and zoom of every rectangle         
         RESOLUTION = 10;
 
-        matrix = utils.TXTMatrixLoader.loadData("matrix.txt");
-
+        matrix = utils.TXT.loadData();
+        
         camera = new utils.Camera(matrix.getWidth(), matrix.getHeight());
 
         contentPane = new ContentPane(matrix, camera);
