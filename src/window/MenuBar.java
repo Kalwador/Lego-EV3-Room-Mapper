@@ -1,9 +1,6 @@
 package window;
 
-import static core.VisualizationGUI.path;
 import static core.VisualizationGUI.matrix;
-import static core.VisualizationGUI.contentPane;
-import static core.VisualizationGUI.scroll;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -13,10 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
-import matrix.Matrix;
-
-
-
+import utils.ExportAsImage;
 
 /**
  *
@@ -24,40 +18,42 @@ import matrix.Matrix;
  * @author Wilk
  */
 public class MenuBar {
-    
-    
+
     JMenuBar menuBar;
-    
+
     JMenu menuFirst;
-    JMenu menuSecond;
+    JMenu exportMenu;
     JMenu menuThird;
-    
+
     JMenuItem newFile;
     JMenuItem open;
     JMenuItem save;
     JMenuItem saveAs;
     JMenuItem exit;
-    JMenuItem copy;
+    JMenuItem jpgExport;
     JMenuItem paste;
     JMenuItem cut;
     JMenuItem delete;
     JMenuItem info;
-    
+
+    private utils.ExportAsImage exportAsImage;
 
 //    public  Matrix<Short> matrix;
     /**
      * Default constructor set up whole menu bar
      */
     public MenuBar() {
+        exportAsImage = new ExportAsImage();
     }
-    
+
     /**
      * Method that allows to get menu bar
+     *
      * @param root
-     * @return  menuBar
+     * @return menuBar
      */
     public JMenuBar getMenuBar(JRootPane root) {
-        
+
         // Create the menu bar       
         menuBar = new JMenuBar();
 
@@ -67,45 +63,45 @@ public class MenuBar {
 
         newFile = new JMenuItem("New");
         menuFirst.add(newFile);
-        
+
         //Creating new project
-        newFile.addActionListener((e) -> { });
+        newFile.addActionListener((e) -> {
+        });
 
         open = new JMenuItem("Open");
         menuFirst.add(open);
-        
+
         //Opening file from files
-        open.addActionListener((e) -> {            
-                      
+        open.addActionListener((e) -> {
+
             JFileChooser fc = new JFileChooser();
-            
 
-            if (fc.showOpenDialog(root) == JFileChooser.APPROVE_OPTION){
+            if (fc.showOpenDialog(root) == JFileChooser.APPROVE_OPTION) {
 
-            try{   
-                //nie rozumiem dlaczego nie chce działać- nie wywala błędu
-                path = fc.getSelectedFile().toString();               
-                matrix=utils.TXTMatrixLoader.loadData(path);                              
-                //contentPane.repaint();
-                //contentPane.updateContentPane();
-                 core.VisualizationGUI.contentPane.repaint();
+                try {
+                    //nie rozumiem dlaczego nie chce działać- nie wywala błędu
+                    core.VisualizationGUI.path = fc.getSelectedFile().toString();
+                    matrix = utils.TXTMatrixLoader.loadData(core.VisualizationGUI.path);
+                    //contentPane.repaint();
+                    //contentPane.updateContentPane();
+                    core.VisualizationGUI.visualizationGUI.contentPane.repaint();
 
-                scroll.repaint();
-                JOptionPane.showMessageDialog(null, "File selected. "+path);
-                
-                }catch(Exception r){
-                    JOptionPane.showMessageDialog(null,r+" "+path);
-                   }
-            }   
-        
+                    core.VisualizationGUI.visualizationGUI.scroll.repaint();
+                    JOptionPane.showMessageDialog(null, "File selected. " + core.VisualizationGUI.path);
+
+                } catch (Exception r) {
+                    JOptionPane.showMessageDialog(null, r + " " + core.VisualizationGUI.path);
+                }
+            }
+
         });
 
         save = new JMenuItem("Save");
         menuFirst.add(save);
-        
+
         //Saving files
-        save.addActionListener((e)->{
-        
+        save.addActionListener((e) -> {
+
             File selectedFile = null;
             try {
                 PrintWriter save = new PrintWriter(selectedFile);
@@ -116,15 +112,14 @@ public class MenuBar {
             JOptionPane.showMessageDialog(null, "File saved.");
         });
 
-        
         // Saving as files
         saveAs = new JMenuItem("Save as");
         menuFirst.add(saveAs);
-        saveAs.addActionListener((e)->{
-            
+        saveAs.addActionListener((e) -> {
+
             JFileChooser fc = new JFileChooser();
-            
-            if (fc.showSaveDialog(root) == JFileChooser.APPROVE_OPTION) {                
+
+            if (fc.showSaveDialog(root) == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fc.getSelectedFile();
                 try {
                     PrintWriter save = new PrintWriter(selectedFile);
@@ -139,42 +134,41 @@ public class MenuBar {
 
         exit = new JMenuItem("Exit");
         menuFirst.add(exit);
-        
+
         //Exit the program
-        exit.addActionListener((e) -> {           
+        exit.addActionListener((e) -> {
             root.setVisible(false);
             System.exit(0);
         });
 
         //Creating second menu
-        menuSecond = new JMenu("Edit");
-        menuBar.add(menuSecond);
+        exportMenu = new JMenu("Edit");
+        menuBar.add(exportMenu);
 
-        copy = new JMenuItem("Copy");
-        menuSecond.add(copy);
-        copy.addActionListener((e)->{
-            
-            //If copy...
+        jpgExport = new JMenuItem("Export as JPG");
+        exportMenu.add(jpgExport);
+        jpgExport.addActionListener((e) -> {
+            exportAsImage.JPG();
         });
 
         paste = new JMenuItem("Paste");
-        menuSecond.add(paste);
-        paste.addActionListener((e)->{
-        
+        exportMenu.add(paste);
+        paste.addActionListener((e) -> {
+
             //If paste...
         });
 
         cut = new JMenuItem("Cut");
-        menuSecond.add(cut);
-        cut.addActionListener((e)->{
-        
+        exportMenu.add(cut);
+        cut.addActionListener((e) -> {
+
             //If cut...
         });
 
         delete = new JMenuItem("Delete");
-        menuSecond.add(delete);
-        delete.addActionListener((e)->{
-        
+        exportMenu.add(delete);
+        delete.addActionListener((e) -> {
+
             //If delete...
         });
 
@@ -184,10 +178,10 @@ public class MenuBar {
 
         info = new JMenuItem("Info");
         menuThird.add(info);
-        info.addActionListener((e)->{
-            
+        info.addActionListener((e) -> {
+
             //Displaying information
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     "Program used to drawing obstacles for EV3 LEGO robot.\n"
                     + "Made by Piotr Szpila and Adrian Wilk.");
         });

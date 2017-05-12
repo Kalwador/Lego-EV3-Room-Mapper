@@ -83,11 +83,11 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
     }
 
     public int getWidth() {
-        return (width - 1);
+        return width;
     }
 
     public int getHeight() {
-        return (height - 1);
+        return height;
     }
 
     public void putObject(int x, int y, Object object) {

@@ -8,7 +8,7 @@ import java.awt.event.MouseMotionListener;
 import window.ContentPane;
 import window.Rule;
 import matrix.Matrix;
-
+import utils.Brush;
 
 /**
  * Class contain Frame and hadle his actions
@@ -17,7 +17,7 @@ import matrix.Matrix;
  * @author Wilk
  * @since 02.04.2017
  */
-public class VisualizationGUI extends JFrame implements MouseListener, MouseMotionListener{
+public class VisualizationGUI extends JFrame implements MouseListener, MouseMotionListener {
 
     /**
      * Size of visualization window
@@ -25,13 +25,12 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     public static int windowPreferedWidth = 1200;
     public static int windowPreferedHeight = 700;
 
-
     /**
      * Default dimension of every rectangle in pixels
      */
     public static short RESOLUTION;
 
-    public static window.ContentPane contentPane;
+    public window.ContentPane contentPane;
 
     /**
      * Matrix contains data from robot
@@ -40,21 +39,13 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      * @see 1 - obszar zajety;
      * @see 2 - obszar nieznany;
      */
-    public  static Matrix<Short> matrix;
-    public  static Short choosedColor;
+    public static Matrix<Short> matrix;
 
     /**
      * Main Frame, contains everything
      */
-    public  static JFrame frame;
-    public static JScrollPane scroll;
-
-    /**
-     * Those variables contain actual mouse position in window. There are
-     * actualized on 'click' action.
-     */
-    public static double mouseX;
-    public static double mouseY;
+    public JFrame frame;
+    public JScrollPane scroll;
 
     /**
      * Top bar, and side bar
@@ -67,7 +58,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      */
     private Rule columnView;
     private Rule rowView;
-    public static String path;
 
     /**
      * Class that contains camera movement information for drawing
@@ -75,18 +65,25 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     public static utils.Camera camera;
 
     /**
+     * Brushes used to paint
+     */
+    private Brush brush;
+
+    public static String path;
+    
+    public static VisualizationGUI visualizationGUI;
+    
+    /**
      * Default Constructor set up main options
      */
     public VisualizationGUI() {
 
-        /**
-         * Default size and zoom of every rectangle
-         */
+        visualizationGUI = this;
+        
+        //Default size and zoom of every rectangle         
         RESOLUTION = 10;
 
-        path="matrix.txt";
-        matrix = utils.TXTMatrixLoader.loadData(path);
-//        matrix = new Matrix<>(400, 400);
+        matrix = utils.TXTMatrixLoader.loadData("matrix.txt");
 
         camera = new utils.Camera(matrix.getWidth(), matrix.getHeight());
 
@@ -94,6 +91,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
         columnView = new Rule(Rule.HORIZONTAL, true);
         rowView = new Rule(Rule.VERTICAL, true);
+
+        brush = new Brush();
     }
 
     /**
@@ -113,10 +112,10 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         menuBar = new window.MenuBar();
         frame.setJMenuBar(menuBar.getMenuBar(this.getRootPane()));
 
-        toolBar = new window.ToolBar();
+        toolBar = new window.ToolBar(brush);
         frame.add(toolBar.getToolBar(this.getRootPane()), BorderLayout.WEST);
 
-         /**
+        /**
          * Canvas
          */
         scroll = new JScrollPane(contentPane);
@@ -133,7 +132,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
         scroll.setColumnHeaderView(columnView);
         scroll.setRowHeaderView(rowView);
-        
+
         frame.add(scroll, BorderLayout.CENTER);
 
         /**
@@ -147,152 +146,22 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseClicked(MouseEvent e) {
-//            mouseX = MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
-//            mouseY = MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
-//
-////            /**
-////             * Some pixels from window border
-////             */
-//            mouseX -= 84;
-//            mouseY -= 89;
-//
-//
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) ((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)),
-//                    ((int) ((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)),
-//                    choosedColor);  
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+1)),
-//                    choosedColor);  
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-1)),
-//                    choosedColor);  
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10))),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+1)),
-//                    choosedColor);  
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10))),
-//                    choosedColor);  
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10))),
-//                    choosedColor);  
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10))),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-1)),
-//                    choosedColor);            
-//            core.VisualizationGUI. matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+1)),
-//                    choosedColor);  
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+1)),
-//                    choosedColor);  
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-1)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10))),
-//                    choosedColor); 
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10))),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+2)),
-//                    choosedColor); 
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10))),
-//                    choosedColor); 
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10))),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-2)),
-//                    choosedColor); 
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-2)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-2)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-2)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-1)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-2)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-1)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10))),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)-2)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+1)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+1)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+2)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)+2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+2)),
-//                    choosedColor);
-//                        core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-1)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+2)),
-//                    choosedColor);
-//            core.VisualizationGUI.matrix.putObject(
-//                    ((int) (((core.VisualizationGUI.mouseY + core.VisualizationGUI.scroll.getVerticalScrollBar().getValue())/ 10)-2)),
-//                    ((int) (((core.VisualizationGUI.mouseX + core.VisualizationGUI.scroll.getHorizontalScrollBar().getValue())/ 10)+2)),
-//                    choosedColor);
+        brush.paint(getMousePositionInContentPane());
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
- 
-//            mouseX = MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
-//            mouseY = MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
-//
-//            /**
-//             * Some pixels from window border
-//             */
-//            mouseX -= 84;
-//            mouseY -= 89;
-//
-//            matrix.putObject(
-//                    ((int) ((mouseY + scroll.getVerticalScrollBar().getValue()) / 10)),
-//                    ((int) ((mouseX + scroll.getHorizontalScrollBar().getValue()) / 10)),
-//                    a);  
+        //Pressed będzie Ci potrzebny do Rollera da Ci punkt rozpoczącia
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        scroll.repaint();
+        core.VisualizationGUI.visualizationGUI.contentPane.repaint();
+        //Released da Ci punkt końca do rollera
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
     @Override
@@ -301,26 +170,35 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseDragged(MouseEvent me) {
-        
-//            mouseX = MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
-//            mouseY = MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
-//
-//            /**
-//             * Some pixels from window border
-//             */
-//            mouseX -= 84;
-//            mouseY -= 89;
-//
-//            matrix.putObject(
-//                    ((int) ((mouseY + scroll.getVerticalScrollBar().getValue()) / 10)),
-//                    ((int) ((mouseX + scroll.getHorizontalScrollBar().getValue()) / 10)),
-//                    a);  
-//            repaint();
-       
     }
 
     @Override
     public void mouseMoved(MouseEvent me) {
-        
+    }
+
+    /**
+     * Wyznacza punkt który odpowiada zaznaczonemu miejscu w macierzy
+     *
+     * @return punkt w macierzy
+     */
+    private Point getMousePositionInContentPane() {
+
+        //współżędne na ekranie
+        int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
+        int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
+
+        //Some pixels from window border
+        x -= 84;
+        y -= 89;
+
+        //Dodanie przesunięcia na scrollach
+        x += core.VisualizationGUI.visualizationGUI.scroll.getHorizontalScrollBar().getValue();
+        y += core.VisualizationGUI.visualizationGUI.scroll.getVerticalScrollBar().getValue();
+
+        //Podzielenie przez rozdzielczość wyświetlania
+        x /= RESOLUTION;
+        y /= RESOLUTION;
+
+        return new Point(x, y);
     }
 }
