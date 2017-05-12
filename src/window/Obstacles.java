@@ -4,7 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import matrix.RectangleMatrix;
 import core.VisualizationGUI;
+import static core.VisualizationGUI.scroll;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,8 +38,9 @@ public class Obstacles {
         }
     }
 
-    public void drawOBstacles(matrix.Matrix<Short> matrix, Graphics2D g) {
+    public void drawOBstacles(matrix.Matrix<Short> matrix, Graphics2D g){
         boolean a = true;
+//        try{
         for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
             for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
                 if ((Short) matrix.getMatrix()[j][i] == 1) {
@@ -50,5 +53,11 @@ public class Obstacles {
                 }
             }
         }
+//        }catch(Exception e){
+//             JOptionPane.showMessageDialog(null,"Choose a color.");
+//             scroll.repaint();
+//            
+//        
+        
     }
 }

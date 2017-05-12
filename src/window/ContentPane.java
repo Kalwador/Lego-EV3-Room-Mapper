@@ -3,6 +3,7 @@ package window;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -43,7 +44,12 @@ public class ContentPane extends JPanel {
 
         Graphics2D g = (Graphics2D) graphics;
 
+//        try{
         obstacles.drawOBstacles(matrix, g);
+//        }catch(Exception e){
+//            JOptionPane.showMessageDialog(null,"Choose a color.");
+//        }
+        
         if(window.ContentPane.isGrid){
             grid.drawGrid(matrix.getWidth(), matrix.getHeight(), g);
         }
