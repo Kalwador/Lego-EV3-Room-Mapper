@@ -48,7 +48,7 @@ public class Grid {
     }
 
     /**
-     * Drawing grin on screen
+     * Drawing grid on screen
      *
      * @param width
      * @param height

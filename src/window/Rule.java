@@ -3,6 +3,11 @@ package window;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * @author Kalvador
+ * @author Wilk
+ */
+
 public class Rule extends JComponent {
 
     public static final int INCH = Toolkit.getDefaultToolkit().

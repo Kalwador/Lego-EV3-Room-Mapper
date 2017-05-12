@@ -1,6 +1,7 @@
 package window;
 
-import static core.VisualizationGUI.camera;
+import static core.VisualizationGUI.path;
+import static core.VisualizationGUI.matrix;
 import static core.VisualizationGUI.contentPane;
 import static core.VisualizationGUI.scroll;
 import java.io.File;
@@ -16,12 +17,14 @@ import matrix.Matrix;
 
 
 
+
 /**
  *
  * @author Kalwador
  * @author Wilk
  */
 public class MenuBar {
+    
     
     JMenuBar menuBar;
     
@@ -40,31 +43,38 @@ public class MenuBar {
     JMenuItem delete;
     JMenuItem info;
     
-    File selectedFile;
-    private Rule columnView;
-    private Rule rowView;
-    private Matrix<Short> matrix;
-    
+
+//    public  Matrix<Short> matrix;
+    /**
+     * Default constructor set up whole menu bar
+     */
     public MenuBar() {
     }
     
-    
+    /**
+     * Method that allows to get menu bar
+     * @param root
+     * @return  menuBar
+     */
     public JMenuBar getMenuBar(JRootPane root) {
         
-        
+        // Create the menu bar       
         menuBar = new JMenuBar();
 
+        // Create the menu first
         menuFirst = new JMenu("File");
         menuBar.add(menuFirst);
 
         newFile = new JMenuItem("New");
         menuFirst.add(newFile);
-        newFile.addActionListener((e) -> {
-            //Creating new project
-        });
+        
+        //Creating new project
+        newFile.addActionListener((e) -> { });
 
         open = new JMenuItem("Open");
         menuFirst.add(open);
+        
+        //Opening file from files
         open.addActionListener((e) -> {            
                       
             JFileChooser fc = new JFileChooser();
@@ -74,19 +84,17 @@ public class MenuBar {
 
             try{   
                 //nie rozumiem dlaczego nie chce działać- nie wywala błędu
-                selectedFile = fc.getSelectedFile();               
-                matrix=utils.TXTMatrixLoader.loadData(selectedFile.getPath());               
-                camera = new utils.Camera(matrix.getWidth(), matrix.getHeight());
-                contentPane = new ContentPane(matrix, camera);
-                columnView = new Rule(Rule.HORIZONTAL, true);
-                rowView = new Rule(Rule.VERTICAL, true);
-                
+                path = fc.getSelectedFile().toString();               
+                matrix=utils.TXTMatrixLoader.loadData(path);                              
                 //contentPane.repaint();
+                //contentPane.updateContentPane();
+                 core.VisualizationGUI.contentPane.repaint();
+
                 scroll.repaint();
+                JOptionPane.showMessageDialog(null, "File selected. "+path);
                 
-                JOptionPane.showMessageDialog(null, "File selected."+" "+selectedFile.getAbsolutePath());
                 }catch(Exception r){
-                    JOptionPane.showMessageDialog(null,r+" "+selectedFile.getAbsolutePath());
+                    JOptionPane.showMessageDialog(null,r+" "+path);
                    }
             }   
         
@@ -94,6 +102,8 @@ public class MenuBar {
 
         save = new JMenuItem("Save");
         menuFirst.add(save);
+        
+        //Saving files
         save.addActionListener((e)->{
         
             File selectedFile = null;
@@ -107,7 +117,7 @@ public class MenuBar {
         });
 
         
-        // od tąd Twoja działka
+        // Saving as files
         saveAs = new JMenuItem("Save as");
         menuFirst.add(saveAs);
         saveAs.addActionListener((e)->{
@@ -129,11 +139,14 @@ public class MenuBar {
 
         exit = new JMenuItem("Exit");
         menuFirst.add(exit);
+        
+        //Exit the program
         exit.addActionListener((e) -> {           
             root.setVisible(false);
             System.exit(0);
         });
 
+        //Creating second menu
         menuSecond = new JMenu("Edit");
         menuBar.add(menuSecond);
 
@@ -165,13 +178,18 @@ public class MenuBar {
             //If delete...
         });
 
+        //Creating third menu
         menuThird = new JMenu("Help");
         menuBar.add(menuThird);
 
         info = new JMenuItem("Info");
         menuThird.add(info);
         info.addActionListener((e)->{
-            JOptionPane.showMessageDialog(null, "Information!");
+            
+            //Displaying information
+            JOptionPane.showMessageDialog(null, 
+                    "Program used to drawing obstacles for EV3 LEGO robot.\n"
+                    + "Made by Piotr Szpila and Adrian Wilk.");
         });
 
         return menuBar;
