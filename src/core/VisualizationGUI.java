@@ -30,7 +30,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      */
     public static short RESOLUTION;
 
-    public static window.ContentPane contentPane;
+    public window.ContentPane contentPane;
 
     /**
      * Matrix contains data from robot
@@ -44,15 +44,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     /**
      * Main Frame, contains everything
      */
-    public static JFrame frame;
-    public static JScrollPane scroll;
-
-    /**
-     * Those variables contain actual mouse position in window. There are
-     * actualized on 'click' action.
-     */
-    public static double mouseX;
-    public static double mouseY;
+    public JFrame frame;
+    public JScrollPane scroll;
 
     /**
      * Top bar, and side bar
@@ -65,7 +58,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      */
     private Rule columnView;
     private Rule rowView;
-    public static String path;
 
     /**
      * Class that contains camera movement information for drawing
@@ -77,19 +69,21 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      */
     private Brush brush;
 
+    public static String path;
+    
+    public static VisualizationGUI visualizationGUI;
+    
     /**
      * Default Constructor set up main options
      */
     public VisualizationGUI() {
 
-        /**
-         * Default size and zoom of every rectangle
-         */
+        visualizationGUI = this;
+        
+        //Default size and zoom of every rectangle         
         RESOLUTION = 10;
 
-        path = "matrix.txt";
-        matrix = utils.TXTMatrixLoader.loadData(path);
-//        matrix = new Matrix<>(400, 400);
+        matrix = utils.TXTMatrixLoader.loadData("matrix.txt");
 
         camera = new utils.Camera(matrix.getWidth(), matrix.getHeight());
 
@@ -152,49 +146,18 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
-        //współżedne końcowe
-        mouseX = MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
-        mouseY = MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
-
-        /**
-         * Some pixels from window border
-         */
-        mouseX -= 84;
-        mouseY -= 89;
-
-        System.out.println("mouse clicked");
-        brush.paint((int) mouseX, (int) mouseY);
-        VisualizationGUI.contentPane.repaint();
+        brush.paint(getMousePositionInContentPane());
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        //współżedne końcowe
-        mouseX = MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
-        mouseY = MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
-
-        /**
-         * Some pixels from window border
-         */
-        mouseX -= 84;
-        mouseY -= 89;
-
+        //Pressed będzie Ci potrzebny do Rollera da Ci punkt rozpoczącia
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
-        //współżedne końcowe
-        mouseX = MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
-        mouseY = MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
-
-        /**
-         * Some pixels from window border
-         */
-        mouseX -= 84;
-        mouseY -= 89;
-        VisualizationGUI.contentPane.repaint();
+        core.VisualizationGUI.visualizationGUI.contentPane.repaint();
+        //Released da Ci punkt końca do rollera
     }
 
     @Override
@@ -211,5 +174,31 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseMoved(MouseEvent me) {
+    }
+
+    /**
+     * Wyznacza punkt który odpowiada zaznaczonemu miejscu w macierzy
+     *
+     * @return punkt w macierzy
+     */
+    private Point getMousePositionInContentPane() {
+
+        //współżędne na ekranie
+        int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
+        int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
+
+        //Some pixels from window border
+        x -= 84;
+        y -= 89;
+
+        //Dodanie przesunięcia na scrollach
+        x += core.VisualizationGUI.visualizationGUI.scroll.getHorizontalScrollBar().getValue();
+        y += core.VisualizationGUI.visualizationGUI.scroll.getVerticalScrollBar().getValue();
+
+        //Podzielenie przez rozdzielczość wyświetlania
+        x /= RESOLUTION;
+        y /= RESOLUTION;
+
+        return new Point(x, y);
     }
 }

@@ -27,9 +27,9 @@ public class ToolBar {
     JButton drawWhite;
     JButton drawRed;
     JButton drawBlue;
-    JToggleButton dot;
-    JToggleButton square;
-    JToggleButton brushRectangle;
+    JToggleButton dotBrush;
+    JToggleButton rectangleBrush;
+    JToggleButton rollBrush;
 
     /**
      * Default constructor set up whole tool bar
@@ -73,7 +73,7 @@ public class ToolBar {
             JOptionPane.showMessageDialog(null, io);
         }
 
-        //Adding button to tool bar, which allows to draw in BLUE color
+        //Blue Color
         try {
             BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Edit24Blue.png"));
             drawBlue = new JButton(new ImageIcon(buttonIcon7));
@@ -88,38 +88,62 @@ public class ToolBar {
         // separator
         toolBar.add(new JToolBar.Separator(new Dimension(0, 20)));
 
-        //Pierwszy pędzel to okrąg
+        //Dot Brush
         try {
             BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Dot24.png"));
-            dot = new JToggleButton(new ImageIcon(buttonIcon7));
-            dot.addActionListener((e) -> {
-                brush.setDotBrush();
+            dotBrush = new JToggleButton(new ImageIcon(buttonIcon7));
+            dotBrush.addActionListener((e) -> {
+                if (brush.isDotBrush()) {
+                    dotBrush.setSelected(false);
+                    brush.setNoBrush();
+                } else {
+                    brush.setDotBrush();
+                    dotBrush.setSelected(true);
+                    rectangleBrush.setSelected(false);
+                    rollBrush.setSelected(false);
+                }
             });
-            toolBar.add(dot);
+            toolBar.add(dotBrush);
         } catch (Exception io) {
             JOptionPane.showMessageDialog(null, io);
         }
 
-        //Drugi pędzel to kwadrat
-        try {
-            BufferedImage buttonIcon8 = ImageIO.read(new File("toolbarButtonGraphics/Brush24.png"));
-            brushRectangle = new JToggleButton(new ImageIcon(buttonIcon8));
-            brushRectangle.addActionListener((e) -> {
-                brush.setRectangleBrush();
-            });
-            toolBar.add(brushRectangle);
-        } catch (Exception io) {
-            JOptionPane.showMessageDialog(null, io);
-        }
-
-        //Trzeci pędzel to roller
+        //Rectangle
         try {
             BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Square24.png"));
-            square = new JToggleButton(new ImageIcon(buttonIcon7));
-            square.addActionListener((e) -> {
-                brush.setRollBrush();
+            rectangleBrush = new JToggleButton(new ImageIcon(buttonIcon7));
+            rectangleBrush.addActionListener((e) -> {
+                if (brush.isRectangleBrush()) {
+                    rectangleBrush.setSelected(false);
+                    brush.setNoBrush();
+                } else {
+                    brush.setRectangleBrush();
+                    dotBrush.setSelected(false);
+                    rectangleBrush.setSelected(true);
+                    rollBrush.setSelected(false);
+                }
             });
-            toolBar.add(square);
+            toolBar.add(rectangleBrush);
+        } catch (Exception io) {
+            JOptionPane.showMessageDialog(null, io);
+        }
+
+        //Roller
+        try {
+            BufferedImage buttonIcon8 = ImageIO.read(new File("toolbarButtonGraphics/Brush24.png"));
+            rollBrush = new JToggleButton(new ImageIcon(buttonIcon8));
+            rollBrush.addActionListener((e) -> {
+                if (brush.isRollBrush()) {
+                    rollBrush.setSelected(false);
+                    brush.setNoBrush();
+                } else {
+                    brush.setRollBrush();
+                    dotBrush.setSelected(false);
+                    rectangleBrush.setSelected(false);
+                    rollBrush.setSelected(true);
+                }
+            });
+            toolBar.add(rollBrush);
         } catch (Exception io) {
             JOptionPane.showMessageDialog(null, io);
         }
@@ -161,7 +185,7 @@ public class ToolBar {
                 } else {
                     window.ContentPane.isGrid = true;
                 }
-                core.VisualizationGUI.contentPane.repaint();
+                core.VisualizationGUI.visualizationGUI.contentPane.repaint();
             });
             toolBar.add(gridButton);
         } catch (Exception io) {

@@ -4,9 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import matrix.RectangleMatrix;
 import core.VisualizationGUI;
-import static core.VisualizationGUI.scroll;
 import java.awt.Color;
-import javax.swing.JOptionPane;
 
 /**
  *

@@ -1,5 +1,8 @@
 package utils;
 
+import java.awt.Point;
+import javax.swing.JOptionPane;
+
 public class Brush {
 
     public static Short choosedColor;
@@ -8,148 +11,134 @@ public class Brush {
     public boolean rectangleBrush = false;
     public boolean rollBrush = false;
 
-//    private  double xStart;
-//    private  double yStart;
-//    private  double xEnd;
-//    private  double yEnd;
-//    
-//    public void paintSquare(Double x, Double y, Object object){
-//        
-//       x =  MouseInfo.getPointerInfo().getLocation().getX() - core.VisualizationGUI.frame.getLocationOnScreen().x;
-//       y =  MouseInfo.getPointerInfo().getLocation().getY() - core.VisualizationGUI.frame.getLocationOnScreen().y;
-//            
-//        core.VisualizationGUI.mouseX -= 84;
-//        core.VisualizationGUI. mouseY -= 89;
-//
-//        xStart = x-3;
-//        if(xStart < 0){
-//        xStart = 0;
-//        } 
-//
-//        xEnd =  x+3;
-//        if(xEnd >  core.VisualizationGUI.matrix.getWidth()){
-//        xEnd =  core.VisualizationGUI.matrix.getWidth();
-//        }
-//
-//        yStart = y-3;
-//        if(yStart < 0){
-//        yStart = 0;
-//        } 
-//
-//        yEnd = y+3;
-//        if(yEnd > core.VisualizationGUI.matrix.getHeight()){
-//        yEnd = core.VisualizationGUI.matrix.getHeight();
-//        }
-//
-//        for(int i = (int) xStart; i <= xEnd; i++){
-//                for(int j = (int) yStart; j <= yEnd; j++){
-//                        core.VisualizationGUI.matrix.putObject(i,j,core.VisualizationGUI.choosedColor);
-//        }
-//                core.VisualizationGUI.scroll.repaint();
-//        }
-//
-//    }
-//    
-//    public static void paint(){
-//        
-//    }
-//    
-//    public static void paintDot(){
-//        
-//    }
     /**
      * Paint Selected shape
      *
      * @param x xMouse Position
      * @param y yMouse Position
      */
-    public void paint(int x, int y) {
-        if (dotBrush) {
-            paintDot(x, y);
+    public void paint(Point p) {
+        if (choosedColor != null) {
+            if (checkPointIsInMatrix(p)) {
+                if (dotBrush) {
+                    paintDot(p);
+                }
+                if (rectangleBrush) {
+                    paintRectangle(p);
+                }
+                if (rollBrush) {
+                    paintDot(p);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Wybierz kolor");
         }
-        if (rectangleBrush) {
-            paintRectangle(x, y);
+
+    }
+
+    /**
+     * Sprawdza czy punkt kliknięty w macierzy nie przekracza zakresu macierzy
+     *
+     * @param p Punkt kliknięcia w macierzy
+     * @return true - jeśli punkt mieści się w macierzy, false w przeciwnym
+     * wypadku
+     */
+    private boolean checkPointIsInMatrix(Point p) {
+        if (p.x >= 0 && p.y >= 0) {
+            if (p.x < core.VisualizationGUI.matrix.getWidth()
+                    && p.y < core.VisualizationGUI.matrix.getHeight()) {
+                return true;
+            }
         }
-        if (rollBrush) {
-            paintDot(x, y);
-        }
+        return false;
+    }
+
+    //set up no brush
+    public void setNoBrush() {
+        rectangleBrush = false;
+        rollBrush = false;
+        dotBrush = false;
     }
 
     //set up brush to dot brush
     public void setDotBrush() {
         rectangleBrush = false;
         rollBrush = false;
-        if (dotBrush) {
-            dotBrush = false;
-        } else {
-            dotBrush = true;
-        }
+        dotBrush = true;
     }
 
     //set up brush to rectangle brush
     public void setRectangleBrush() {
         dotBrush = false;
         rollBrush = false;
-        System.out.println("ustawiam rectangle brush");
-        if (rectangleBrush) {
-            rectangleBrush = false;
-        } else {
-            rectangleBrush = true;
-        }
+        rectangleBrush = true;
     }
 
     //set up brush to big rectangle brush
     public void setRollBrush() {
         dotBrush = false;
         rectangleBrush = false;
-        if (rollBrush) {
-            rollBrush = false;
-        } else {
-            rollBrush = true;
-        }
+        rollBrush = true;
     }
 
-    private void paintDot(int x, int y) {
+    private void paintDot(Point p) {
 
     }
 
-    private void paintRectangle(int x, int y) {
-        System.out.println("wykonuje paint Rectangle");
+    //Rysuje kwadrat o wielkości 6x6 w piejscu kursora
+    private void paintRectangle(Point p) {
         double xStart;
         double yStart;
         double xEnd;
         double yEnd;
 
-        xStart = x - 3;
+        xStart = p.x - 3;
         if (xStart < 0) {
             xStart = 0;
         }
 
-        xEnd = x + 3;
-        if (xEnd > core.VisualizationGUI.matrix.getWidth()) {
-            xEnd = core.VisualizationGUI.matrix.getWidth();
+        xEnd = p.x + 3;
+        if (xEnd >= core.VisualizationGUI.matrix.getWidth()) {
+            xEnd = core.VisualizationGUI.matrix.getWidth() - 1;
         }
 
-        yStart = y - 3;
+        yStart = p.y - 3;
         if (yStart < 0) {
             yStart = 0;
         }
 
-        yEnd = y + 3;
-        if (yEnd > core.VisualizationGUI.matrix.getHeight()) {
-            yEnd = core.VisualizationGUI.matrix.getHeight();
+        yEnd = p.y + 3;
+        if (yEnd >= core.VisualizationGUI.matrix.getHeight()) {
+            yEnd = core.VisualizationGUI.matrix.getHeight() - 1;
         }
 
-        for (int i = (int) xStart; i <= xEnd; i++) {
-            for (int j = (int) yStart; j <= yEnd; j++) {
-                System.out.println("rysuje w x="+i+"  y="+j+" kolor:"+choosedColor);
-                core.VisualizationGUI.matrix.putObject(i, j, choosedColor);
+        for (int j = (int) yStart; j <= yEnd; j++) {
+            for (int i = (int) xStart; i <= xEnd; i++) {
+                core.VisualizationGUI.matrix.putObject(j, i, choosedColor);
             }
         }
-        core.VisualizationGUI.scroll.repaint();
+        core.VisualizationGUI.visualizationGUI.contentPane.repaint();
     }
 
-    private void paintRoll(int x, int y) {
+    private void paintRoll(Point p) {
 
     }
+
+    public static Short getChoosedColor() {
+        return choosedColor;
+    }
+
+    public boolean isDotBrush() {
+        return dotBrush;
+    }
+
+    public boolean isRectangleBrush() {
+        return rectangleBrush;
+    }
+
+    public boolean isRollBrush() {
+        return rollBrush;
+    }
+    
+    
 }
