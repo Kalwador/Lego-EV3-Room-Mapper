@@ -142,8 +142,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     @Override
     public void mousePressed(MouseEvent e) {
 
-        if (utils.Brush.rollStart == null) {
-            utils.Brush.rollStart=utils.Brush.rollEnd;
+        if (brush.rollStart == null) {
+            brush.rollStart=brush.rollEnd;
              brush.paint(getMousePositionInContentPane());   
         }
         contentPane.repaint();
@@ -152,8 +152,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        if (utils.Brush.rollStart == null) {            
-            utils.Brush.rollStart=utils.Brush.rollEnd;
+        if (brush.rollStart == null) {            
+            brush.rollStart=brush.rollEnd;
             
             brush.paint(getMousePositionInContentPane());
         }
@@ -171,8 +171,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseDragged(MouseEvent me) {
-          if (utils.Brush.rollStart == null) {            
-            utils.Brush.rollStart=utils.Brush.rollEnd;
+          if (brush.rollStart == null) {            
+            brush.rollStart=brush.rollEnd;
             brush.paint(getMousePositionInContentPane());
         }
         contentPane.repaint();
