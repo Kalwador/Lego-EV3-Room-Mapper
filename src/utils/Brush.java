@@ -11,8 +11,8 @@ public class Brush {
     public boolean rectangleBrush = false;
     public boolean rollBrush = false;
     
-    public static Point rollStart = null;
-    public static Point rollEnd = null;
+    public Point rollStart = null;
+    public Point rollEnd = null;
 
     /**
      * Paint Selected shape
