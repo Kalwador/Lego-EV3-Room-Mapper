@@ -87,10 +87,10 @@ public class ToolBar {
 
         // separator
         toolBar.add(new JToolBar.Separator(new Dimension(0, 20)));
-
+        
         //Dot Brush
         try {
-            BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Dot24.png"));
+            BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Brush24.png"));
             dotBrush = new JToggleButton(new ImageIcon(buttonIcon7));
             dotBrush.addActionListener((e) -> {
                 if (brush.isDotBrush()) {
@@ -127,10 +127,10 @@ public class ToolBar {
         } catch (Exception io) {
             JOptionPane.showMessageDialog(null, io);
         }
-
-        //Roller
+        
+                  //Roller
         try {
-            BufferedImage buttonIcon8 = ImageIO.read(new File("toolbarButtonGraphics/Brush24.png"));
+            BufferedImage buttonIcon8 = ImageIO.read(new File("toolbarButtonGraphics/Bean24.gif"));
             rollBrush = new JToggleButton(new ImageIcon(buttonIcon8));
             rollBrush.addActionListener((e) -> {
                 if (brush.isRollBrush()) {

@@ -126,11 +126,10 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     public void updateContent() {
         camera = new Camera();
 
-        
         contentPane = new ContentPane(matrix, camera);
-        
+
         contentPane.obstacles.updateObstacles();
-        
+
         scroll.repaint();
     }
 
@@ -141,13 +140,15 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mousePressed(MouseEvent e) {
-        //Pressed będzie Ci potrzebny do Rollera da Ci punkt rozpoczącia
+        brush.paintDot(getMousePositionInContentPane());
+        brush.paint(getMousePositionInContentPane());
+        contentPane.repaint(); // tu potrzebne by zaznaczyć punkt startowy rollera
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        brush.paint(getMousePositionInContentPane());
         contentPane.repaint();
-        //Released da Ci punkt końca do rollera
     }
 
     @Override
@@ -160,6 +161,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseDragged(MouseEvent me) {
+
     }
 
     @Override
@@ -189,6 +191,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         x /= RESOLUTION;
         y /= RESOLUTION;
 
+        //return new Point(x, y);
         return new Point(x, y);
     }
 }
