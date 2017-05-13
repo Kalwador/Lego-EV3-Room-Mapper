@@ -10,6 +10,9 @@ public class Brush {
     public boolean dotBrush = false;
     public boolean rectangleBrush = false;
     public boolean rollBrush = false;
+    
+    public static Point rollStart = null;
+    public static Point rollEnd = null;
 
     /**
      * Paint Selected shape
@@ -89,7 +92,9 @@ public class Brush {
     }
 
     private void paintDot(Point p) {
-
+        
+        core.VisualizationGUI.matrix.put(p.y, p.x, choosedColor);
+        core.VisualizationGUI.visualizationGUI.contentPane.repaint();
     }
 
     /**
@@ -130,7 +135,42 @@ public class Brush {
         core.VisualizationGUI.visualizationGUI.contentPane.repaint();
     }
 
-    private void paintRoll(Point p) {
+    public void paintRoll(Point p) {
+          
+
+        double rollStartX;
+        double rollStartY;
+        double rollEndX;
+        double rollEndY;
+
+              
+        rollStartX = rollStart.x;
+        if (rollStartX < 0) {
+            rollStartX = 0;
+        }
+
+        rollEndX = rollEnd.x;
+        if (rollEndX >= core.VisualizationGUI.matrix.getWidth()) {
+            rollEndX = core.VisualizationGUI.matrix.getWidth() - 1;
+        }
+
+        rollStartY = rollStart.y;
+        if (rollStartY < 0) {
+            rollStartY = 0;
+        }
+
+        rollEndY = rollEnd.y;
+        if (rollEndY >= core.VisualizationGUI.matrix.getHeight()) {
+            rollEndY = core.VisualizationGUI.matrix.getHeight() - 1;
+        }
+
+              for (int i = rollStart.y; i < rollEnd.y; i++) {
+                  for (int j = rollStart.x; j < rollEnd.x; j++) {
+                      paintRoll(rollStart); 
+                  }
+              }
+        
+        core.VisualizationGUI.visualizationGUI.contentPane.repaint();
 
     }
 
