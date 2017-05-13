@@ -10,9 +10,8 @@ public class Brush {
     public boolean dotBrush = false;
     public boolean rectangleBrush = false;
     public boolean rollBrush = false;
-    
-    public Point rollStart = null;
-    public Point rollEnd = null;
+
+    public Point rollFirstPoint = null;
 
     /**
      * Paint Selected shape
@@ -28,7 +27,7 @@ public class Brush {
                     paintRectangle(p);
                 }
                 if (rollBrush) {
-                    paintDot(p);
+                    paintRoll(p);
                 }
             }
         } else {
@@ -91,17 +90,16 @@ public class Brush {
         rollBrush = true;
     }
 
-    private void paintDot(Point p) {
-        
+    public void paintDot(Point p) {
         core.VisualizationGUI.matrix.put(p.y, p.x, choosedColor);
-        core.VisualizationGUI.visualizationGUI.contentPane.repaint();
     }
 
     /**
      * Rysuje kwadrat o wielkości 6x6 w piejscu kursora
-     * @param p point where mouse is 
+     *
+     * @param p point where mouse is
      */
-    private void paintRectangle(Point p) {
+    public void paintRectangle(Point p) {
         double xStart;
         double yStart;
         double xEnd;
@@ -132,46 +130,38 @@ public class Brush {
                 core.VisualizationGUI.matrix.put(j, i, choosedColor);
             }
         }
-        core.VisualizationGUI.visualizationGUI.contentPane.repaint();
     }
 
     public void paintRoll(Point p) {
-          
+        //Jeśli true to znaczy że rysujemy nowy kształt
+        if (rollFirstPoint == null) {
+            rollFirstPoint = p;
+        } else {
+            //ustawianie punktów i konwersja na inty
+            int xStart = rollFirstPoint.x;
+            int yStart = rollFirstPoint.y;
+            int xEnd = p.x;
+            int yEnd = p.y;
 
-        double rollStartX;
-        double rollStartY;
-        double rollEndX;
-        double rollEndY;
-
-              
-        rollStartX = rollStart.x;
-        if (rollStartX < 0) {
-            rollStartX = 0;
+            //sprawdzanie czy nie zostało rysowane od prawej do lewej
+            if (xStart > xEnd) {
+                int temp = (int) xStart;
+                xStart = xEnd;
+                xEnd = temp;
+            }
+            //sprawdzanie czy nie zostało rysowane od dołu do góry
+            if (yStart > yEnd) {
+                int temp = (int) yStart;
+                yStart = yEnd;
+                yEnd = temp;
+            }
+            for (int j = (int) yStart; j <= yEnd; j++) {
+                for (int i = (int) xStart; i <= xEnd; i++) {
+                    core.VisualizationGUI.matrix.put(j, i, choosedColor);
+                }
+            }
+            rollFirstPoint = null;
         }
-
-        rollEndX = rollEnd.x;
-        if (rollEndX >= core.VisualizationGUI.matrix.getWidth()) {
-            rollEndX = core.VisualizationGUI.matrix.getWidth() - 1;
-        }
-
-        rollStartY = rollStart.y;
-        if (rollStartY < 0) {
-            rollStartY = 0;
-        }
-
-        rollEndY = rollEnd.y;
-        if (rollEndY >= core.VisualizationGUI.matrix.getHeight()) {
-            rollEndY = core.VisualizationGUI.matrix.getHeight() - 1;
-        }
-
-              for (int i = rollStart.y; i < rollEnd.y; i++) {
-                  for (int j = rollStart.x; j < rollEnd.x; j++) {
-                      paintRoll(rollStart); 
-                  }
-              }
-        
-        core.VisualizationGUI.visualizationGUI.contentPane.repaint();
-
     }
 
     public static Short getChoosedColor() {

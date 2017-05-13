@@ -87,30 +87,10 @@ public class ToolBar {
 
         // separator
         toolBar.add(new JToolBar.Separator(new Dimension(0, 20)));
-
-          //Roller
-        try {
-            BufferedImage buttonIcon8 = ImageIO.read(new File("toolbarButtonGraphics/Brush24.png"));
-            rollBrush = new JToggleButton(new ImageIcon(buttonIcon8));
-            rollBrush.addActionListener((e) -> {
-                if (brush.isRollBrush()) {
-                    rollBrush.setSelected(false);
-                    brush.setNoBrush();
-                } else {
-                    brush.setRollBrush();
-                    dotBrush.setSelected(false);
-                    rectangleBrush.setSelected(false);
-                    rollBrush.setSelected(true);
-                }
-            });
-            toolBar.add(rollBrush);
-        } catch (Exception io) {
-            JOptionPane.showMessageDialog(null, io);
-        }
         
         //Dot Brush
         try {
-            BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Dot24.png"));
+            BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Brush24.png"));
             dotBrush = new JToggleButton(new ImageIcon(buttonIcon7));
             dotBrush.addActionListener((e) -> {
                 if (brush.isDotBrush()) {
@@ -144,6 +124,26 @@ public class ToolBar {
                 }
             });
             toolBar.add(rectangleBrush);
+        } catch (Exception io) {
+            JOptionPane.showMessageDialog(null, io);
+        }
+        
+                  //Roller
+        try {
+            BufferedImage buttonIcon8 = ImageIO.read(new File("toolbarButtonGraphics/Bean24.gif"));
+            rollBrush = new JToggleButton(new ImageIcon(buttonIcon8));
+            rollBrush.addActionListener((e) -> {
+                if (brush.isRollBrush()) {
+                    rollBrush.setSelected(false);
+                    brush.setNoBrush();
+                } else {
+                    brush.setRollBrush();
+                    dotBrush.setSelected(false);
+                    rectangleBrush.setSelected(false);
+                    rollBrush.setSelected(true);
+                }
+            });
+            toolBar.add(rollBrush);
         } catch (Exception io) {
             JOptionPane.showMessageDialog(null, io);
         }

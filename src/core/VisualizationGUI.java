@@ -11,7 +11,6 @@ import matrix.Matrix;
 import utils.Brush;
 import utils.Camera;
 
-
 /**
  * Class contain Frame and hadle his actions
  *
@@ -126,11 +125,11 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     public void updateContent() {
         camera = new Camera();
-  
+
         contentPane = new ContentPane(matrix, camera);
-        
+
         contentPane.obstacles.updateObstacles();
-        
+
         scroll.repaint();
     }
 
@@ -141,24 +140,15 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mousePressed(MouseEvent e) {
-
-        if (brush.rollStart == null) {
-            brush.rollStart=brush.rollEnd;
-             brush.paint(getMousePositionInContentPane());   
-        }
-        contentPane.repaint();
+        brush.paintDot(getMousePositionInContentPane());
+        brush.paint(getMousePositionInContentPane());
+        contentPane.repaint(); // tu potrzebne by zaznaczyć punkt startowy rollera
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
-        if (brush.rollStart == null) {            
-            brush.rollStart=brush.rollEnd;
-            
-            brush.paint(getMousePositionInContentPane());
-        }
+        brush.paint(getMousePositionInContentPane());
         contentPane.repaint();
-
     }
 
     @Override
@@ -171,11 +161,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseDragged(MouseEvent me) {
-          if (brush.rollStart == null) {            
-            brush.rollStart=brush.rollEnd;
-            brush.paint(getMousePositionInContentPane());
-        }
-        contentPane.repaint();
 
     }
 
