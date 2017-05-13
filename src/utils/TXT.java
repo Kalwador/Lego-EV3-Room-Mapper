@@ -12,26 +12,26 @@ import matrix.Matrix;
 public class TXT {
 
     //Load matrix from txt data
-    public static Matrix loadData() {
-        Short[][] matrix = new Short[100][100];
+    public static matrix.Matrix<Short> loadData() {
+        matrix.Matrix<Short> matrix = new Matrix<>();
         try {
-            FileReader file = new FileReader(core.VisualizationGUI.path);
-            BufferedReader bufor = new BufferedReader(file);
-            String linia;
+            try (FileReader file = new FileReader(core.VisualizationGUI.path)) {
+                BufferedReader bufor = new BufferedReader(file);
+                String linia;
 
-            int i = 0;
-            int j = 0;
+                int i = 0;
+                int j = 0;
 
-            while ((linia = bufor.readLine()) != null) {
-                String[] pola = linia.split(",");
-                for (String string : pola) {
-                    matrix[i][j] = Short.valueOf(string);
-                    j++;
+                while ((linia = bufor.readLine()) != null) {
+                    String[] pola = linia.split(",");
+                    for (String string : pola) {
+                        matrix.put(i, j, Short.valueOf(string));
+                        j++;
+                    }
+                    i++;
+                    j = 0;
                 }
-                i++;
-                j = 0;
             }
-            file.close();
         } catch (FileNotFoundException w1) {
             System.out.println("SAVE FILE NOT FOUND");
         } catch (IOException w2) {
@@ -39,7 +39,8 @@ public class TXT {
         } catch (NumberFormatException w3) {
             System.out.println("WRONG NUMBER FORMAT");
         }
-        return new Matrix<Short>(matrix);
+        matrix.adjust();
+        return matrix;
     }
 
     //Save matrix to txt data
@@ -49,7 +50,7 @@ public class TXT {
         for (int i = 0; i < core.VisualizationGUI.matrix.getHeight(); i++) {
             for (int j = 0; j < core.VisualizationGUI.matrix.getWidth(); j++) {
                 fullLinia.append(core.VisualizationGUI.matrix.getMatrix()[i][j]);
-                if(j < core.VisualizationGUI.matrix.getWidth() - 1){
+                if (j < core.VisualizationGUI.matrix.getWidth() - 1) {
                     fullLinia.append(",");
                 }
             }
@@ -57,7 +58,7 @@ public class TXT {
         }
         return fullLinia.toString();
     }
-     
+
     //Generate Random Matrix
     public static void generateRandom(String path, int width, int height) throws IOException {
         File file = new File(path + ".txt");
@@ -137,6 +138,6 @@ public class TXT {
     }
 
     public static void main(String[] args) throws IOException {
-        generateRandom("matrix", 100, 100);
+        generateRandom("matrix3", 250, 250);
     }
 }

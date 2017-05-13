@@ -19,10 +19,9 @@ public class Camera {
      * Default constructor Set zoom on 100. Set Corners of camera in right
      * places
      */
-    public Camera(int width, int height) {
-//        updateCenterOfMatrixView(width, height);
-        contentPaneWidth = width * core.VisualizationGUI.RESOLUTION;
-        contentPaneHeight = height * core.VisualizationGUI.RESOLUTION;
+    public Camera() {
+        contentPaneWidth = core.VisualizationGUI.matrix.getWidth() * core.VisualizationGUI.RESOLUTION;
+        contentPaneHeight = core.VisualizationGUI.matrix.getHeight() * core.VisualizationGUI.RESOLUTION;
     }
 
     /**

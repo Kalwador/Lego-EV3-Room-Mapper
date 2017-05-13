@@ -12,12 +12,10 @@ import java.util.List;
  */
 public class Grid {
 
-    private matrix.Matrix<Short> matrix;
     private List<Line2D> horizontalList;
     private List<Line2D> verticalList;
 
     public Grid(matrix.Matrix<Short> matrix) {
-        this.matrix = matrix;
         horizontalList = new ArrayList<>();
         verticalList = new ArrayList<>();
         updateGrid();
@@ -30,31 +28,28 @@ public class Grid {
      * @param height
      */
     public void updateGrid() {
-        for (int i = 1; i <= matrix.getHeight(); i++) {
+        for (int i = 1; i <= core.VisualizationGUI.matrix.getHeight(); i++) {
             horizontalList.add(new Line2D.Double(
                     i * core.VisualizationGUI.RESOLUTION,
                     0,
                     i * core.VisualizationGUI.RESOLUTION,
-                    matrix.getHeight() * core.VisualizationGUI.RESOLUTION));
+                    core.VisualizationGUI.matrix.getHeight() * core.VisualizationGUI.RESOLUTION));
         }
-        for (int i = 1; i <= matrix.getWidth(); i++) {
+        for (int i = 1; i <= core.VisualizationGUI.matrix.getWidth(); i++) {
             verticalList.add(new Line2D.Double(
                     0,
                     i * core.VisualizationGUI.RESOLUTION,
-                    matrix.getWidth() * core.VisualizationGUI.RESOLUTION,
+                    core.VisualizationGUI.matrix.getWidth() * core.VisualizationGUI.RESOLUTION,
                     i * core.VisualizationGUI.RESOLUTION));
-
         }
     }
 
     /**
      * Drawing grid on screen
      *
-     * @param width
-     * @param height
      * @param g
      */
-    public void drawGrid(int width, int height, Graphics2D g) {
+    public void drawGrid(Graphics2D g) {
         g.setColor(Color.BLACK);
         for (int i = 0; i < horizontalList.size(); i++) {
             g.draw(horizontalList.get(i));

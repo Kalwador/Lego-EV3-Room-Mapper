@@ -1,6 +1,5 @@
 package window;
 
-import static core.VisualizationGUI.matrix;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -23,9 +22,9 @@ public class MenuBar {
 
     JMenuBar menuBar;
 
-    JMenu menuFirst;
+    JMenu menuFile;
     JMenu exportMenu;
-    JMenu menuThird;
+    JMenu helpMenu;
 
     JMenuItem newFile;
     JMenuItem open;
@@ -35,7 +34,7 @@ public class MenuBar {
     JMenuItem jpgExport;
     JMenuItem pngExport;
     JMenuItem bmpExport;
-    JMenuItem delete;
+    JMenuItem screenShoot;
     JMenuItem info;
 
     private utils.ExportAsImage exportAsImage;
@@ -60,36 +59,37 @@ public class MenuBar {
         menuBar = new JMenuBar();
 
         // Create the menu first
-        menuFirst = new JMenu("File");
-        menuBar.add(menuFirst);
+        menuFile = new JMenu("File");
+        menuBar.add(menuFile);
 
         newFile = new JMenuItem("New");
-        menuFirst.add(newFile);
+        menuFile.add(newFile);
 
         //Creating new project
         newFile.addActionListener((e) -> {
         });
 
         open = new JMenuItem("Open");
-        menuFirst.add(open);
+        menuFile.add(open);
 
         //Opening file from files
         open.addActionListener((e) -> {
 
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            JFileChooser jfc = new JFileChooser();
+            jfc.setFileFilter(new FileNameExtensionFilter("TXT File", "txt"));
+            jfc.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
             int returnValue = jfc.showOpenDialog(null);
-
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
                 core.VisualizationGUI.path = selectedFile.getAbsolutePath();
-                utils.TXT.loadData();
+                core.VisualizationGUI.matrix = utils.TXT.loadData();
 
-                //odświerzenie całego okna
+                core.VisualizationGUI.visualizationGUI.updateContent();
             }
         });
 
         save = new JMenuItem("Save");
-        menuFirst.add(save);
+        menuFile.add(save);
 
         //Saving files
         save.addActionListener((e) -> {
@@ -106,7 +106,7 @@ public class MenuBar {
 
         // Saving as files
         saveAs = new JMenuItem("Save as");
-        menuFirst.add(saveAs);
+        menuFile.add(saveAs);
         saveAs.addActionListener((e) -> {
             File fileToSave = null;
             JFileChooser fs = new JFileChooser();
@@ -130,7 +130,7 @@ public class MenuBar {
         });
 
         exit = new JMenuItem("Exit");
-        menuFirst.add(exit);
+        menuFile.add(exit);
 
         //Exit the program
         exit.addActionListener((e) -> {
@@ -160,21 +160,20 @@ public class MenuBar {
             exportAsImage.BMP();
         });
 
-        delete = new JMenuItem("Delete");
-        exportMenu.add(delete);
-        delete.addActionListener((e) -> {
+        screenShoot = new JMenuItem("Make Screen Shoot");
+        exportMenu.add(screenShoot);
+        screenShoot.addActionListener((e) -> {
 
-            //If delete...
+            //If screenShoot...
         });
 
         //Creating third menu
-        menuThird = new JMenu("Help");
-        menuBar.add(menuThird);
+        helpMenu = new JMenu("Help");
+        menuBar.add(helpMenu);
 
         info = new JMenuItem("Info");
-        menuThird.add(info);
+        helpMenu.add(info);
         info.addActionListener((e) -> {
-
             //Displaying information
             JOptionPane.showMessageDialog(null,
                     "Program used to drawing obstacles for EV3 LEGO robot.\n"

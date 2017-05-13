@@ -20,7 +20,7 @@ public class Rule extends JComponent {
     private int increment;
     private int units;
 
-    public Rule(int o, boolean m) {
+    public Rule(int o) {
         orientation = o;
         setIncrementAndUnits();
     }

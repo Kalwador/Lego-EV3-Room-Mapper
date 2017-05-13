@@ -9,6 +9,7 @@ import window.ContentPane;
 import window.Rule;
 import matrix.Matrix;
 import utils.Brush;
+import utils.Camera;
 
 /**
  * Class contain Frame and hadle his actions
@@ -60,7 +61,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     // Brushes used to paint
     private Brush brush;
 
-    public static String path = "matrix.txt";
+    public static String path = "matrix2.txt";
 
     public static VisualizationGUI visualizationGUI;
 
@@ -75,12 +76,12 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
         brush = new Brush();
 
-        camera = new utils.Camera(matrix.getWidth(), matrix.getHeight());
+        camera = new utils.Camera();
 
         contentPane = new ContentPane(matrix, camera);
 
-        columnView = new Rule(Rule.HORIZONTAL, true);
-        rowView = new Rule(Rule.VERTICAL, true);
+        columnView = new Rule(Rule.HORIZONTAL);
+        rowView = new Rule(Rule.VERTICAL);
     }
 
     /**
@@ -120,6 +121,17 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         frame.setSize(windowPreferedWidth, windowPreferedHeight);
         frame.setResizable(true);
         frame.setVisible(true);
+    }
+
+    public void updateContent() {
+        camera = new Camera();
+
+        
+        contentPane = new ContentPane(matrix, camera);
+        
+        contentPane.obstacles.updateObstacles();
+        
+        scroll.repaint();
     }
 
     @Override

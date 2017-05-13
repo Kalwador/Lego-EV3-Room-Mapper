@@ -13,11 +13,11 @@ import java.awt.Color;
 public class Obstacles {
 
     private matrix.RectangleMatrix rectalngleMatrix;
-    private matrix.Matrix<Short> matrix;
 
-    public Obstacles(matrix.Matrix<Short> matrix) {
-        this.matrix = matrix;
-        rectalngleMatrix = new RectangleMatrix(matrix.getWidth(), matrix.getHeight());
+    public Obstacles() {
+        rectalngleMatrix = new RectangleMatrix(
+                core.VisualizationGUI.matrix.getWidth(), 
+                core.VisualizationGUI.matrix.getHeight());
         updateObstacles();
     }
 
@@ -36,26 +36,18 @@ public class Obstacles {
         }
     }
 
-    public void drawOBstacles(matrix.Matrix<Short> matrix, Graphics2D g){
-        boolean a = true;
-//        try{
+    public void drawOBstacles(Graphics2D g){
         for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
             for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
-                if ((Short) matrix.getMatrix()[j][i] == 1) {
+                if ((Short) core.VisualizationGUI.matrix.getMatrix()[j][i] == 1) {
                     g.setPaint(Color.RED);
                     g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[i][j]);
                 }
-                if ((Short) matrix.getMatrix()[j][i] == 2) {
+                if ((Short) core.VisualizationGUI.matrix.getMatrix()[j][i] == 2) {
                     g.setPaint(Color.BLUE);
                     g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[i][j]);
                 }
             }
         }
-//        }catch(Exception e){
-//             JOptionPane.showMessageDialog(null,"Choose a color.");
-//             scroll.repaint();
-//            
-//        
-        
     }
 }

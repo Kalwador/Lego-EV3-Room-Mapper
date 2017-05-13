@@ -14,8 +14,6 @@ public class Brush {
     /**
      * Paint Selected shape
      *
-     * @param x xMouse Position
-     * @param y yMouse Position
      */
     public void paint(Point p) {
         if (choosedColor != null) {
@@ -126,7 +124,7 @@ public class Brush {
 
         for (int j = (int) yStart; j <= yEnd; j++) {
             for (int i = (int) xStart; i <= xEnd; i++) {
-                core.VisualizationGUI.matrix.putObject(j, i, choosedColor);
+                core.VisualizationGUI.matrix.put(j, i, choosedColor);
             }
         }
         core.VisualizationGUI.visualizationGUI.contentPane.repaint();

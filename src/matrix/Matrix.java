@@ -35,21 +35,72 @@ public class Matrix<T> extends AbstractMatrix {
         super(witdh, height);
     }
 
-    public void put(int x, int y, T object) {
+    /**
+     * Puts element in chosen widht and height
+     *
+     * @param height - y parameter
+     * @param width - x parameter
+     * @param object - object to put
+     */
+    public void put(int height, int width, T object) {
+        if (height >= super.getHeight()) {
+            super.ExpadDown(50);
+            put(height, width, object);
+        } else {
+            if (height < 0) {
+                super.ExpadUp(50);
+                put(height, width, object);
+            } else {
+                if (width >= super.getWidth()) {
+                    super.ExpadRight(50);
+                    put(height, width, object);
+                } else {
+                    if (width < 0) {
+                        super.ExpadLeft(50);
+                        put(height, width, object);
+                    } else {
+                        super.putObject(height, width, object);
+                    }
 
-        // Możliwe że te wartości trzeba tu zamienić :) sie okaze
-        if (x >= super.getWidth()) {
-            super.ExpadDown(y + 10);
+                }
+            }
         }
-        if (x < 0) {
-            super.ExpadUp(Math.abs(y));
-        }
-        if (y >= super.getHeight()) {
-            super.ExpadRight(x + 10);
-        }
-        if (y < 0) {
-            super.ExpadLeft(Math.abs(x));
-        }
-        super.putObject(x, y, object);
+    }
+
+    /**
+     * Print matrix values in standar output
+     */
+    @Override
+    public void printMatrix() {
+        super.printMatrix();
+    }
+
+    /**
+     * This metod adjust matrix to her real size Cuts of rows and columns null
+     * of null value
+     */
+    @Override
+    public void adjust() {
+        super.adjust();
+    }
+
+    /**
+     * Returns widht od matrix
+     *
+     * @return
+     */
+    @Override
+    public int getWidth() {
+        return super.getWidth();
+    }
+
+    /**
+     * Returns height od matrix
+     *
+     * @return
+     */
+    @Override
+    public int getHeight() {
+        return super.getHeight();
     }
 }
