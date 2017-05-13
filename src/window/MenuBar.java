@@ -1,5 +1,6 @@
 package window;
 
+import core.VisualizationGUI;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -82,9 +83,10 @@ public class MenuBar {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
                 core.VisualizationGUI.path = selectedFile.getAbsolutePath();
-                core.VisualizationGUI.matrix = utils.TXT.loadData();
-
-                core.VisualizationGUI.visualizationGUI.updateContent();
+                core.VisualizationGUI.visualizationGUI.frame.dispose();
+                core.VisualizationGUI.visualizationGUI = new VisualizationGUI();
+                core.VisualizationGUI.visualizationGUI.run();
+                core.VisualizationGUI.visualizationGUI.scroll.repaint();
             }
         });
 

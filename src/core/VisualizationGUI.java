@@ -56,7 +56,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     private Rule rowView;
 
     //Class that contains camera movement information for drawing
-    public static utils.Camera camera;
+    public utils.Camera camera;
 
     // Brushes used to paint
     private Brush brush;
@@ -123,15 +123,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         frame.setVisible(true);
     }
 
-    public void updateContent() {
-        camera = new Camera();
-
-        contentPane = new ContentPane(matrix, camera);
-
-        contentPane.obstacles.updateObstacles();
-
-        scroll.repaint();
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
