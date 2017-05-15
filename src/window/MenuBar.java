@@ -21,12 +21,15 @@ import utils.ExportAsImage;
  */
 public class MenuBar {
 
+    //Creating main menu
     JMenuBar menuBar;
 
+    //Creating menu options
     JMenu menuFile;
     JMenu exportMenu;
     JMenu helpMenu;
 
+    //Creating menu items
     JMenuItem newFile;
     JMenuItem open;
     JMenuItem save;
@@ -40,7 +43,7 @@ public class MenuBar {
 
     private utils.ExportAsImage exportAsImage;
 
-//    public  Matrix<Short> matrix;
+
     /**
      * Default constructor set up whole menu bar
      */

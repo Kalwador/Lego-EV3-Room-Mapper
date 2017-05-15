@@ -23,7 +23,7 @@ public class Obstacles {
 
     public void updateObstacles() {
         /**
-         * Wyznaczenie wierzchołków kwadratów w siatce
+         * determining vertices of squares in the grid
          */
         for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
             for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
@@ -36,6 +36,11 @@ public class Obstacles {
         }
     }
 
+    /**
+     * Drawing obstacles on screen
+     *@param g
+     * 
+     */
     public void drawOBstacles(Graphics2D g){
         for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
             for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {

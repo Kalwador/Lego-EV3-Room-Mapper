@@ -14,8 +14,8 @@ public class ContentPane extends JPanel {
 
     public window.Obstacles obstacles;
     private window.Grid grid;
-
     public static boolean isGrid = false;
+
 
     public ContentPane(matrix.Matrix<Short> matrix, utils.Camera camera) {
 

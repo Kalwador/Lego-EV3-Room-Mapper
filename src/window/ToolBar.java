@@ -18,15 +18,18 @@ import utils.Brush;
  */
 public class ToolBar {
 
-    public static JToolBar toolBar; //PO CO STATYCZNY TOOLBAR PRZYJŻEĆ SIĘ TEMU!!!
+    public static JToolBar toolBar; 
     private Brush brush;
-
+    
+    //creating new buttons
     JButton zoomIn;
     JButton zoomOut;
     JButton gridButton;
     JButton drawWhite;
     JButton drawRed;
     JButton drawBlue;
+    
+    //creating new toggle buttons
     JToggleButton dotBrush;
     JToggleButton rectangleBrush;
     JToggleButton rollBrush;
