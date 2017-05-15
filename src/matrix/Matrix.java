@@ -76,7 +76,7 @@ public class Matrix<T> extends AbstractMatrix {
     }
 
     /**
-     * This metod adjust matrix to her real size Cuts of rows and columns null
+     * This method adjust matrix to her real size Cuts of rows and columns null
      * of null value
      */
     @Override
@@ -85,7 +85,7 @@ public class Matrix<T> extends AbstractMatrix {
     }
 
     /**
-     * Returns widht od matrix
+     * Returns width od matrix
      *
      * @return
      */

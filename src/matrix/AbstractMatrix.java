@@ -74,22 +74,43 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
         this.height += size;
     }
 
+    /**
+     * Returns matrix
+     *
+     * @return
+     */
     public T[][] getMatrix() {
         return matrix;
     }
 
+    /**
+     * Returns width of matrix
+     *
+     * @return
+     */
     protected int getWidth() {
         return width;
     }
 
+    /**
+     * Returns height od matrix
+     *
+     * @return
+     */
     protected int getHeight() {
         return height;
     }
 
+    /**
+     * Method which allows to put object on matrix
+     *
+     * @param x coordinate X
+     * @param y coordinate Y
+     * @param object object
+     */
     protected void putObject(int x, int y, Object object) {
         matrix[x][y] = (T) object;
     }
-
 
     protected void printMatrix() {
         for (int i = 0; i < height; i++) {

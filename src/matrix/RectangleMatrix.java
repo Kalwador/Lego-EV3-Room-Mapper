@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Kalwador
  */
+
 public class RectangleMatrix extends Matrix<Rectangle2D>{
 
     public RectangleMatrix() {
