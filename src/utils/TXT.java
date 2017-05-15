@@ -9,9 +9,14 @@ import matrix.Matrix;
  *
  * @author Kalwador
  */
+
 public class TXT {
 
-    //Load matrix from txt data
+    /**
+     * Load matrix from txt data
+     * @return matrix
+     */
+
     public static matrix.Matrix<Short> loadData() {
         matrix.Matrix<Short> matrix = new Matrix<>();
         try {
@@ -43,7 +48,10 @@ public class TXT {
         return matrix;
     }
 
-    //Save matrix to txt data
+    /**
+     * Save matrix to txt data
+     * @return fullLinia.toString() or data from matrix
+     */
     public static String saveData() {
         StringBuilder fullLinia = new StringBuilder();
 
@@ -58,8 +66,14 @@ public class TXT {
         }
         return fullLinia.toString();
     }
-
-    //Generate Random Matrix
+    
+    /**
+     * generate random matrix
+     * @param path file path
+     * @param width of matrix
+     * @param height of matrix
+     * @throws IOException throwing imput-output exception
+     */
     public static void generateRandom(String path, int width, int height) throws IOException {
         File file = new File(path + ".txt");
 
@@ -99,7 +113,14 @@ public class TXT {
         writer.close();
     }
 
-    //Generate Row designed Matrix
+    /**
+     * generate row designed matrix
+     * @param path file path
+     * @param width of matrix
+     * @param height of matrix
+     * @throws IOException throwing imput-output exception
+     */
+    
     public static void generateRowColored(String path, int width, int height) throws IOException {
         File file = new File(path + ".txt");
 
@@ -136,6 +157,12 @@ public class TXT {
         writer.flush();
         writer.close();
     }
+    
+    /**
+     * generate random matrix
+     * @param args
+     * @throws IOException throwing imput-output exception
+     */
 
     public static void main(String[] args) throws IOException {
         generateRandom("matrix3", 250, 250);

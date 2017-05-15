@@ -1,5 +1,8 @@
 package utils;
-
+/**
+ * @author Wilk
+ * @author Kalwador
+ */
 import java.awt.Point;
 import javax.swing.JOptionPane;
 
@@ -38,11 +41,10 @@ public class Brush {
     }
 
     /**
-     * Sprawdza czy punkt kliknięty w macierzy nie przekracza zakresu macierzy
+     * chceck if clicked point does not exceed matrix range
+     * @param p clicked point on matrix
+     * @return true - if point is in matrix, false in opposite case
      *
-     * @param p Punkt kliknięcia w macierzy
-     * @return true - jeśli punkt mieści się w macierzy, false w przeciwnym
-     * wypadku
      */
     private boolean checkPointIsInMatrix(Point p) {
         if (p.x >= 0 && p.y >= 0) {
@@ -89,14 +91,18 @@ public class Brush {
         rectangleBrush = false;
         rollBrush = true;
     }
-
+    
+    /**
+     * paint dot on matrix
+     * @param p point where mouse is
+     */
     public void paintDot(Point p) {
         core.VisualizationGUI.matrix.put(p.y, p.x, choosedColor);
     }
 
     /**
-     * Rysuje kwadrat o wielkości 6x6 w piejscu kursora
-     *
+     * 
+     *Drawing a rectangle of size 6x6
      * @param p point where mouse is
      */
     public void paintRectangle(Point p) {
@@ -131,30 +137,36 @@ public class Brush {
             }
         }
     }
-
+       
+    /**
+     * 
+     * Drawing marked place on a matrix
+     * @param p point where mouse is
+     */
     public void paintRoll(Point p) {
         //Jeśli true to znaczy że rysujemy nowy kształt
         if (rollFirstPoint == null) {
             rollFirstPoint = p;
         } else {
-            //ustawianie punktów i konwersja na inty
+            //setting points
             int xStart = rollFirstPoint.x;
             int yStart = rollFirstPoint.y;
             int xEnd = p.x;
             int yEnd = p.y;
 
-            //sprawdzanie czy nie zostało rysowane od prawej do lewej
+            //chcecking if figure is not drawing from right to left
             if (xStart > xEnd) {
                 int temp = (int) xStart;
                 xStart = xEnd;
                 xEnd = temp;
             }
-            //sprawdzanie czy nie zostało rysowane od dołu do góry
+            //chcecking if figure is not drawing from down to up
             if (yStart > yEnd) {
                 int temp = (int) yStart;
                 yStart = yEnd;
                 yEnd = temp;
             }
+            //Drawing a figure
             for (int j = (int) yStart; j <= yEnd; j++) {
                 for (int i = (int) xStart; i <= xEnd; i++) {
                     core.VisualizationGUI.matrix.put(j, i, choosedColor);
@@ -164,18 +176,34 @@ public class Brush {
         }
     }
 
+    /**
+     * 
+     * @return choosedColor
+     */
     public static Short getChoosedColor() {
         return choosedColor;
     }
 
+    /**
+     * 
+     * @return dotBrush 
+     */
     public boolean isDotBrush() {
         return dotBrush;
     }
+    /**
+     * 
+     * @return rectangleBrush 
+     */
 
     public boolean isRectangleBrush() {
         return rectangleBrush;
     }
 
+    /**
+     * 
+     * @return rollBrush 
+     */
     public boolean isRollBrush() {
         return rollBrush;
     }

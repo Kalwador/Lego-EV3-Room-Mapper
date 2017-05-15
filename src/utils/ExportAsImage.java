@@ -27,14 +27,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class ExportAsImage {
 
-    //punkt pt wyznacza realny punkt rozpoczoczęcia się okna na ekarnie
+    //point marks the real starting point of the window on the screen
     private Point windowStartPoint;
 
-    //pełna wielkość contentPane, czyli jak duża jest macież * resolution
+    //full size of contentPane, how big is matrix * resolution
     private int contentPaneWidth;
     private int contentPaneHeight;
 
-    //wielkość okna scroll bar, potrzebne by wyliczyć ilość obrazków do sklejenia
+    //the size of the scrollbar window needed to calculate the number of images to be glued
     int scrollWidth;
     int scrollHeight;
 
@@ -49,38 +49,38 @@ public class ExportAsImage {
         BufferedImage fullImage = new BufferedImage(contentPaneWidth, contentPaneHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphic = fullImage.createGraphics();
 
-        //Pętle do przeskanowania całego okna ContentPane, przesówając połozenie ScrollBarów
-        //Screenując poszczególne kawałki i łącząc je w jeden duży obraz
-        //pętla te przechodzi po całej szerokośći ContentPane
+        //Loops to scan the entire ContentPane window by moving  scroll bars
+        //screening individual pieces and combining them into one large picture
+        //These loops go through the entire width of ContentPane 
         int actualImageWidth = 0;
         int actualImageHeight = 0;
 
-        //zmienne które wyznaczają jak szeroki/długi ma być wykonany screen
+        //variables that determine how wide / long the screen should be made
         int makeScreenWidth = 0;
         int makeScreenHeight = 0;
 
         while (actualImageHeight < contentPaneHeight) {
             while (actualImageWidth < contentPaneWidth) {
                 System.out.println("Pętla we H=" + actualImageHeight + "   W=" + actualImageWidth);
-                //sprawdzenie czy pozostała szerokość ContentPane jest jest większa od widocznej
+                //check that the width of the ContentPane is bigger than the visible width
                 if ((contentPaneWidth - actualImageWidth) < scrollWidth) {
-                    //pełna widoczna szerokośc okna
+                    //full visible window width
                     makeScreenWidth = contentPaneWidth - actualImageWidth;
                 } else {
-                    //pozostała szerokośc okna
+                    //rest window width
                     makeScreenWidth = scrollWidth - 50;
                 }
 
-                //sprawdzenie czy pozostała wysokość ContentPane jest jest większa od widocznej
+                //check that the height of the ContentPane is bigger than the visible height
                 if ((contentPaneHeight - actualImageHeight) < scrollHeight) {
-                    //pełna widoczna wyskokość okna
+                    //full visible window height
                     makeScreenHeight = contentPaneHeight - actualImageHeight;
                 } else {
-                    //pozostała wysokość okna
+                    //rest window height
                     makeScreenHeight = scrollHeight - 50;
                 }
 
-                //screenRect wyznacza obszar jaki obecnie jest wyświetlany na conntenPane
+                //screenRect determines the area that is currently displayed on conntenPane
                 Rectangle screenRect = new Rectangle(
                         windowStartPoint.x,
                         windowStartPoint.y,
@@ -90,9 +90,9 @@ public class ExportAsImage {
 //                        (makeScreenHeight + windowStartPoint.y));
 
                 try {
-                    //Metoda createScreenCapture tworzy screen ekranu o położeniu wyznaczonym przez screenRectangle
+                    //Method createScreenCapture creates screen about position set by screenRectangle
                     final BufferedImage tempImage = new Robot().createScreenCapture(screenRect);
-                    //metoda ta łączy dotąd zrobione obrazy z nowym
+                    //method connects images with new one 
                     graphic.drawImage(tempImage, null, actualImageWidth, actualImageHeight);
                 } catch (AWTException ex) {
                     System.out.println("AWTE Exception - image join failure");
@@ -213,36 +213,36 @@ public class ExportAsImage {
         for (int height = 0; height < arrayWidth * VisualizationGUI.RESOLUTION; height += VisualizationGUI.RESOLUTION) {
             for (int width = 0; width < arrayWidth * VisualizationGUI.RESOLUTION; width += VisualizationGUI.RESOLUTION) {
 
-                //resetowanie wartości
+                //values restart
                 rgb[0] = 0;
                 rgb[1] = 0;
                 rgb[2] = 0;
 
-                //sprawdzanie wartośći z macierzy
+                //checking values from matrix
                 switch ((Short) core.VisualizationGUI.matrix.getMatrix()[height / VisualizationGUI.RESOLUTION][width / VisualizationGUI.RESOLUTION]) {
                     case 0: {
-                        //biały
+                        //white
                         rgb[0] = 255;
                         rgb[1] = 255;
                         rgb[2] = 255;
                     }
                     case 1: {
-                        //czerwony
+                        //red
                         rgb[0] = 255;
                     }
                     case 2: {
-                        //niebieski
+                        //blue
                         rgb[2] = 255;
                     }
                 }
 
-                //pętla po wysokości pixela
+                //loop after height of pixel
                 for (int j = height; j < (height + VisualizationGUI.RESOLUTION); j++) {
-                    //pętla po szerokośći pixela
+                    //loop after width of pixel
                     for (int k = width; k < (width + VisualizationGUI.RESOLUTION); k++) {
-                        //pętla po rgb
+                        //loop after rgb
                         for (int l = 0; l < 3; l++) {
-                            //rysuje tylko rgb jest różne od zera
+                            //drawing only if rgb is different from 0
                             if (rgb[l] != 0) {
                                 image.getRaster().setSample(k, j, l, rgb[l]);
                             }
@@ -254,18 +254,30 @@ public class ExportAsImage {
         return image;
     }
 
+    /**
+     * setting start point
+     *
+     */
     private void setStartPoint() {
         windowStartPoint = new Point(core.VisualizationGUI.visualizationGUI.contentPane.getLocation());
         SwingUtilities.convertPointToScreen(windowStartPoint, core.VisualizationGUI.visualizationGUI.contentPane);
     }
 
+    /**
+     * setting contentPane size
+     *
+     */
     private void setContentPaneSize() {
         contentPaneWidth = core.VisualizationGUI.visualizationGUI.contentPane.getPreferredSize().width;
         contentPaneHeight = core.VisualizationGUI.visualizationGUI.contentPane.getPreferredSize().height;
     }
 
+    /**
+     * setting scrollBar size
+     *
+     */
     private void setScrollSize() {
-        //wielkość okna scroll bar, potrzebne by wyliczyć ilość obrazków do sklejenia
+        //size of scrollBar window, needed to calculate the number of images to be glued
         scrollWidth = core.VisualizationGUI.visualizationGUI.scroll.getWidth();
         scrollHeight = core.VisualizationGUI.visualizationGUI.scroll.getHeight();
     }
