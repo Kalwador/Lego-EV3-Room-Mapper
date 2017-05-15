@@ -97,6 +97,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         menuBar = new window.MenuBar();
         frame.setJMenuBar(menuBar.getMenuBar(this.getRootPane()));
 
+        //Tool bar
         toolBar = new window.ToolBar(brush);
         frame.add(toolBar.getToolBar(this.getRootPane()), BorderLayout.WEST);
 
@@ -124,18 +125,21 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     }
 
 
+    //When mouse is clicked draw a fiugre
     @Override
     public void mouseClicked(MouseEvent e) {
         brush.paint(getMousePositionInContentPane());
     }
 
+    //When mouse is pressed draw a figure
     @Override
     public void mousePressed(MouseEvent e) {
         brush.paintDot(getMousePositionInContentPane());
         brush.paint(getMousePositionInContentPane());
-        contentPane.repaint(); // tu potrzebne by zaznaczyć punkt startowy rollera
+        contentPane.repaint();
     }
 
+    //When mouse is released draw a figure
     @Override
     public void mouseReleased(MouseEvent e) {
         brush.paint(getMousePositionInContentPane());
@@ -160,13 +164,13 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     }
 
     /**
-     * Wyznacza punkt który odpowiada zaznaczonemu miejscu w macierzy
+     * determines marked point in the matrix
      *
-     * @return punkt w macierzy
+     * @return matrix point
      */
     private Point getMousePositionInContentPane() {
 
-        //współżędne na ekranie
+        //coordinates
         int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
         int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
 
@@ -174,11 +178,11 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         x -= 84;
         y -= 89;
 
-        //Dodanie przesunięcia na scrollach
+        //Adding movement on scrolls
         x += scroll.getHorizontalScrollBar().getValue();
         y += scroll.getVerticalScrollBar().getValue();
 
-        //Podzielenie przez rozdzielczość wyświetlania
+        //Dividing by display resolution
         x /= RESOLUTION;
         y /= RESOLUTION;
 
