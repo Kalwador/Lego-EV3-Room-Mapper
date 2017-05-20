@@ -61,7 +61,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     // Brushes used to paint
     private Brush brush;
 
-    public static String path = "matrix2.txt";
+    public static String path = "matrix4.txt";
 
     public static VisualizationGUI visualizationGUI;
 

@@ -133,7 +133,7 @@ public class ToolBar {
         
                   //Roller
         try {
-            BufferedImage buttonIcon8 = ImageIO.read(new File("toolbarButtonGraphics/Bean24.gif"));
+            BufferedImage buttonIcon8 = ImageIO.read(new File("toolbarButtonGraphics/Roller.png"));
             rollBrush = new JToggleButton(new ImageIcon(buttonIcon8));
             rollBrush.addActionListener((e) -> {
                 if (brush.isRollBrush()) {
@@ -154,31 +154,7 @@ public class ToolBar {
         //separator
         toolBar.add(new JToolBar.Separator(new Dimension(0, 20)));
 
-        //Adding button to tool bar, which allows to zoom in
-        try {
-            BufferedImage buttonIcon1 = ImageIO.read(new File("toolbarButtonGraphics/ZoomIn24.gif"));
-            zoomIn = new JButton(new ImageIcon(buttonIcon1));
-            zoomIn.addActionListener((e) -> {
-//                utils.Camera.plusCameraZoom();
-                
-            });
-            toolBar.add(zoomIn);
-        } catch (Exception io) {
-            JOptionPane.showMessageDialog(null, io);
-        }
-
-        //Adding button to tool bar, which allows to zoom out
-        try {
-            BufferedImage buttonIcon2 = ImageIO.read(new File("toolbarButtonGraphics/ZoomOut24.gif"));
-            zoomOut = new JButton(new ImageIcon(buttonIcon2));
-            zoomOut.addActionListener((e) -> {
-//                utils.Camera.minusCameraZoom();
-            });
-            toolBar.add(zoomOut);
-        } catch (Exception io) {
-            JOptionPane.showMessageDialog(null, io);
-        }
-
+    
         //Adding button to tool bar, which allows to draw grid
         try {
             BufferedImage buttonIcon3 = ImageIO.read(new File("toolbarButtonGraphics/Grid24.gif"));
