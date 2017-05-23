@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package utils;
 
 import core.VisualizationGUI;
@@ -16,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -38,92 +34,6 @@ public class ExportAsImage {
     int scrollWidth;
     int scrollHeight;
 
-    public void ScreenView() {
-        core.VisualizationGUI.visualizationGUI.scroll.getViewport().setViewPosition(new Point(0, 0));
-
-        setStartPoint();
-        setContentPaneSize();
-        setScrollSize();
-
-        //create a new buffer and draw two image into the new image
-        BufferedImage fullImage = new BufferedImage(contentPaneWidth, contentPaneHeight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D graphic = fullImage.createGraphics();
-
-        //Loops to scan the entire ContentPane window by moving  scroll bars
-        //screening individual pieces and combining them into one large picture
-        //These loops go through the entire width of ContentPane 
-        int actualImageWidth = 0;
-        int actualImageHeight = 0;
-
-        //variables that determine how wide / long the screen should be made
-        int makeScreenWidth = 0;
-        int makeScreenHeight = 0;
-
-        while (actualImageHeight < contentPaneHeight) {
-            while (actualImageWidth < contentPaneWidth) {
-                System.out.println("Pętla we H=" + actualImageHeight + "   W=" + actualImageWidth);
-                //check that the width of the ContentPane is bigger than the visible width
-                if ((contentPaneWidth - actualImageWidth) < scrollWidth) {
-                    //full visible window width
-                    makeScreenWidth = contentPaneWidth - actualImageWidth;
-                } else {
-                    //rest window width
-                    makeScreenWidth = scrollWidth - 50;
-                }
-
-                //check that the height of the ContentPane is bigger than the visible height
-                if ((contentPaneHeight - actualImageHeight) < scrollHeight) {
-                    //full visible window height
-                    makeScreenHeight = contentPaneHeight - actualImageHeight;
-                } else {
-                    //rest window height
-                    makeScreenHeight = scrollHeight - 50;
-                }
-
-                //screenRect determines the area that is currently displayed on conntenPane
-                Rectangle screenRect = new Rectangle(
-                        windowStartPoint.x,
-                        windowStartPoint.y,
-                        scrollWidth,
-                        scrollHeight);
-//                        (makeScreenWidth + windowStartPoint.x),
-//                        (makeScreenHeight + windowStartPoint.y));
-
-                try {
-                    //Method createScreenCapture creates screen about position set by screenRectangle
-                    final BufferedImage tempImage = new Robot().createScreenCapture(screenRect);
-                    //method connects images with new one 
-                    graphic.drawImage(tempImage, null, actualImageWidth, actualImageHeight);
-                } catch (AWTException ex) {
-                    System.out.println("AWTE Exception - image join failure");
-
-                    actualImageWidth += makeScreenWidth;
-//                core.VisualizationGUI.scroll.getHorizontalScrollBar().setValue(actualImageWidth);
-                    core.VisualizationGUI.visualizationGUI.scroll.getViewport().setViewPosition(new Point(actualImageWidth, actualImageHeight));
-//                core.VisualizationGUI.scroll.repaint();
-                }
-                actualImageWidth = 0;
-                actualImageHeight += makeScreenHeight;
-
-//            core.VisualizationGUI.scroll.getHorizontalScrollBar().setValue(actualImageWidth);
-                core.VisualizationGUI.visualizationGUI.scroll.getViewport().setViewPosition(new Point(actualImageWidth, actualImageHeight));
-                core.VisualizationGUI.visualizationGUI.scroll.repaint();
-            }
-            graphic.dispose();
-//        try {
-//            ImageIO.write(fullImage, "png", new File("export/export.png"));
-//        } catch (IOException ex) {
-//            System.out.println("IO Exception - image save failure");
-//        }
-////        przemalowanie scrolla by unikąć NPE
-//        core.VisualizationGUI.scroll.getHorizontalScrollBar()
-//                .setValue(0);
-//        core.VisualizationGUI.scroll.getVerticalScrollBar()
-//                .setValue(0);
-            core.VisualizationGUI.visualizationGUI.scroll.repaint();
-        }
-    }
-
     /**
      * Save Content pane as JPG Image
      */
@@ -134,7 +44,7 @@ public class ExportAsImage {
         try {
             ImageIO.write(image, "jpg", new File(file.getCanonicalPath() + ".jpg"));
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -148,7 +58,7 @@ public class ExportAsImage {
         try {
             ImageIO.write(image, "png", new File(file.getCanonicalPath() + ".png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -163,7 +73,7 @@ public class ExportAsImage {
             System.out.println(file.getCanonicalPath());
             ImageIO.write(image, "bmp", new File(file.getCanonicalPath() + ".bmp"));
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -210,7 +120,7 @@ public class ExportAsImage {
 
         int[] rgb = new int[3];
 
-        for (int height = 0; height < arrayWidth * VisualizationGUI.RESOLUTION; height += VisualizationGUI.RESOLUTION) {
+        for (int height = 0; height < arrayHeight * VisualizationGUI.RESOLUTION; height += VisualizationGUI.RESOLUTION) {
             for (int width = 0; width < arrayWidth * VisualizationGUI.RESOLUTION; width += VisualizationGUI.RESOLUTION) {
 
                 //values restart
@@ -225,14 +135,17 @@ public class ExportAsImage {
                         rgb[0] = 255;
                         rgb[1] = 255;
                         rgb[2] = 255;
+                        break;
                     }
                     case 1: {
                         //red
                         rgb[0] = 255;
+                        break;
                     }
                     case 2: {
                         //blue
                         rgb[2] = 255;
+                        break;
                     }
                 }
 

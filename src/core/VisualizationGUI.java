@@ -9,7 +9,6 @@ import window.ContentPane;
 import window.Rule;
 import matrix.Matrix;
 import utils.Brush;
-import utils.Camera;
 
 /**
  * Class contain Frame and hadle his actions
@@ -34,7 +33,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      * @see 1 - obszar zajety;
      * @see 2 - obszar nieznany;
      */
-    public static Matrix<Short> matrix;
+    public static Matrix<Short> matrix = utils.TXT.loadDataOnProgramStart();
 
     //Main Frame, contains everything
     public JFrame frame;
@@ -61,7 +60,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     // Brushes used to paint
     private Brush brush;
 
-    public static String path = "matrix4.txt";
+    public static String path = "";
 
     public static VisualizationGUI visualizationGUI;
 
@@ -71,8 +70,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
         //Default size and zoom of every rectangle         
         RESOLUTION = 10;
-
-        matrix = utils.TXT.loadData();
 
         brush = new Brush();
 

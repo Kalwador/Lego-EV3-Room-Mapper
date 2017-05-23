@@ -13,6 +13,7 @@ import javax.swing.JRootPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import utils.ExportAsImage;
+import utils.TXT;
 
 /**
  *
@@ -42,7 +43,6 @@ public class MenuBar {
     JMenuItem info;
 
     private utils.ExportAsImage exportAsImage;
-
 
     /**
      * Default constructor set up whole menu bar
@@ -78,19 +78,24 @@ public class MenuBar {
 
         //Opening file from files
         open.addActionListener((e) -> {
-
+            
             JFileChooser jfc = new JFileChooser();
-            jfc.setFileFilter(new FileNameExtensionFilter("TXT File", "txt"));
+            jfc.setDialogTitle("Open Data");
             jfc.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
+            jfc.setFileFilter(new FileNameExtensionFilter("TXT DATA", "txt"));
+            
             int returnValue = jfc.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
                 core.VisualizationGUI.path = selectedFile.getAbsolutePath();
+                core.VisualizationGUI.matrix = TXT.reloadData();
                 core.VisualizationGUI.visualizationGUI.frame.dispose();
                 core.VisualizationGUI.visualizationGUI = new VisualizationGUI();
                 core.VisualizationGUI.visualizationGUI.run();
                 core.VisualizationGUI.visualizationGUI.scroll.repaint();
             }
+            JOptionPane.showMessageDialog(null,
+                    "Succes load file");
         });
 
         save = new JMenuItem("Save");
@@ -116,11 +121,10 @@ public class MenuBar {
             File fileToSave = null;
             JFileChooser fs = new JFileChooser();
             fs.setDialogTitle("Save File");
-
             fs.setFileFilter(new FileNameExtensionFilter("TXT File", "txt"));
             int result = fs.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
-                fileToSave = fs.getSelectedFile();
+                fileToSave = new File(fs.getSelectedFile() + ".txt");
             }
 
             PrintWriter save = null;
@@ -163,13 +167,6 @@ public class MenuBar {
         exportMenu.add(bmpExport);
         bmpExport.addActionListener((e) -> {
             exportAsImage.BMP();
-        });
-
-        screenShoot = new JMenuItem("Make Screen Shoot");
-        exportMenu.add(screenShoot);
-        screenShoot.addActionListener((e) -> {
-
-            //If screenShoot...
         });
 
         //Creating third menu

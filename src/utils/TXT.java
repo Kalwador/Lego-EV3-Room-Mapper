@@ -3,24 +3,50 @@ package utils;
 import java.io.*;
 import java.io.IOException;
 import java.util.Random;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import matrix.Matrix;
 
 /**
  *
  * @author Kalwador
  */
-
 public class TXT {
-
     /**
-     * Load matrix from txt data
+     * Load matrix from txt data Only when program starts
+     *
      * @return matrix
      */
-
-    public static matrix.Matrix<Short> loadData() {
+    public static matrix.Matrix<Short> loadDataOnProgramStart() {
         matrix.Matrix<Short> matrix = new Matrix<>();
+
+        File fileToOpen = null;
+        JFileChooser fs = new JFileChooser();
+        fs.setDialogTitle("Open Data");
+        fs.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
+        fs.setFileFilter(new FileNameExtensionFilter("TXT DATA", "txt"));
+        int result = fs.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            fileToOpen = fs.getSelectedFile();
+            core.VisualizationGUI.path = fileToOpen.getAbsolutePath();
+            matrix = reloadData();
+        }
+        return matrix;
+    }
+
+    /**
+     * Reload matrix from txt data
+     *
+     * @return matrix
+     */
+    public static matrix.Matrix<Short> reloadData() {
+        matrix.Matrix<Short> matrix = new Matrix<>();
+
         try {
-            try (FileReader file = new FileReader(core.VisualizationGUI.path)) {
+            //setting up path of new file
+
+            try (FileReader file = new FileReader(new File(core.VisualizationGUI.path))) {
                 BufferedReader bufor = new BufferedReader(file);
                 String linia;
 
@@ -44,12 +70,14 @@ public class TXT {
         } catch (NumberFormatException w3) {
             System.out.println("WRONG NUMBER FORMAT");
         }
+
         matrix.adjust();
         return matrix;
     }
 
     /**
      * Save matrix to txt data
+     *
      * @return fullLinia.toString() or data from matrix
      */
     public static String saveData() {
@@ -66,9 +94,10 @@ public class TXT {
         }
         return fullLinia.toString();
     }
-    
+
     /**
      * generate random matrix
+     *
      * @param path file path
      * @param width of matrix
      * @param height of matrix
@@ -115,12 +144,12 @@ public class TXT {
 
     /**
      * generate row designed matrix
+     *
      * @param path file path
      * @param width of matrix
      * @param height of matrix
      * @throws IOException throwing imput-output exception
      */
-    
     public static void generateRowColored(String path, int width, int height) throws IOException {
         File file = new File(path + ".txt");
 
@@ -156,15 +185,5 @@ public class TXT {
         }
         writer.flush();
         writer.close();
-    }
-    
-    /**
-     * generate random matrix
-     * @param args
-     * @throws IOException throwing imput-output exception
-     */
-
-    public static void main(String[] args) throws IOException {
-        generateRandom("matrix3", 250, 250);
     }
 }
