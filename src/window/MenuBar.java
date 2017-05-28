@@ -95,7 +95,7 @@ public class MenuBar {
                 core.VisualizationGUI.visualizationGUI.scroll.repaint();
             }
             JOptionPane.showMessageDialog(null,
-                    "Succes load file");
+                    "Data was successfully reloaded.");
         });
 
         save = new JMenuItem("Save");
@@ -107,11 +107,11 @@ public class MenuBar {
             try {
                 save = new PrintWriter(new File(core.VisualizationGUI.path));
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Error occured during save data to file");
+                JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
             }
             save.write(utils.TXT.saveData());
             save.close();
-            JOptionPane.showMessageDialog(null, "File saved.");
+//            JOptionPane.showMessageDialog(null, "File saved.");
         });
 
         // Saving as files
@@ -131,11 +131,11 @@ public class MenuBar {
             try {
                 save = new PrintWriter(fileToSave);
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Error occured during save data to file");
+                JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
             }
             save.println(utils.TXT.saveData());
             save.close();
-            JOptionPane.showMessageDialog(null, "File saved.");
+//            JOptionPane.showMessageDialog(null, "File saved.");
         });
 
         exit = new JMenuItem("Exit");
