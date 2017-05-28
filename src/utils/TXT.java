@@ -1,15 +1,17 @@
 package utils;
 
+
 import java.io.*;
 import java.io.IOException;
 import java.util.Random;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import matrix.Matrix;
 
 /**
- *
+ * @author WIlk
  * @author Kalwador
  */
 public class TXT {
@@ -19,8 +21,10 @@ public class TXT {
      * @return matrix
      */
     public static matrix.Matrix<Short> loadDataOnProgramStart() {
-        matrix.Matrix<Short> matrix = new Matrix<>();
-
+        
+        
+        matrix.Matrix<Short> matrix = new Matrix<>();     
+ 
         File fileToOpen = null;
         JFileChooser fs = new JFileChooser();
         fs.setDialogTitle("Open Data");
@@ -31,6 +35,10 @@ public class TXT {
             fileToOpen = fs.getSelectedFile();
             core.VisualizationGUI.path = fileToOpen.getAbsolutePath();
             matrix = reloadData();
+        }
+        else if(result == JFileChooser.CANCEL_OPTION)
+        {
+            core.VisualizationGUI.frame.setVisible(false);
         }
         return matrix;
     }
@@ -64,11 +72,11 @@ public class TXT {
                 }
             }
         } catch (FileNotFoundException w1) {
-            System.out.println("SAVE FILE NOT FOUND");
+            JOptionPane.showMessageDialog(null, "Saved file not found.");
         } catch (IOException w2) {
-            System.out.println("DATA LOAD FILURE - IO EXCEPTION");
+            JOptionPane.showMessageDialog(null, "Data load failure.");
         } catch (NumberFormatException w3) {
-            System.out.println("WRONG NUMBER FORMAT");
+           JOptionPane.showMessageDialog(null, "Wrong number format.");
         }
 
         matrix.adjust();
