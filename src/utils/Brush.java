@@ -1,4 +1,5 @@
 package utils;
+
 /**
  * @author Wilk
  * @author Kalwador
@@ -21,27 +22,31 @@ public class Brush {
      *
      */
     public void paint(Point p) {
-        if (choosedColor != null) {
-            if (checkPointIsInMatrix(p)) {
-                if (dotBrush) {
-                    paintDot(p);
+        if (dotBrush || rectangleBrush || rollBrush) {
+            if (choosedColor != null) {
+                if (checkPointIsInMatrix(p)) {
+                    System.out.println("rysuje");
+                    if (dotBrush) {
+                        paintDot(p);
+                    }
+                    if (rectangleBrush) {
+                        paintRectangle(p);
+                    }
+                    if (rollBrush) {
+                        paintRoll(p);
+                    }
                 }
-                if (rectangleBrush) {
-                    paintRectangle(p);
-                }
-                if (rollBrush) {
-                    paintRoll(p);
-                }
-            }
-        } else {
-            if ((dotBrush || rectangleBrush || rollBrush)) {
+            } else {
                 JOptionPane.showMessageDialog(null, "Wybierz kolor");
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Wybierz pędzel");
         }
     }
 
     /**
      * chceck if clicked point does not exceed matrix range
+     *
      * @param p clicked point on matrix
      * @return true - if point is in matrix, false in opposite case
      *
@@ -91,21 +96,25 @@ public class Brush {
         rectangleBrush = false;
         rollBrush = true;
     }
-    
+
     /**
      * paint dot on matrix
+     *
      * @param p point where mouse is
      */
     public void paintDot(Point p) {
+        System.out.println("dot");
         core.VisualizationGUI.matrix.put(p.y, p.x, choosedColor);
     }
 
     /**
-     * 
-     *Drawing a rectangle of size 6x6
+     *
+     * Drawing a rectangle of size 6x6
+     *
      * @param p point where mouse is
      */
     public void paintRectangle(Point p) {
+        System.out.println("rec");
         double xStart;
         double yStart;
         double xEnd;
@@ -137,13 +146,15 @@ public class Brush {
             }
         }
     }
-       
+
     /**
-     * 
+     *
      * Drawing marked place on a matrix
+     *
      * @param p point where mouse is
      */
     public void paintRoll(Point p) {
+        System.out.println("roll");
         //Jeśli true to znaczy że rysujemy nowy kształt
         if (rollFirstPoint == null) {
             rollFirstPoint = p;
@@ -177,7 +188,7 @@ public class Brush {
     }
 
     /**
-     * 
+     *
      * @return choosedColor
      */
     public static Short getChoosedColor() {
@@ -185,24 +196,24 @@ public class Brush {
     }
 
     /**
-     * 
-     * @return dotBrush 
+     *
+     * @return dotBrush
      */
     public boolean isDotBrush() {
         return dotBrush;
     }
-    /**
-     * 
-     * @return rectangleBrush 
-     */
 
+    /**
+     *
+     * @return rectangleBrush
+     */
     public boolean isRectangleBrush() {
         return rectangleBrush;
     }
 
     /**
-     * 
-     * @return rollBrush 
+     *
+     * @return rollBrush
      */
     public boolean isRollBrush() {
         return rollBrush;

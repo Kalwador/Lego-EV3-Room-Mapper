@@ -18,9 +18,9 @@ import utils.Brush;
  */
 public class ToolBar {
 
-    public static JToolBar toolBar; 
+    public static JToolBar toolBar;
     private Brush brush;
-    
+
     //creating new buttons
     JButton zoomIn;
     JButton zoomOut;
@@ -28,7 +28,7 @@ public class ToolBar {
     JButton drawWhite;
     JButton drawRed;
     JButton drawBlue;
-    
+
     //creating new toggle buttons
     JToggleButton dotBrush;
     JToggleButton rectangleBrush;
@@ -90,7 +90,7 @@ public class ToolBar {
 
         // separator
         toolBar.add(new JToolBar.Separator(new Dimension(0, 20)));
-        
+
         //Dot Brush
         try {
             BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Brush24.png"));
@@ -130,8 +130,8 @@ public class ToolBar {
         } catch (Exception io) {
             JOptionPane.showMessageDialog(null, io);
         }
-        
-                  //Roller
+
+        //Roller
         try {
             BufferedImage buttonIcon8 = ImageIO.read(new File("toolbarButtonGraphics/Roller.png"));
             rollBrush = new JToggleButton(new ImageIcon(buttonIcon8));
@@ -154,7 +154,6 @@ public class ToolBar {
         //separator
         toolBar.add(new JToolBar.Separator(new Dimension(0, 20)));
 
-    
         //Adding button to tool bar, which allows to draw grid
         try {
             BufferedImage buttonIcon3 = ImageIO.read(new File("toolbarButtonGraphics/Grid24.gif"));
