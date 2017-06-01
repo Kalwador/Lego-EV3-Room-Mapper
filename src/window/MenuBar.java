@@ -140,7 +140,12 @@ public class MenuBar {
             fs.setFileFilter(new FileNameExtensionFilter("TXT File", "txt"));
             int result = fs.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
-                fileToSave = new File(fs.getSelectedFile() + ".txt");
+                if(!fs.getSelectedFile().toString().endsWith(".txt")){
+                    fileToSave = new File(fs.getSelectedFile() + ".txt");
+                }
+                else {
+                    fileToSave = new File(fs.getSelectedFile().toString());
+                }
             }
 
             PrintWriter save = null;

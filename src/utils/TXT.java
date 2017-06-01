@@ -1,11 +1,12 @@
 package utils;
 
-import core.VisualizationGUI;
+import static core.VisualizationGUI.isContentPaneEmpty;
+import static core.VisualizationGUI.matrix;
 import java.io.*;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Random;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
@@ -33,8 +34,12 @@ public class TXT {
         int result = fs.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             fileToOpen = fs.getSelectedFile();
-            core.VisualizationGUI.path = fileToOpen.getAbsolutePath().toString();
+            core.VisualizationGUI.path = fileToOpen.getAbsolutePath();
             matrix = reloadData();
+            Optional<Matrix<Short>> optional = Optional.ofNullable(matrix);
+            if (!optional.isPresent()) {
+                return loadDataOnProgramStart();
+            }
         } else if (result == JFileChooser.CANCEL_OPTION) {
             core.VisualizationGUI.path = "";
         }
@@ -67,7 +72,7 @@ public class TXT {
                             j++;
                         } else {
                             JOptionPane.showMessageDialog(null, "Error ocured during parsing file\r\t\nLine: " + i + "  Column: " + j + "  Value: " + wartosc + "\r\t\nPlease select other file");
-                            loadDataOnProgramStart();
+                            return null;
                         }
                     }
                     i++;
@@ -100,7 +105,9 @@ public class TXT {
                     fullLinia.append(",");
                 }
             }
-            fullLinia.append("\r\n");
+            if (i < core.VisualizationGUI.matrix.getHeight() - 1) {
+                fullLinia.append("\r\n");
+            }
         }
         return fullLinia.toString();
     }
