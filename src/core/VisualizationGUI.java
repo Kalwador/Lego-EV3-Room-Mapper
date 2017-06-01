@@ -131,7 +131,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     //When mouse is pressed draw a figure
     @Override
     public void mousePressed(MouseEvent e) {
-        brush.paintDot(getMousePositionInContentPane());
         brush.paint(getMousePositionInContentPane());
         contentPane.repaint();
     }

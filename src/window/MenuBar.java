@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+import matrix.Matrix;
 import utils.ExportAsImage;
 import utils.TXT;
 
@@ -71,6 +72,7 @@ public class MenuBar {
 
         //Creating new project
         newFile.addActionListener((e) -> {
+            utils.NewCanvas.newCanvasWindow();
         });
 
         open = new JMenuItem("Open");
@@ -78,15 +80,16 @@ public class MenuBar {
 
         //Opening file from files
         open.addActionListener((e) -> {
-            
+
             JFileChooser jfc = new JFileChooser();
             jfc.setDialogTitle("Open Data");
             jfc.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
             jfc.setFileFilter(new FileNameExtensionFilter("TXT DATA", "txt"));
-            
+
             int returnValue = jfc.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
+                // TUTAJ ZMIEN TYTUL OKNA NA: "Obstacle Visualization for EV3 Robot - " + selectedFile.getAbsolutePath().toString()
                 core.VisualizationGUI.path = selectedFile.getAbsolutePath();
                 core.VisualizationGUI.matrix = TXT.reloadData();
                 core.VisualizationGUI.visualizationGUI.frame.dispose();

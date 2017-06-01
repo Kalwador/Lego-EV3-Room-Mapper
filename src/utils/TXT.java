@@ -1,6 +1,5 @@
 package utils;
 
-
 import java.io.*;
 import java.io.IOException;
 import java.util.Random;
@@ -15,16 +14,16 @@ import matrix.Matrix;
  * @author Kalwador
  */
 public class TXT {
+
     /**
      * Load matrix from txt data Only when program starts
      *
      * @return matrix
      */
     public static matrix.Matrix<Short> loadDataOnProgramStart() {
-        
-        
-        matrix.Matrix<Short> matrix = new Matrix<>();     
- 
+
+        matrix.Matrix<Short> matrix = new Matrix<>();
+
         File fileToOpen = null;
         JFileChooser fs = new JFileChooser();
         fs.setDialogTitle("Open Data");
@@ -35,10 +34,8 @@ public class TXT {
             fileToOpen = fs.getSelectedFile();
             core.VisualizationGUI.path = fileToOpen.getAbsolutePath();
             matrix = reloadData();
-        }
-        else if(result == JFileChooser.CANCEL_OPTION)
-        {
-            core.VisualizationGUI.frame.setVisible(false);
+        } else if (result == JFileChooser.CANCEL_OPTION) {
+            System.exit(0);
         }
         return matrix;
     }
@@ -63,9 +60,14 @@ public class TXT {
 
                 while ((linia = bufor.readLine()) != null) {
                     String[] pola = linia.split(",");
-                    for (String string : pola) {
-                        matrix.put(i, j, Short.valueOf(string));
-                        j++;
+                    for (String wartosc : pola) {
+                        if (wartosc.equals("0") || wartosc.equals("1") || wartosc.equals("2")) {
+                            matrix.put(i, j, Short.valueOf(wartosc));
+                            j++;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error ocured during parsing file\r\t\nLine: "+i+"  Column: "+j+"  Value: "+wartosc+"\r\t\nPlease select other file");
+                            loadDataOnProgramStart();
+                        }
                     }
                     i++;
                     j = 0;
@@ -76,7 +78,7 @@ public class TXT {
         } catch (IOException w2) {
             JOptionPane.showMessageDialog(null, "Data load failure.");
         } catch (NumberFormatException w3) {
-           JOptionPane.showMessageDialog(null, "Wrong number format.");
+            JOptionPane.showMessageDialog(null, "Wrong number format.");
         }
 
         matrix.adjust();

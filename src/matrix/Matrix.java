@@ -84,6 +84,14 @@ public class Matrix<T> extends AbstractMatrix {
         super.adjust();
     }
 
+    public void fillMatrixWithZero() {
+        for (int i = 0; i < super.getHeight(); i++) {
+            for (int j = 0; j < super.getWidth(); j++) {
+                putObject(j, i, new Short("0"));
+            }
+        }
+    }
+
     /**
      * Returns width od matrix
      *

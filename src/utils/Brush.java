@@ -25,7 +25,6 @@ public class Brush {
         if (dotBrush || rectangleBrush || rollBrush) {
             if (choosedColor != null) {
                 if (checkPointIsInMatrix(p)) {
-                    System.out.println("rysuje");
                     if (dotBrush) {
                         paintDot(p);
                     }
@@ -103,7 +102,6 @@ public class Brush {
      * @param p point where mouse is
      */
     public void paintDot(Point p) {
-        System.out.println("dot");
         core.VisualizationGUI.matrix.put(p.y, p.x, choosedColor);
     }
 
@@ -114,7 +112,6 @@ public class Brush {
      * @param p point where mouse is
      */
     public void paintRectangle(Point p) {
-        System.out.println("rec");
         double xStart;
         double yStart;
         double xEnd;
@@ -154,7 +151,6 @@ public class Brush {
      * @param p point where mouse is
      */
     public void paintRoll(Point p) {
-        System.out.println("roll");
         //Jeśli true to znaczy że rysujemy nowy kształt
         if (rollFirstPoint == null) {
             rollFirstPoint = p;
