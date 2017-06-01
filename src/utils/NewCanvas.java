@@ -79,7 +79,6 @@ public class NewCanvas {
             // TUTAJ ZMIEN TYTUL OKNA NA: "New Window - Not Saved"
             core.VisualizationGUI.matrix = new Matrix<Short>(utils.NewCanvas.WIDTH, utils.NewCanvas.HEIGHT);
             core.VisualizationGUI.matrix.fillMatrixWithZero();
-            core.VisualizationGUI.matrix.printMatrix();
             core.VisualizationGUI.visualizationGUI.frame.dispose();
             core.VisualizationGUI.visualizationGUI = new VisualizationGUI();
             core.VisualizationGUI.visualizationGUI.run();
