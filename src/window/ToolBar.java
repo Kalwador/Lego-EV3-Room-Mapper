@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -25,9 +26,11 @@ public class ToolBar {
     JButton zoomIn;
     JButton zoomOut;
     JButton gridButton;
-    JButton drawWhite;
-    JButton drawRed;
-    JButton drawBlue;
+    
+    JToggleButton drawWhite;
+    JToggleButton drawRed;
+    JToggleButton drawBlue;
+    ButtonGroup buttonGroup;
 
     //creating new toggle buttons
     JToggleButton dotBrush;
@@ -51,11 +54,11 @@ public class ToolBar {
 
         //Creating tool bar      
         toolBar = new JToolBar("Navigation", JToolBar.VERTICAL);
-
+        buttonGroup= new ButtonGroup();
         //Adding button to tool bar, which allows to draw in white color
         try {
             BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Edit24White.png"));
-            drawWhite = new JButton(new ImageIcon(buttonIcon7));
+            drawWhite = new JToggleButton(new ImageIcon(buttonIcon7));
             drawWhite.addActionListener((e) -> {
                 utils.Brush.choosedColor = 0;
             });
@@ -63,11 +66,11 @@ public class ToolBar {
         } catch (Exception io) {
             JOptionPane.showMessageDialog(null, io);
         }
-
+        buttonGroup.add(drawWhite);
         //Adding button to tool bar, which allows to draw in RED color
         try {
             BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Edit24Red.png"));
-            drawRed = new JButton(new ImageIcon(buttonIcon7));
+            drawRed = new JToggleButton(new ImageIcon(buttonIcon7));
             drawRed.addActionListener((e) -> {
                 utils.Brush.choosedColor = 1;
             });
@@ -75,11 +78,11 @@ public class ToolBar {
         } catch (Exception io) {
             JOptionPane.showMessageDialog(null, io);
         }
-
+        buttonGroup.add(drawRed);
         //Blue Color
         try {
             BufferedImage buttonIcon7 = ImageIO.read(new File("toolbarButtonGraphics/Edit24Blue.png"));
-            drawBlue = new JButton(new ImageIcon(buttonIcon7));
+            drawBlue = new JToggleButton(new ImageIcon(buttonIcon7));
             drawBlue.addActionListener((e) -> {
                 utils.Brush.choosedColor = 2;
             });
@@ -87,7 +90,7 @@ public class ToolBar {
         } catch (Exception io) {
             JOptionPane.showMessageDialog(null, io);
         }
-
+        buttonGroup.add(drawBlue);
         // separator
         toolBar.add(new JToolBar.Separator(new Dimension(0, 20)));
 

@@ -1,6 +1,7 @@
 package window;
 
 import core.VisualizationGUI;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -80,6 +81,11 @@ public class MenuBar {
 
         //Opening file from files
         open.addActionListener((e) -> {
+            
+             if(utils.Brush.isChanged == true){
+                isNotSavedFile();
+                utils.Brush.isChanged = false;
+            }
 
             JFileChooser jfc = new JFileChooser();
             jfc.setDialogTitle("Open Data");
@@ -164,8 +170,12 @@ public class MenuBar {
 
         //Exit the program
         exit.addActionListener((e) -> {
-            root.setVisible(false);
-            System.exit(0);
+           if(utils.Brush.isChanged == true){
+                isNotSavedFile();
+                utils.Brush.isChanged = false;
+            }
+            VisualizationGUI.frame.dispatchEvent(new WindowEvent(VisualizationGUI.frame, 
+            WindowEvent.WINDOW_CLOSING));
         });
 
         //Creating second menu
@@ -222,5 +232,22 @@ public class MenuBar {
         jpgExport.setEnabled(true);
         pngExport.setEnabled(true);
         bmpExport.setEnabled(true);
+    }
+    
+    public void isNotSavedFile(){
+
+        int confirmed = JOptionPane.showConfirmDialog(null,
+                "Do you want to save changes?","Changes",JOptionPane.YES_NO_OPTION);
+        if(confirmed == JOptionPane.YES_OPTION){
+            
+            PrintWriter save = null;
+            try{
+                save = new PrintWriter(new File(core.VisualizationGUI.path));
+                }catch(FileNotFoundException ex){
+                    JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
+                }
+                    save.write(utils.TXT.saveData());
+                    save.close();  
+        }
     }
 }
