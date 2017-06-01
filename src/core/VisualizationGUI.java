@@ -98,22 +98,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     public void run() {
         // Create Window
         frame = new JFrame();
-        
-       
-            frame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent windowEvent) {
-                    if (JOptionPane.showConfirmDialog(frame,
-                            "No saved changes. Are you sure to close this window?", "Exit",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                        System.exit(0);
-                    }
-                }
-            });
-   
-
-     
 
         // Top Menu
         menuBar = new window.MenuBar();
@@ -125,29 +109,26 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
             //turn off active buttons in menu bar
             menuBar.turnOffUnactiveButtons();
 
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
             frame.setTitle("Obstacle Visualization for EV3 Robot");
             //frame empty so is smaller
             frame.setSize(350, 350);
         } else {
+
             //active buttons in menu bar
-//            menuBar.turnOnActiveButtons();
+            menuBar.turnOnActiveButtons();
 
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent windowEvent) {
-                    
-                    if(utils.Brush.isChanged == true){
-                        int jop = JOptionPane.showConfirmDialog(frame,
-                                "No saved changes. Are you sure to close this window?", "Exit",
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE);
-                        boolean poj=(jop != 0);
-                        if(poj == true){ 
-                            System.exit(0);
-                        }
+                    if (utils.Brush.isChanged) {
+                        menuBar.saveFileBeforeClose();
                     }
+                    System.exit(0);
                 }
             });
+
             //setting up window name
             String title = "Obstacle Visualization for EV3 Robot  - " + path;
             frame.setTitle(title);
@@ -224,8 +205,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     private Point getMousePositionInContentPane() {
 
         //coordinates
-        int x =  (int) MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
-        int y =  (int) MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
+        int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
+        int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
 
         //Some pixels from window border
         x -= 84;

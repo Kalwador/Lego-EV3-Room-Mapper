@@ -30,7 +30,11 @@ public class ExportAsImage {
         FileFilter fileFilter = new FileNameExtensionFilter(".jpg", "JPG Image");
         File file = chooseFile(fileFilter);
         try {
-            ImageIO.write(image, "jpg", new File(file.getCanonicalPath() + ".jpg"));
+            if (!file.getCanonicalPath().endsWith(".jpg")) {
+                ImageIO.write(image, "jpg", new File(file.getCanonicalPath() + ".jpg"));
+            } else {
+                ImageIO.write(image, "jpg", new File(file.getCanonicalPath()));
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -49,7 +53,11 @@ public class ExportAsImage {
         FileFilter fileFilter = new FileNameExtensionFilter(".png", "PNG Image");
         File file = chooseFile(fileFilter);
         try {
-            ImageIO.write(image, "png", new File(file.getCanonicalPath() + ".png"));
+            if (!file.getCanonicalPath().endsWith(".png")) {
+                ImageIO.write(image, "png", new File(file.getCanonicalPath() + ".png"));
+            } else {
+                ImageIO.write(image, "png", new File(file.getCanonicalPath()));
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -68,8 +76,11 @@ public class ExportAsImage {
         FileFilter fileFilter = new FileNameExtensionFilter(".bmp", "BMP Image");
         File file = chooseFile(fileFilter);
         try {
-            System.out.println(file.getCanonicalPath());
-            ImageIO.write(image, "bmp", new File(file.getCanonicalPath() + ".bmp"));
+            if (!file.getCanonicalPath().endsWith(".bmp")) {
+                ImageIO.write(image, "bmp", new File(file.getCanonicalPath() + ".bmp"));
+            } else {
+                ImageIO.write(image, "bmp", new File(file.getCanonicalPath()));
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e);
         }

@@ -81,9 +81,9 @@ public class MenuBar {
 
         //Opening file from files
         open.addActionListener((e) -> {
-            
-             if(utils.Brush.isChanged == true){
-                isNotSavedFile();
+
+            if (utils.Brush.isChanged) {
+                saveFileBeforeClose();
                 utils.Brush.isChanged = false;
             }
 
@@ -112,6 +112,12 @@ public class MenuBar {
 
         //Opening file from files
         close.addActionListener((e) -> {
+
+            if (utils.Brush.isChanged) {
+                saveFileBeforeClose();
+                utils.Brush.isChanged = false;
+            }
+
             core.VisualizationGUI.path = "";
             core.VisualizationGUI.matrix = new Matrix<>();
             core.VisualizationGUI.visualizationGUI.frame.dispose();
@@ -146,10 +152,9 @@ public class MenuBar {
             fs.setFileFilter(new FileNameExtensionFilter("TXT File", "txt"));
             int result = fs.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
-                if(!fs.getSelectedFile().toString().endsWith(".txt")){
+                if (!fs.getSelectedFile().toString().endsWith(".txt")) {
                     fileToSave = new File(fs.getSelectedFile() + ".txt");
-                }
-                else {
+                } else {
                     fileToSave = new File(fs.getSelectedFile().toString());
                 }
             }
@@ -170,12 +175,12 @@ public class MenuBar {
 
         //Exit the program
         exit.addActionListener((e) -> {
-           if(utils.Brush.isChanged == true){
-                isNotSavedFile();
+            if (utils.Brush.isChanged) {
+                saveFileBeforeClose();
                 utils.Brush.isChanged = false;
             }
-            VisualizationGUI.frame.dispatchEvent(new WindowEvent(VisualizationGUI.frame, 
-            WindowEvent.WINDOW_CLOSING));
+            VisualizationGUI.frame.dispatchEvent(new WindowEvent(VisualizationGUI.frame,
+                    WindowEvent.WINDOW_CLOSING));
         });
 
         //Creating second menu
@@ -233,21 +238,21 @@ public class MenuBar {
         pngExport.setEnabled(true);
         bmpExport.setEnabled(true);
     }
-    
-    public void isNotSavedFile(){
+
+    public void saveFileBeforeClose() {
 
         int confirmed = JOptionPane.showConfirmDialog(null,
-                "Do you want to save changes?","Changes",JOptionPane.YES_NO_OPTION);
-        if(confirmed == JOptionPane.YES_OPTION){
-            
+                "Do you want to save changes?", "Changes", JOptionPane.YES_NO_OPTION);
+        if (confirmed == JOptionPane.YES_OPTION) {
+
             PrintWriter save = null;
-            try{
+            try {
                 save = new PrintWriter(new File(core.VisualizationGUI.path));
-                }catch(FileNotFoundException ex){
-                    JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
-                }
-                    save.write(utils.TXT.saveData());
-                    save.close();  
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
+            }
+            save.write(utils.TXT.saveData());
+            save.close();
         }
     }
 }

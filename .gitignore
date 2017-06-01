@@ -65,3 +65,4 @@ $RECYCLE.BIN/
 *.properties
 build/built-jar.properties
 *.properties
+*.netbeans_automatic_build
