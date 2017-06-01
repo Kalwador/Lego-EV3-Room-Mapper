@@ -25,8 +25,6 @@ public class Obstacles {
         /**
          * determining vertices of squares in the grid
          */
-        System.out.println(core.VisualizationGUI.matrix.getHeight() + " " + core.VisualizationGUI.matrix.getWidth());
-        System.out.println(rectalngleMatrix.getHeight() + " " + rectalngleMatrix.getWidth());
         for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
             for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
                 rectalngleMatrix.getMatrix()[j][i] = new Rectangle2D.Double(

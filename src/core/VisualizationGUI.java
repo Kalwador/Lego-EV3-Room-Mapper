@@ -99,7 +99,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         // Create Window
         frame = new JFrame();
 
-     
+     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Top Menu
         menuBar = new window.MenuBar();

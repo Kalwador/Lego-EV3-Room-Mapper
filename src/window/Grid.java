@@ -33,13 +33,13 @@ public class Grid {
                     i * core.VisualizationGUI.RESOLUTION,
                     0,
                     i * core.VisualizationGUI.RESOLUTION,
-                    core.VisualizationGUI.matrix.getHeight() * core.VisualizationGUI.RESOLUTION));
+                    core.VisualizationGUI.matrix.getWidth()* core.VisualizationGUI.RESOLUTION));
         }
         for (int i = 1; i <= core.VisualizationGUI.matrix.getWidth(); i++) {
             verticalList.add(new Line2D.Double(
                     0,
                     i * core.VisualizationGUI.RESOLUTION,
-                    core.VisualizationGUI.matrix.getWidth() * core.VisualizationGUI.RESOLUTION,
+                    core.VisualizationGUI.matrix.getHeight() * core.VisualizationGUI.RESOLUTION,
                     i * core.VisualizationGUI.RESOLUTION));
         }
     }

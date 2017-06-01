@@ -106,8 +106,8 @@ public class ExportAsImage {
         int arrayHeight = core.VisualizationGUI.visualizationGUI.matrix.getHeight();
 
         BufferedImage image = new BufferedImage(
-                arrayWidth * VisualizationGUI.RESOLUTION,
                 arrayHeight * VisualizationGUI.RESOLUTION,
+                arrayWidth * VisualizationGUI.RESOLUTION,
                 BufferedImage.TYPE_3BYTE_BGR);
 
         int[] rgb = new int[3];
@@ -149,7 +149,7 @@ public class ExportAsImage {
                         for (int l = 0; l < 3; l++) {
                             //drawing only if rgb is different from 0
                             if (rgb[l] != 0) {
-                                image.getRaster().setSample(k, j, l, rgb[l]);
+                                image.getRaster().setSample(j, k, l, rgb[l]);
                             }
                         }
                     }

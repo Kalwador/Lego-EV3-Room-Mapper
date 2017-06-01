@@ -17,26 +17,12 @@ public class Rule extends JComponent {
     public static final int SIZE = 35;
 
     public int orientation;
-    private int increment;
-    private int units;
+    private int units = 10;
+    private int increment = units * 10;
+    
 
     public Rule(int o) {
         orientation = o;
-        setIncrementAndUnits();
-    }
-
-    public void setIsMetric(boolean isMetric) {
-        setIncrementAndUnits();
-        repaint();
-    }
-
-    private void setIncrementAndUnits() {
-        units = 10;
-        increment = units * 10;
-    }
-
-    public int getIncrement() {
-        return increment;
     }
 
     public void setPreferredHeight(int ph) {

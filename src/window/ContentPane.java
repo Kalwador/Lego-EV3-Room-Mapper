@@ -24,7 +24,7 @@ public class ContentPane extends JPanel {
 
         // setup size of scrolledPane to size of matrix 
         // multiplied by dimension of every rectangle
-        setPreferredSize(new Dimension(camera.contentPaneWidth, camera.contentPaneHeight));
+        setPreferredSize(new Dimension(camera.contentPaneHeight,camera.contentPaneWidth));
         setOpaque(true); // nie wiem co to robi ale było więc niech zostanie
     }
 
