@@ -16,6 +16,8 @@ public class Brush {
     public boolean rollBrush = false;
 
     public Point rollFirstPoint = null;
+    
+    public static boolean isChanged = false;
 
     /**
      * Paint Selected shape
@@ -36,10 +38,10 @@ public class Brush {
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Wybierz kolor");
+                JOptionPane.showMessageDialog(null, "Choose color.");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Wybierz pędzel");
+            JOptionPane.showMessageDialog(null, "Choose brush.");
         }
     }
 
@@ -102,6 +104,8 @@ public class Brush {
      * @param p point where mouse is
      */
     public void paintDot(Point p) {
+        isChanged = true;
+        
         core.VisualizationGUI.matrix.put(p.y, p.x, choosedColor);
     }
 
@@ -112,6 +116,9 @@ public class Brush {
      * @param p point where mouse is
      */
     public void paintRectangle(Point p) {
+        
+        isChanged = true;
+        
         double xStart;
         double yStart;
         double xEnd;
@@ -151,6 +158,9 @@ public class Brush {
      * @param p point where mouse is
      */
     public void paintRoll(Point p) {
+        
+        isChanged = true;
+        
         //Jeśli true to znaczy że rysujemy nowy kształt
         if (rollFirstPoint == null) {
             rollFirstPoint = p;
