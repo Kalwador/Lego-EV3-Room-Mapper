@@ -16,7 +16,7 @@ public class Obstacles {
 
     public Obstacles() {
         rectalngleMatrix = new RectangleMatrix(
-                core.VisualizationGUI.matrix.getWidth(), 
+                core.VisualizationGUI.matrix.getWidth(),
                 core.VisualizationGUI.matrix.getHeight());
         updateObstacles();
     }
@@ -25,11 +25,13 @@ public class Obstacles {
         /**
          * determining vertices of squares in the grid
          */
-        for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
-            for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
-                rectalngleMatrix.getMatrix()[i][j] = new Rectangle2D.Double(
-                        i * VisualizationGUI.RESOLUTION,
+        System.out.println(core.VisualizationGUI.matrix.getHeight() + " " + core.VisualizationGUI.matrix.getWidth());
+        System.out.println(rectalngleMatrix.getHeight() + " " + rectalngleMatrix.getWidth());
+        for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
+            for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
+                rectalngleMatrix.getMatrix()[j][i] = new Rectangle2D.Double(
                         j * VisualizationGUI.RESOLUTION,
+                        i * VisualizationGUI.RESOLUTION,
                         VisualizationGUI.RESOLUTION,
                         VisualizationGUI.RESOLUTION);
             }
@@ -38,19 +40,20 @@ public class Obstacles {
 
     /**
      * Drawing obstacles on screen
-     *@param g
-     * 
+     *
+     * @param g
+     *
      */
-    public void drawOBstacles(Graphics2D g){
-        for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
-            for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
+    public void drawOBstacles(Graphics2D g) {
+        for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
+            for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
                 if ((Short) core.VisualizationGUI.matrix.getMatrix()[j][i] == 1) {
                     g.setPaint(Color.RED);
-                    g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[i][j]);
+                    g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[j][i]);
                 }
                 if ((Short) core.VisualizationGUI.matrix.getMatrix()[j][i] == 2) {
                     g.setPaint(Color.BLUE);
-                    g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[i][j]);
+                    g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[j][i]);
                 }
             }
         }

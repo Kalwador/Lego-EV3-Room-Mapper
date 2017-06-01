@@ -13,21 +13,22 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
     private int height;
 
     protected AbstractMatrix() {
-        this.width = 150;
-        this.height = 150;
-        this.matrix = (T[][]) new Object[height][width];
+        int standardSize = 100;
+        this.matrix = (T[][]) new Object[standardSize][standardSize];
+        this.width = standardSize;
+        this.height = standardSize;
     }
 
     protected AbstractMatrix(Object[][] matrix) {
         this.matrix = (T[][]) matrix;
-        this.width = matrix.length;
-        this.height = matrix[0].length;
+        this.width = matrix[0].length;
+        this.height = matrix.length;
     }
 
-    protected AbstractMatrix(int witdh, int height) {
-        this.width = witdh;
+    protected AbstractMatrix(int width, int height) {
+        this.width = width;
         this.height = height;
-        this.matrix = (T[][]) new Object[height][witdh];
+        this.matrix = (T[][]) new Object[height][width];
     }
 
     @Override
@@ -121,7 +122,6 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
         }
     }
 
-
     protected void adjust() {
         int prefferedWidth = width;
         int prefferedHeight = height;
@@ -144,13 +144,13 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
         }
 
         Object[][] tempMatrix = (T[][]) new Object[lastIndexInHeight][lastIndexInWidth];
-        
+
         for (int i = 0; i < lastIndexInHeight; i++) {
             System.arraycopy(matrix[i], 0, tempMatrix[i], 0, lastIndexInWidth);
         }
         this.matrix = (T[][]) tempMatrix;
         this.width = lastIndexInWidth;
         this.height = lastIndexInHeight;
-        
+
     }
 }

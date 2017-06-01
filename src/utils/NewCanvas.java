@@ -77,7 +77,7 @@ public class NewCanvas {
                 JOptionPane.showMessageDialog(null, "WRONG SIZE NUMBER FORMAT");
             }
             // TUTAJ ZMIEN TYTUL OKNA NA: "New Window - Not Saved"
-            core.VisualizationGUI.matrix = new Matrix<Short>(WIDTH, HEIGHT);
+            core.VisualizationGUI.matrix = new Matrix<Short>(HEIGHT, WIDTH);
             core.VisualizationGUI.matrix.fillMatrixWithZero();
             core.VisualizationGUI.visualizationGUI.frame.dispose();
             core.VisualizationGUI.visualizationGUI = new VisualizationGUI();

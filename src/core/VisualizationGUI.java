@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Optional;
 import window.ContentPane;
 import window.Rule;
@@ -34,7 +36,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     public JScrollPane scroll;
 
     public static String path = "";
-    
+
     /**
      * Matrix contains data from robot
      *
@@ -64,8 +66,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     // Brushes used to paint
     private Brush brush;
 
-    
-
     public static VisualizationGUI visualizationGUI;
 
     // Default Constructor set up main options
@@ -89,7 +89,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
         columnView = new Rule(Rule.HORIZONTAL);
         rowView = new Rule(Rule.VERTICAL);
-        
+
     }
 
     /**
@@ -98,7 +98,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     public void run() {
         // Create Window
         frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+     
 
         // Top Menu
         menuBar = new window.MenuBar();
@@ -209,6 +210,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         y /= RESOLUTION;
 
         //return new Point(x, y);
-        return new Point(x, y);
+        return new Point(y, x);
     }
 }

@@ -1,5 +1,7 @@
 package matrix;
 
+import java.awt.Dimension;
+
 /**
  * Class which allows build two dimmesnions arrays of generic type.
  *
@@ -87,8 +89,8 @@ public class Matrix<T> extends AbstractMatrix {
     public void fillMatrixWithZero() {
         for (int i = 0; i < super.getHeight(); i++) {
             for (int j = 0; j < super.getWidth(); j++) {
-                System.out.println("putuje "+i+"  "+j);
-                putObject(i, j, new Short("0"));
+                Short temp = 0;
+                put(i, j,(T) temp);
             }
         }
     }
@@ -111,5 +113,9 @@ public class Matrix<T> extends AbstractMatrix {
     @Override
     public int getHeight() {
         return super.getHeight();
+    }
+    
+    public Dimension getSize() {
+        return new Dimension(getHeight(), getWidth());
     }
 }
