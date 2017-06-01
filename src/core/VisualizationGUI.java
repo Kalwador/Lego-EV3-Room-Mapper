@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Optional;
 import window.ContentPane;
 import window.Rule;
 import matrix.Matrix;
@@ -26,6 +27,14 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     //Default dimension of every rectangle in pixels
     public static short RESOLUTION;
 
+    //Main Frame, contains everything
+    public JFrame frame;
+
+    //Scroll contains Content Pane
+    public JScrollPane scroll;
+
+    public static String path = "";
+    
     /**
      * Matrix contains data from robot
      *
@@ -35,17 +44,12 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      */
     public static Matrix<Short> matrix = utils.TXT.loadDataOnProgramStart();
 
-    //Main Frame, contains everything
-    public JFrame frame;
-
-    //Scroll contains Content Pane
-    public JScrollPane scroll;
-
     //Contains all graphic 
+    public static boolean isContentPaneEmpty = false;
     public window.ContentPane contentPane;
 
     // Top bar, 
-    private window.MenuBar menuBar;
+    public window.MenuBar menuBar;
 
     //Side bar
     private window.ToolBar toolBar;
@@ -60,13 +64,19 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     // Brushes used to paint
     private Brush brush;
 
-    public static String path = "";
+    
 
     public static VisualizationGUI visualizationGUI;
 
     // Default Constructor set up main options
     public VisualizationGUI() {
         visualizationGUI = this;
+
+        Optional<Matrix<Short>> optional = Optional.ofNullable(matrix);
+        if (!optional.isPresent()) {
+            matrix = new Matrix<>();
+            isContentPaneEmpty = true;
+        }
 
         //Default size and zoom of every rectangle         
         RESOLUTION = 10;
@@ -79,48 +89,64 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
         columnView = new Rule(Rule.HORIZONTAL);
         rowView = new Rule(Rule.VERTICAL);
+        
     }
 
     /**
      * Main method that runs all program
      */
     public void run() {
-
         // Create Window
-        frame = new JFrame("Obstacle Visualization for EV3 Robot");
+        frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Top Menu
         menuBar = new window.MenuBar();
         frame.setJMenuBar(menuBar.getMenuBar(this.getRootPane()));
 
-        //Tool bar
-        toolBar = new window.ToolBar(brush);
-        frame.add(toolBar.getToolBar(this.getRootPane()), BorderLayout.WEST);
+        // If there is no matrix loaded
+        if (isContentPaneEmpty) {
 
-        // Canvas
-        scroll = new JScrollPane(contentPane);
-        scroll.setViewportBorder(
-                BorderFactory.createLineBorder(Color.black));
-        scroll.getVerticalScrollBar().setUnitIncrement(30); //Scroll speed
-        scroll.addMouseListener(this); //Scroll Pane mouse Listener
+            //turn off active buttons in menu bar
+            menuBar.turnOffUnactiveButtons();
 
-        // Rules
-        columnView.setPreferredWidth(camera.contentPaneWidth);
-        rowView.setPreferredHeight(camera.contentPaneHeight);
+            frame.setTitle("Obstacle Visualization for EV3 Robot");
+            //frame empty so is smaller
+            frame.setSize(350, 350);
+        } else {
+            //active buttons in menu bar
+//            menuBar.turnOnActiveButtons();
 
-        scroll.setColumnHeaderView(columnView);
-        scroll.setRowHeaderView(rowView);
+            //setting up window name
+            String title = "Obstacle Visualization for EV3 Robot  - " + path;
+            frame.setTitle(title);
 
-        frame.add(scroll, BorderLayout.CENTER);
+            //Tool bar
+            toolBar = new window.ToolBar(brush);
+            frame.add(toolBar.getToolBar(this.getRootPane()), BorderLayout.WEST);
+
+            //main canvas
+            scroll = new JScrollPane(contentPane);
+            scroll.setViewportBorder(
+                    BorderFactory.createLineBorder(Color.black));
+            scroll.getVerticalScrollBar().setUnitIncrement(30); //Scroll speed
+            scroll.addMouseListener(this); //Scroll Pane mouse Listener
+
+            // Rules
+            columnView.setPreferredWidth(camera.contentPaneWidth);
+            rowView.setPreferredHeight(camera.contentPaneHeight);
+
+            scroll.setColumnHeaderView(columnView);
+            scroll.setRowHeaderView(rowView);
+
+            frame.add(scroll, BorderLayout.CENTER);
+            frame.setSize(windowPreferedWidth, windowPreferedHeight);
+        }
 
         //Display the window
-        frame.pack();
-        frame.setSize(windowPreferedWidth, windowPreferedHeight);
         frame.setResizable(true);
         frame.setVisible(true);
     }
-
 
     //When mouse is clicked draw a fiugre
     @Override

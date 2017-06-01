@@ -87,7 +87,8 @@ public class Matrix<T> extends AbstractMatrix {
     public void fillMatrixWithZero() {
         for (int i = 0; i < super.getHeight(); i++) {
             for (int j = 0; j < super.getWidth(); j++) {
-                putObject(j, i, new Short("0"));
+                System.out.println("putuje "+i+"  "+j);
+                putObject(i, j, new Short("0"));
             }
         }
     }

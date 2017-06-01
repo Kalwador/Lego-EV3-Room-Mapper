@@ -1,9 +1,11 @@
 package utils;
 
+import core.VisualizationGUI;
 import java.io.*;
 import java.io.IOException;
 import java.util.Random;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
@@ -21,21 +23,20 @@ public class TXT {
      * @return matrix
      */
     public static matrix.Matrix<Short> loadDataOnProgramStart() {
-
-        matrix.Matrix<Short> matrix = new Matrix<>();
+        matrix.Matrix<Short> matrix = null;
 
         File fileToOpen = null;
         JFileChooser fs = new JFileChooser();
         fs.setDialogTitle("Open Data");
         fs.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
         fs.setFileFilter(new FileNameExtensionFilter("TXT DATA", "txt"));
-        int result = fs.showSaveDialog(null);
+        int result = fs.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             fileToOpen = fs.getSelectedFile();
-            core.VisualizationGUI.path = fileToOpen.getAbsolutePath();
+            core.VisualizationGUI.path = fileToOpen.getAbsolutePath().toString();
             matrix = reloadData();
         } else if (result == JFileChooser.CANCEL_OPTION) {
-            System.exit(0);
+            core.VisualizationGUI.path = "";
         }
         return matrix;
     }
@@ -65,7 +66,7 @@ public class TXT {
                             matrix.put(i, j, Short.valueOf(wartosc));
                             j++;
                         } else {
-                            JOptionPane.showMessageDialog(null, "Error ocured during parsing file\r\t\nLine: "+i+"  Column: "+j+"  Value: "+wartosc+"\r\t\nPlease select other file");
+                            JOptionPane.showMessageDialog(null, "Error ocured during parsing file\r\t\nLine: " + i + "  Column: " + j + "  Value: " + wartosc + "\r\t\nPlease select other file");
                             loadDataOnProgramStart();
                         }
                     }
@@ -80,7 +81,6 @@ public class TXT {
         } catch (NumberFormatException w3) {
             JOptionPane.showMessageDialog(null, "Wrong number format.");
         }
-
         matrix.adjust();
         return matrix;
     }

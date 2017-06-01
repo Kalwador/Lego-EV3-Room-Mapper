@@ -173,8 +173,6 @@ public class ExportAsImage {
         int widhtAxisCount = arrayWidth + 1;
         int heightAxisCount = arrayHeight + 1;
 
-        System.out.println(widhtAxisCount);
-        System.out.println(heightAxisCount);
 
         //image dimmension is matrix * resolution + (noumber of axis + 1)
         BufferedImage image = new BufferedImage(
@@ -229,7 +227,6 @@ public class ExportAsImage {
                     }
                 }
                 xAxisCount++;
-                System.out.println(yAxisCount + " " + xAxisCount);
             }
             xAxisCount = 1;
             yAxisCount++;

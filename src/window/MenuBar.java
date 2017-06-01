@@ -24,24 +24,24 @@ import utils.TXT;
 public class MenuBar {
 
     //Creating main menu
-    JMenuBar menuBar;
+    public JMenuBar menuBar;
 
     //Creating menu options
-    JMenu menuFile;
-    JMenu exportMenu;
-    JMenu helpMenu;
+    public JMenu menuFile;
+    public JMenu exportMenu;
+    public JMenu helpMenu;
 
     //Creating menu items
-    JMenuItem newFile;
-    JMenuItem open;
-    JMenuItem save;
-    JMenuItem saveAs;
-    JMenuItem exit;
-    JMenuItem jpgExport;
-    JMenuItem pngExport;
-    JMenuItem bmpExport;
-    JMenuItem screenShoot;
-    JMenuItem info;
+    public JMenuItem newFile;
+    public JMenuItem open;
+    public JMenuItem close;
+    public JMenuItem save;
+    public JMenuItem saveAs;
+    public JMenuItem exit;
+    public JMenuItem jpgExport;
+    public JMenuItem pngExport;
+    public JMenuItem bmpExport;
+    public JMenuItem info;
 
     private utils.ExportAsImage exportAsImage;
 
@@ -89,16 +89,29 @@ public class MenuBar {
             int returnValue = jfc.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
-                // TUTAJ ZMIEN TYTUL OKNA NA: "Obstacle Visualization for EV3 Robot - " + selectedFile.getAbsolutePath().toString()
-                core.VisualizationGUI.path = selectedFile.getAbsolutePath();
+                core.VisualizationGUI.path = selectedFile.getAbsolutePath().toString();
                 core.VisualizationGUI.matrix = TXT.reloadData();
                 core.VisualizationGUI.visualizationGUI.frame.dispose();
                 core.VisualizationGUI.visualizationGUI = new VisualizationGUI();
+                core.VisualizationGUI.isContentPaneEmpty = false;
                 core.VisualizationGUI.visualizationGUI.run();
                 core.VisualizationGUI.visualizationGUI.scroll.repaint();
+                JOptionPane.showMessageDialog(null,
+                        "Data was successfully reloaded.");
             }
-            JOptionPane.showMessageDialog(null,
-                    "Data was successfully reloaded.");
+        });
+
+        close = new JMenuItem("Close");
+        menuFile.add(close);
+
+        //Opening file from files
+        close.addActionListener((e) -> {
+            core.VisualizationGUI.path = "";
+            core.VisualizationGUI.matrix = new Matrix<>();
+            core.VisualizationGUI.visualizationGUI.frame.dispose();
+            core.VisualizationGUI.visualizationGUI = new VisualizationGUI();
+            core.VisualizationGUI.isContentPaneEmpty = true;
+            core.VisualizationGUI.visualizationGUI.run();
         });
 
         save = new JMenuItem("Save");
@@ -186,5 +199,23 @@ public class MenuBar {
         });
 
         return menuBar;
+    }
+
+    public void turnOffUnactiveButtons() {
+        close.setEnabled(false);
+        save.setEnabled(false);
+        saveAs.setEnabled(false);
+        jpgExport.setEnabled(false);
+        pngExport.setEnabled(false);
+        bmpExport.setEnabled(false);
+    }
+
+    public void turnOnActiveButtons() {
+        close.setEnabled(true);
+        save.setEnabled(true);
+        saveAs.setEnabled(true);
+        jpgExport.setEnabled(true);
+        pngExport.setEnabled(true);
+        bmpExport.setEnabled(true);
     }
 }
