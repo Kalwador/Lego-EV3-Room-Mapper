@@ -32,11 +32,13 @@ public class NewCanvas {
         JPanel panelLabel = new JPanel();
         panelLabel.setLayout(new BoxLayout(panelLabel, BoxLayout.PAGE_AXIS));
 
-        JLabel label = new JLabel("Set size of new Canvas");
-        label.setMinimumSize(new Dimension(190, 190));
+        JLabel label1 = new JLabel("Set size of new Canvas");
+        JLabel label2 = new JLabel("        1 [dm] = 10 [cm]");
+        panelLabel.setMinimumSize(new Dimension(190, 190));
 
         panelLabel.add(new JToolBar.Separator(new Dimension(20, 20)));
-        panelLabel.add(label);
+        panelLabel.add(label1);
+        panelLabel.add(label2);
         panelLabel.add(new JToolBar.Separator(new Dimension(20, 20)));
         //######################################
         JPanel panelData = new JPanel();
@@ -47,7 +49,7 @@ public class NewCanvas {
 
         JLabel labelData1 = new JLabel("Width:  ");
         TextField textData1 = new TextField("100");
-        JLabel labelUnit1 = new JLabel("[cm]");
+        JLabel labelUnit1 = new JLabel("[dm]");
 
         panelData1.add(labelData1);
         panelData1.add(textData1);
@@ -58,7 +60,7 @@ public class NewCanvas {
 
         JLabel labelData2 = new JLabel("Height:  ");
         TextField textData2 = new TextField("100");
-        JLabel labelUnit2 = new JLabel("[cm]");
+        JLabel labelUnit2 = new JLabel("[dm]");
 
         panelData2.add(labelData2);
         panelData2.add(textData2);
@@ -87,7 +89,6 @@ public class NewCanvas {
                 core.VisualizationGUI.path = "";
                 core.VisualizationGUI.visualizationGUI.run();
                 core.VisualizationGUI.visualizationGUI.scroll.repaint();
-
                 newFrame.dispose();
                 JOptionPane.showMessageDialog(null,
                         "New canvas was successfully created.");
@@ -115,7 +116,6 @@ public class NewCanvas {
         newFrame.setLocationRelativeTo(null);
         newFrame.setResizable(false);
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        newFrame.setAlwaysOnTop(true);
         newFrame.setVisible(true);
     }
 }
