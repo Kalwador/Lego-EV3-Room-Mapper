@@ -13,7 +13,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 import matrix.Matrix;
 import utils.ExportAsImage;
 import utils.MatrixData;

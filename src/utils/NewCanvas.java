@@ -48,7 +48,7 @@ public class NewCanvas {
         panelData1.setLayout(new FlowLayout());
 
         JLabel labelData1 = new JLabel("Width:  ");
-        TextField textData1 = new TextField("100");
+        TextField textData1 = new TextField("10");
         JLabel labelUnit1 = new JLabel("[dm]");
 
         panelData1.add(labelData1);
@@ -59,7 +59,7 @@ public class NewCanvas {
         panelData2.setLayout(new FlowLayout());
 
         JLabel labelData2 = new JLabel("Height:  ");
-        TextField textData2 = new TextField("100");
+        TextField textData2 = new TextField("10");
         JLabel labelUnit2 = new JLabel("[dm]");
 
         panelData2.add(labelData2);
@@ -80,7 +80,6 @@ public class NewCanvas {
                 HEIGHT = Integer.parseInt(textData2.getText());
                 WIDTH = Integer.parseInt(textData1.getText());
 
-                // TUTAJ ZMIEN TYTUL OKNA NA: "New Window - Not Saved"
                 core.VisualizationGUI.matrix = new Matrix<Short>(HEIGHT, WIDTH);
                 core.VisualizationGUI.matrix.fillMatrixWithZero();
                 core.VisualizationGUI.visualizationGUI.frame.dispose();

@@ -160,10 +160,10 @@ public class ToolBar {
             BufferedImage buttonIcon3 = ImageIO.read(new File("toolbarButtonGraphics/Grid24.gif"));
             gridButton = new JToggleButton(new ImageIcon(buttonIcon3));
             gridButton.addActionListener((e) -> {
-                if (window.ContentPane.isGrid) {
-                    window.ContentPane.isGrid = false;
-                } else {
+                if (gridButton.isSelected()) {
                     window.ContentPane.isGrid = true;
+                } else {
+                    window.ContentPane.isGrid = false;
                 }
                 core.VisualizationGUI.visualizationGUI.contentPane.repaint();
             });
