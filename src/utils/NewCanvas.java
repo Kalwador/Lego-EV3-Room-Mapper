@@ -77,21 +77,23 @@ public class NewCanvas {
             try {
                 HEIGHT = Integer.parseInt(textData2.getText());
                 WIDTH = Integer.parseInt(textData1.getText());
+
+                // TUTAJ ZMIEN TYTUL OKNA NA: "New Window - Not Saved"
+                core.VisualizationGUI.matrix = new Matrix<Short>(HEIGHT, WIDTH);
+                core.VisualizationGUI.matrix.fillMatrixWithZero();
+                core.VisualizationGUI.visualizationGUI.frame.dispose();
+                core.VisualizationGUI.visualizationGUI = new VisualizationGUI();
+                core.VisualizationGUI.isContentPaneEmpty = false;
+                core.VisualizationGUI.path = "";
+                core.VisualizationGUI.visualizationGUI.run();
+                core.VisualizationGUI.visualizationGUI.scroll.repaint();
+
+                newFrame.dispose();
+                JOptionPane.showMessageDialog(null,
+                        "New canvas was successfully created.");
             } catch (NumberFormatException e1) {
                 JOptionPane.showMessageDialog(null, "WRONG SIZE NUMBER FORMAT");
             }
-            // TUTAJ ZMIEN TYTUL OKNA NA: "New Window - Not Saved"
-            core.VisualizationGUI.matrix = new Matrix<Short>(HEIGHT, WIDTH);
-            core.VisualizationGUI.matrix.fillMatrixWithZero();
-            core.VisualizationGUI.visualizationGUI.frame.dispose();
-            core.VisualizationGUI.visualizationGUI = new VisualizationGUI();
-            core.VisualizationGUI.isContentPaneEmpty = false;
-            core.VisualizationGUI.visualizationGUI.run();
-            core.VisualizationGUI.visualizationGUI.scroll.repaint();
-
-            newFrame.dispose();
-            JOptionPane.showMessageDialog(null,
-                    "New canvas was successfully created.");
         });
 
         JButton buttonCancel = new JButton();

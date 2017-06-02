@@ -44,7 +44,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
      * @see 1 - obszar zajety;
      * @see 2 - obszar nieznany;
      */
-    public static Matrix<Short> matrix = utils.TXT.loadDataOnProgramStart();
+    public static Matrix<Short> matrix = utils.MatrixData.loadDataOnProgramStart();
 
     //Contains all graphic 
     public static boolean isContentPaneEmpty = false;

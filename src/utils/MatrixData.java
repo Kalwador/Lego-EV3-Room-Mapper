@@ -1,7 +1,5 @@
 package utils;
 
-import static core.VisualizationGUI.isContentPaneEmpty;
-import static core.VisualizationGUI.matrix;
 import java.io.*;
 import java.io.IOException;
 import java.util.Optional;
@@ -16,10 +14,10 @@ import matrix.Matrix;
  * @author WIlk
  * @author Kalwador
  */
-public class TXT {
+public class MatrixData {
 
     /**
-     * Load matrix from txt data 
+     * Load matrix from *.matrix data 
      * When program strts and with "Open" menu-bar option
      * 
      * @return matrix
@@ -30,8 +28,8 @@ public class TXT {
         File fileToOpen = null;
         JFileChooser fs = new JFileChooser();
         fs.setDialogTitle("Open Data");
-        fs.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
-        fs.setFileFilter(new FileNameExtensionFilter("TXT DATA", "txt"));
+//        fs.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
+        fs.setFileFilter(new FileNameExtensionFilter("MATRIX DATA", "matrix"));
         int result = fs.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             fileToOpen = fs.getSelectedFile();
@@ -48,7 +46,7 @@ public class TXT {
     }
 
     /**
-     * Reload matrix from txt data
+     * Reload matrix from .matrix data
      *
      * @return matrix
      */
@@ -92,16 +90,13 @@ public class TXT {
     }
 
     /**
-     * Save matrix to txt data
+     * Save matrix to *.matrix data
      *
      * @return fullLinia.toString() or data from matrix
      */
     public static String saveData() {
         StringBuilder fullLinia = new StringBuilder();
 
-        System.out.println(core.VisualizationGUI.matrix.getHeight());
-        System.out.println(core.VisualizationGUI.matrix.getWidth());
-        
         for (int y = 0; y < core.VisualizationGUI.matrix.getHeight(); y++) {
             for (int x = 0; x < core.VisualizationGUI.matrix.getWidth(); x++) {
                 fullLinia.append(core.VisualizationGUI.matrix.getMatrix()[y][x]);
@@ -125,7 +120,7 @@ public class TXT {
      * @throws IOException throwing imput-output exception
      */
     public static void generateRandom(String path, int width, int height) throws IOException {
-        File file = new File(path + ".txt");
+        File file = new File(path + ".matrix");
 
         // creates the file
         file.createNewFile();
@@ -172,7 +167,7 @@ public class TXT {
      * @throws IOException throwing imput-output exception
      */
     public static void generateRowColored(String path, int width, int height) throws IOException {
-        File file = new File(path + ".txt");
+        File file = new File(path + ".matrix");
 
         // creates the file
         file.createNewFile();

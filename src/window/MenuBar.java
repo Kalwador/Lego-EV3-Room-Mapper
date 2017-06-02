@@ -16,7 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import matrix.Matrix;
 import utils.ExportAsImage;
-import utils.TXT;
+import utils.MatrixData;
 
 /**
  *
@@ -92,7 +92,7 @@ public class MenuBar {
                 utils.Brush.isChanged = false;
             }
 
-            matrix.Matrix<Short> matrix = TXT.loadDataOnProgramStart();
+            matrix.Matrix<Short> matrix = MatrixData.loadDataOnProgramStart();
 
             Optional<matrix.Matrix<Short>> optional = Optional.ofNullable(matrix);
             if (optional.isPresent()) {
@@ -138,7 +138,7 @@ public class MenuBar {
                 } catch (FileNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
                 }
-                save.write(utils.TXT.saveData());
+                save.write(utils.MatrixData.saveData());
                 save.close();
                 utils.Brush.isChanged = false;
                 JOptionPane.showMessageDialog(null, "File saved.");
@@ -154,11 +154,11 @@ public class MenuBar {
             File fileToSave = null;
             JFileChooser fs = new JFileChooser();
             fs.setDialogTitle("Save File");
-            fs.setFileFilter(new FileNameExtensionFilter("TXT File", "txt"));
+            fs.setFileFilter(new FileNameExtensionFilter("MATRIX File", "matrix"));
             int result = fs.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
-                if (!fs.getSelectedFile().toString().endsWith(".txt")) {
-                    fileToSave = new File(fs.getSelectedFile() + ".txt");
+                if (!fs.getSelectedFile().toString().endsWith(".matrix")) {
+                    fileToSave = new File(fs.getSelectedFile() + ".matrix");
                 } else {
                     fileToSave = new File(fs.getSelectedFile().toString());
                 }
@@ -168,7 +168,7 @@ public class MenuBar {
                 } catch (FileNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
                 }
-                save.println(utils.TXT.saveData());
+                save.println(utils.MatrixData.saveData());
                 save.close();
                 utils.Brush.isChanged = false;
                 JOptionPane.showMessageDialog(null, "File saved.");
@@ -264,7 +264,7 @@ public class MenuBar {
             } catch (FileNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
             }
-            save.write(utils.TXT.saveData());
+            save.write(utils.MatrixData.saveData());
             save.close();
         }
     }

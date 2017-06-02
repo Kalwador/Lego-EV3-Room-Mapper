@@ -39,7 +39,6 @@ public class Rule extends JComponent {
         g.setColor(new Color(230, 163, 4));
         g.fillRect(drawHere.x, drawHere.y, drawHere.width, drawHere.height);
 
-//        System.out.println(drawHere.toString());
         // Do the ruler labels in a small font that's black.
         g.setFont(new Font("SansSerif", Font.PLAIN, 10));
         g.setColor(Color.black);

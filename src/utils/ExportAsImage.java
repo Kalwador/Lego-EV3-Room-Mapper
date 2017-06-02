@@ -4,6 +4,7 @@ import core.VisualizationGUI;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -29,14 +30,17 @@ public class ExportAsImage {
         }
         FileFilter fileFilter = new FileNameExtensionFilter(".jpg", "JPG Image");
         File file = chooseFile(fileFilter);
-        try {
-            if (!file.getCanonicalPath().endsWith(".jpg")) {
-                ImageIO.write(image, "jpg", new File(file.getCanonicalPath() + ".jpg"));
-            } else {
-                ImageIO.write(image, "jpg", new File(file.getCanonicalPath()));
+        Optional<File> optional = Optional.ofNullable(file);
+        if (optional.isPresent()) {
+            try {
+                if (!file.getCanonicalPath().endsWith(".jpg")) {
+                    ImageIO.write(image, "jpg", new File(file.getCanonicalPath() + ".jpg"));
+                } else {
+                    ImageIO.write(image, "jpg", new File(file.getCanonicalPath()));
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e);
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -52,14 +56,17 @@ public class ExportAsImage {
         }
         FileFilter fileFilter = new FileNameExtensionFilter(".png", "PNG Image");
         File file = chooseFile(fileFilter);
-        try {
-            if (!file.getCanonicalPath().endsWith(".png")) {
-                ImageIO.write(image, "png", new File(file.getCanonicalPath() + ".png"));
-            } else {
-                ImageIO.write(image, "png", new File(file.getCanonicalPath()));
+        Optional<File> optional = Optional.ofNullable(file);
+        if (optional.isPresent()) {
+            try {
+                if (!file.getCanonicalPath().endsWith(".png")) {
+                    ImageIO.write(image, "png", new File(file.getCanonicalPath() + ".png"));
+                } else {
+                    ImageIO.write(image, "png", new File(file.getCanonicalPath()));
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e);
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -75,14 +82,17 @@ public class ExportAsImage {
         }
         FileFilter fileFilter = new FileNameExtensionFilter(".bmp", "BMP Image");
         File file = chooseFile(fileFilter);
-        try {
-            if (!file.getCanonicalPath().endsWith(".bmp")) {
-                ImageIO.write(image, "bmp", new File(file.getCanonicalPath() + ".bmp"));
-            } else {
-                ImageIO.write(image, "bmp", new File(file.getCanonicalPath()));
+        Optional<File> optional = Optional.ofNullable(file);
+        if (optional.isPresent()) {
+            try {
+                if (!file.getCanonicalPath().endsWith(".bmp")) {
+                    ImageIO.write(image, "bmp", new File(file.getCanonicalPath() + ".bmp"));
+                } else {
+                    ImageIO.write(image, "bmp", new File(file.getCanonicalPath()));
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e);
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -183,7 +193,6 @@ public class ExportAsImage {
 
         int widhtAxisCount = arrayWidth + 1;
         int heightAxisCount = arrayHeight + 1;
-
 
         //image dimmension is matrix * resolution + (noumber of axis + 1)
         BufferedImage image = new BufferedImage(

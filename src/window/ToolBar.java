@@ -23,9 +23,7 @@ public class ToolBar {
     private Brush brush;
 
     //creating new buttons
-    JButton zoomIn;
-    JButton zoomOut;
-    JButton gridButton;
+    JToggleButton gridButton;
     
     JToggleButton drawWhite;
     JToggleButton drawRed;
@@ -160,7 +158,7 @@ public class ToolBar {
         //Adding button to tool bar, which allows to draw grid
         try {
             BufferedImage buttonIcon3 = ImageIO.read(new File("toolbarButtonGraphics/Grid24.gif"));
-            gridButton = new JButton(new ImageIcon(buttonIcon3));
+            gridButton = new JToggleButton(new ImageIcon(buttonIcon3));
             gridButton.addActionListener((e) -> {
                 if (window.ContentPane.isGrid) {
                     window.ContentPane.isGrid = false;
