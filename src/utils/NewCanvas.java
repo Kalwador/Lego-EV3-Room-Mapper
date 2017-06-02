@@ -19,8 +19,8 @@ import matrix.Matrix;
  */
 public class NewCanvas {
 
-    public static int WIDTH = 0;
     public static int HEIGHT = 0;
+    public static int WIDTH = 0;
 
     public static void newCanvasWindow() {
         JFrame newFrame = new JFrame("New Canvas");
@@ -45,20 +45,24 @@ public class NewCanvas {
         JPanel panelData1 = new JPanel();
         panelData1.setLayout(new FlowLayout());
 
-        JLabel labelData1 = new JLabel("WIDTH:  ");
+        JLabel labelData1 = new JLabel("Width:  ");
         TextField textData1 = new TextField("100");
+        JLabel labelUnit1 = new JLabel("[cm]");
 
         panelData1.add(labelData1);
         panelData1.add(textData1);
+        panelData1.add(labelUnit1);
 
         JPanel panelData2 = new JPanel();
         panelData2.setLayout(new FlowLayout());
 
         JLabel labelData2 = new JLabel("Height:  ");
         TextField textData2 = new TextField("100");
+        JLabel labelUnit2 = new JLabel("[cm]");
 
         panelData2.add(labelData2);
         panelData2.add(textData2);
+        panelData2.add(labelUnit2);
 
         panelData.add(panelData1);
         panelData.add(panelData2);
@@ -71,8 +75,8 @@ public class NewCanvas {
         buttonOK.setText("OK");
         buttonOK.addActionListener(e -> {
             try {
-                WIDTH = Integer.parseInt(textData1.getText());
                 HEIGHT = Integer.parseInt(textData2.getText());
+                WIDTH = Integer.parseInt(textData1.getText());
             } catch (NumberFormatException e1) {
                 JOptionPane.showMessageDialog(null, "WRONG SIZE NUMBER FORMAT");
             }

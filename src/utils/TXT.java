@@ -19,8 +19,9 @@ import matrix.Matrix;
 public class TXT {
 
     /**
-     * Load matrix from txt data Only when program starts
-     *
+     * Load matrix from txt data 
+     * When program strts and with "Open" menu-bar option
+     * 
      * @return matrix
      */
     public static matrix.Matrix<Short> loadDataOnProgramStart() {
@@ -34,14 +35,14 @@ public class TXT {
         int result = fs.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             fileToOpen = fs.getSelectedFile();
-            core.VisualizationGUI.path = fileToOpen.getAbsolutePath();
-            matrix = reloadData();
+            matrix = readData(fileToOpen);
             Optional<Matrix<Short>> optional = Optional.ofNullable(matrix);
             if (!optional.isPresent()) {
                 return loadDataOnProgramStart();
+            } else {
+                //setting up path of new file
+                core.VisualizationGUI.path = fileToOpen.getAbsolutePath();
             }
-        } else if (result == JFileChooser.CANCEL_OPTION) {
-            core.VisualizationGUI.path = "";
         }
         return matrix;
     }
@@ -51,13 +52,13 @@ public class TXT {
      *
      * @return matrix
      */
-    public static matrix.Matrix<Short> reloadData() {
+    public static matrix.Matrix<Short> readData(File f) {
+        
+        //new Empty matrix
         matrix.Matrix<Short> matrix = new Matrix<>();
 
         try {
-            //setting up path of new file
-
-            try (FileReader file = new FileReader(new File(core.VisualizationGUI.path))) {
+            try (FileReader file = new FileReader(f)) {
                 BufferedReader bufor = new BufferedReader(file);
                 String linia;
 
@@ -98,14 +99,17 @@ public class TXT {
     public static String saveData() {
         StringBuilder fullLinia = new StringBuilder();
 
-        for (int i = 0; i < core.VisualizationGUI.matrix.getHeight(); i++) {
-            for (int j = 0; j < core.VisualizationGUI.matrix.getWidth(); j++) {
-                fullLinia.append(core.VisualizationGUI.matrix.getMatrix()[i][j]);
-                if (j < core.VisualizationGUI.matrix.getWidth() - 1) {
+        System.out.println(core.VisualizationGUI.matrix.getHeight());
+        System.out.println(core.VisualizationGUI.matrix.getWidth());
+        
+        for (int y = 0; y < core.VisualizationGUI.matrix.getHeight(); y++) {
+            for (int x = 0; x < core.VisualizationGUI.matrix.getWidth(); x++) {
+                fullLinia.append(core.VisualizationGUI.matrix.getMatrix()[y][x]);
+                if (x < core.VisualizationGUI.matrix.getWidth() - 1) {
                     fullLinia.append(",");
                 }
             }
-            if (i < core.VisualizationGUI.matrix.getHeight() - 1) {
+            if (y < core.VisualizationGUI.matrix.getHeight() - 1) {
                 fullLinia.append("\r\n");
             }
         }

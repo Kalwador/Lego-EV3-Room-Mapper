@@ -20,8 +20,14 @@ public class Camera {
      * places
      */
     public Camera() {
+        
+        //size of new canvas
         contentPaneWidth = core.VisualizationGUI.matrix.getWidth() * core.VisualizationGUI.RESOLUTION;
         contentPaneHeight = core.VisualizationGUI.matrix.getHeight() * core.VisualizationGUI.RESOLUTION;
+        
+        //some extra for black line at the end of canvas
+        contentPaneWidth += window.BlackLinesAtCanvasEnd.borderThickness;
+        contentPaneHeight += window.BlackLinesAtCanvasEnd.borderThickness;
     }
 
     /**

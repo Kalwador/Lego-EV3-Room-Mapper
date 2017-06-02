@@ -63,7 +63,6 @@ public class Matrix<T> extends AbstractMatrix {
                     } else {
                         super.putObject(height, width, object);
                     }
-
                 }
             }
         }

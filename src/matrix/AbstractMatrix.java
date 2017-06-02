@@ -25,7 +25,7 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
         this.height = matrix.length;
     }
 
-    protected AbstractMatrix(int width, int height) {
+    protected AbstractMatrix(int height, int width) {
         this.width = width;
         this.height = height;
         this.matrix = (T[][]) new Object[height][width];
@@ -109,8 +109,8 @@ public abstract class AbstractMatrix<T> implements ExpandMatrix {
      * @param y coordinate Y
      * @param object object
      */
-    protected void putObject(int x, int y, Object object) {
-        matrix[x][y] = (T) object;
+    protected void putObject(int y, int x, Object object) {
+        matrix[y][x] = (T) object;
     }
 
     protected void printMatrix() {

@@ -7,7 +7,6 @@ import javax.swing.*;
  * @author Kalvador
  * @author Wilk
  */
-
 public class Rule extends JComponent {
 
     public static final int INCH = Toolkit.getDefaultToolkit().
@@ -19,7 +18,6 @@ public class Rule extends JComponent {
     public int orientation;
     private int units = 10;
     private int increment = units * 10;
-    
 
     public Rule(int o) {
         orientation = o;
@@ -41,6 +39,7 @@ public class Rule extends JComponent {
         g.setColor(new Color(230, 163, 4));
         g.fillRect(drawHere.x, drawHere.y, drawHere.width, drawHere.height);
 
+//        System.out.println(drawHere.toString());
         // Do the ruler labels in a small font that's black.
         g.setFont(new Font("SansSerif", Font.PLAIN, 10));
         g.setColor(Color.black);
@@ -76,24 +75,20 @@ public class Rule extends JComponent {
 
         // ticks and labels
         for (int i = start; i < end; i += increment) {
-            if (i % units == 0) {
-                tickLength = 10;
-                text = Integer.toString(i / units);
-            } else {
-                tickLength = 7;
-                text = null;
-            }
+            tickLength = 10;
+            text = Integer.toString(i / (units * units));
+            text += "[m]";
 
             if (tickLength != 0) {
                 if (orientation == HORIZONTAL) {
                     g.drawLine(i, SIZE - 1, i, SIZE - tickLength - 1);
                     if (text != null) {
-                        g.drawString(text, i - 3, 21);
+                        g.drawString(text, i - 8, 21);
                     }
                 } else {
                     g.drawLine(SIZE - 1, i, SIZE - tickLength - 1, i);
                     if (text != null) {
-                        g.drawString(text, 9, i + 3);
+                        g.drawString(text, 8, i - 4);
                     }
                 }
             }

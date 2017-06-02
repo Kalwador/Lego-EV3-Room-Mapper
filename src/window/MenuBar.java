@@ -5,6 +5,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Optional;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -73,6 +74,10 @@ public class MenuBar {
 
         //Creating new project
         newFile.addActionListener((e) -> {
+            if (utils.Brush.isChanged) {
+                saveFileBeforeClose();
+                utils.Brush.isChanged = false;
+            }
             utils.NewCanvas.newCanvasWindow();
         });
 
@@ -87,16 +92,11 @@ public class MenuBar {
                 utils.Brush.isChanged = false;
             }
 
-            JFileChooser jfc = new JFileChooser();
-            jfc.setDialogTitle("Open Data");
-            jfc.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
-            jfc.setFileFilter(new FileNameExtensionFilter("TXT DATA", "txt"));
+            matrix.Matrix<Short> matrix = TXT.loadDataOnProgramStart();
 
-            int returnValue = jfc.showOpenDialog(null);
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = jfc.getSelectedFile();
-                core.VisualizationGUI.path = selectedFile.getAbsolutePath().toString();
-                core.VisualizationGUI.matrix = TXT.reloadData();
+            Optional<matrix.Matrix<Short>> optional = Optional.ofNullable(matrix);
+            if (optional.isPresent()) {
+                core.VisualizationGUI.matrix = matrix;
                 core.VisualizationGUI.visualizationGUI.frame.dispose();
                 core.VisualizationGUI.visualizationGUI = new VisualizationGUI();
                 core.VisualizationGUI.isContentPaneEmpty = false;
@@ -132,14 +132,19 @@ public class MenuBar {
         //Saving files
         save.addActionListener((e) -> {
             PrintWriter save = null;
-            try {
-                save = new PrintWriter(new File(core.VisualizationGUI.path));
-            } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
+            if (!core.VisualizationGUI.path.equals("")) {
+                try {
+                    save = new PrintWriter(new File(core.VisualizationGUI.path));
+                } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
+                }
+                save.write(utils.TXT.saveData());
+                save.close();
+                utils.Brush.isChanged = false;
+                JOptionPane.showMessageDialog(null, "File saved.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No specifed path \t\r\nPlease use option 'Save as'");
             }
-            save.write(utils.TXT.saveData());
-            save.close();
-//            JOptionPane.showMessageDialog(null, "File saved.");
         });
 
         // Saving as files
@@ -157,17 +162,17 @@ public class MenuBar {
                 } else {
                     fileToSave = new File(fs.getSelectedFile().toString());
                 }
+                PrintWriter save = null;
+                try {
+                    save = new PrintWriter(fileToSave);
+                } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
+                }
+                save.println(utils.TXT.saveData());
+                save.close();
+                utils.Brush.isChanged = false;
+                JOptionPane.showMessageDialog(null, "File saved.");
             }
-
-            PrintWriter save = null;
-            try {
-                save = new PrintWriter(fileToSave);
-            } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
-            }
-            save.println(utils.TXT.saveData());
-            save.close();
-//            JOptionPane.showMessageDialog(null, "File saved.");
         });
 
         exit = new JMenuItem("Exit");
@@ -219,6 +224,14 @@ public class MenuBar {
         });
 
         return menuBar;
+    }
+
+    public void turnOffSaveWhenNewFile() {
+        save.setEnabled(false);
+    }
+
+    public void turnOnSave() {
+        save.setEnabled(true);
     }
 
     public void turnOffUnactiveButtons() {

@@ -16,8 +16,8 @@ public class Obstacles {
 
     public Obstacles() {
         rectalngleMatrix = new RectangleMatrix(
-                core.VisualizationGUI.matrix.getWidth(),
-                core.VisualizationGUI.matrix.getHeight());
+                core.VisualizationGUI.matrix.getHeight(),
+                core.VisualizationGUI.matrix.getWidth());
         updateObstacles();
     }
 
@@ -25,11 +25,11 @@ public class Obstacles {
         /**
          * determining vertices of squares in the grid
          */
-        for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
-            for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
-                rectalngleMatrix.getMatrix()[j][i] = new Rectangle2D.Double(
-                        j * VisualizationGUI.RESOLUTION,
-                        i * VisualizationGUI.RESOLUTION,
+        for (int y = 0; y < rectalngleMatrix.getHeight(); y++) {
+            for (int x = 0; x < rectalngleMatrix.getWidth(); x++) {
+                rectalngleMatrix.getMatrix()[y][x] = new Rectangle2D.Double(
+                        x * VisualizationGUI.RESOLUTION,
+                        y * VisualizationGUI.RESOLUTION,
                         VisualizationGUI.RESOLUTION,
                         VisualizationGUI.RESOLUTION);
             }

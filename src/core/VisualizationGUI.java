@@ -23,8 +23,8 @@ import utils.Brush;
 public class VisualizationGUI extends JFrame implements MouseListener, MouseMotionListener {
 
     //Size of visualization window
-    public int windowPreferedWidth = 1200;
-    public int windowPreferedHeight = 700;
+    public int windowPreferedWidth = 800;
+    public int windowPreferedHeight = 600;
 
     //Default dimension of every rectangle in pixels
     public static short RESOLUTION;
@@ -147,7 +147,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
             // Rules
             columnView.setPreferredWidth(camera.contentPaneWidth);
             rowView.setPreferredHeight(camera.contentPaneHeight);
-
+            
             scroll.setColumnHeaderView(columnView);
             scroll.setRowHeaderView(rowView);
 
@@ -220,7 +220,6 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         x /= RESOLUTION;
         y /= RESOLUTION;
 
-        //return new Point(x, y);
-        return new Point(y, x);
+        return new Point(x, y);
     }
 }
