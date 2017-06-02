@@ -147,7 +147,7 @@ public class MenuBar {
         });
 
         // Saving as files
-        saveAs = new JMenuItem("Save as");
+        saveAs = new JMenuItem("Save As");
         menuFile.add(saveAs);
         saveAs.addActionListener((e) -> {
             File fileToSave = null;
