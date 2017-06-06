@@ -12,9 +12,16 @@ import javax.swing.JPanel;
  */
 public class ContentPane extends JPanel {
 
+    //Obstacles, their posionion and wrawing them
     public window.Obstacles obstacles;
+    
+    //Grid on the screen
     private window.Grid grid;
+    
+    //Two black lines on the end of showed matrix
     private BlackLinesAtCanvasEnd blackLinesAtCanvasEnd;
+    
+    //predicate controls showing grid on screen
     public static boolean isGrid = false;
 
 
@@ -37,12 +44,16 @@ public class ContentPane extends JPanel {
 
         Graphics2D g = (Graphics2D) graphics;
 
+        //drawng obstacles
         obstacles.drawOBstacles(g);
-        
 
+        
+        //drawing grid if is turned ON
         if (window.ContentPane.isGrid) {
             grid.drawGrid(g);
         }
+        
+        //drawng two thick black lines
         blackLinesAtCanvasEnd.drawLines(g);
     }
 }

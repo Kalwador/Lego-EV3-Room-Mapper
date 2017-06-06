@@ -8,16 +8,19 @@ import javax.swing.*;
  * @author Wilk
  */
 public class Rule extends JComponent {
-
-    public static final int INCH = Toolkit.getDefaultToolkit().
-            getScreenResolution();
+    
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
+    
+    //second dimensiof for rule
     public static final int SIZE = 35;
 
+    //orientacion of the rule, can be horizonatal or vertical
     public int orientation;
-    private int units = 10;
-    private int increment = units * 10;
+    
+    //units that are used in calculating ticks
+    private int units = core.VisualizationGUI.RESOLUTION;
+    private int increment = units * core.VisualizationGUI.RESOLUTION;
 
     public Rule(int o) {
         orientation = o;

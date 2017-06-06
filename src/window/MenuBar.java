@@ -30,6 +30,7 @@ public class MenuBar {
     //Creating menu options
     public JMenu menuFile;
     public JMenu exportMenu;
+    public JMenu settingsMenu;
     public JMenu helpMenu;
 
     //Creating menu items
@@ -42,6 +43,7 @@ public class MenuBar {
     public JMenuItem jpgExport;
     public JMenuItem pngExport;
     public JMenuItem bmpExport;
+    public JMenuItem coursorSettings;
     public JMenuItem info;
 
     private utils.ExportAsImage exportAsImage;
@@ -86,6 +88,7 @@ public class MenuBar {
         //Opening file from files
         open.addActionListener((e) -> {
 
+            //Protection for closing with unsaved changes
             if (utils.Brush.isChanged) {
                 saveFileBeforeClose();
                 utils.Brush.isChanged = false;
@@ -109,9 +112,10 @@ public class MenuBar {
         close = new JMenuItem("Close");
         menuFile.add(close);
 
-        //Opening file from files
+        //Closing actual opened matrix
         close.addActionListener((e) -> {
 
+            //Protection for closing with unsaved changes
             if (utils.Brush.isChanged) {
                 saveFileBeforeClose();
                 utils.Brush.isChanged = false;
@@ -128,7 +132,7 @@ public class MenuBar {
         save = new JMenuItem("Save");
         menuFile.add(save);
 
-        //Saving files
+        //Saving matrix in the same location tah was opened
         save.addActionListener((e) -> {
             PrintWriter save = null;
             if (!core.VisualizationGUI.path.equals("")) {
@@ -150,12 +154,18 @@ public class MenuBar {
         saveAs = new JMenuItem("Save As");
         menuFile.add(saveAs);
         saveAs.addActionListener((e) -> {
+            
+            //Opening chosed file
             File fileToSave = null;
             JFileChooser fs = new JFileChooser();
             fs.setDialogTitle("Save File");
+            
+            //filter for only .matrix files
             fs.setFileFilter(new FileNameExtensionFilter("MATRIX File", "matrix"));
             int result = fs.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
+                
+                //protection for extra extension in file name
                 if (!fs.getSelectedFile().toString().endsWith(".matrix")) {
                     fileToSave = new File(fs.getSelectedFile() + ".matrix");
                 } else {
@@ -167,18 +177,20 @@ public class MenuBar {
                 } catch (FileNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, "Error occured during save data to file.");
                 }
+                //saving actual data in file, 
                 save.println(utils.MatrixData.saveData());
                 save.close();
                 utils.Brush.isChanged = false;
                 JOptionPane.showMessageDialog(null, "File saved.");
             }
         });
-
         exit = new JMenuItem("Exit");
         menuFile.add(exit);
 
         //Exit the program
         exit.addActionListener((e) -> {
+            
+            //Protection for closing with unsaved changes
             if (utils.Brush.isChanged) {
                 saveFileBeforeClose();
                 utils.Brush.isChanged = false;
@@ -191,18 +203,21 @@ public class MenuBar {
         exportMenu = new JMenu("Edit");
         menuBar.add(exportMenu);
 
+        //meneu item - export as JPG
         jpgExport = new JMenuItem("Export as JPG");
         exportMenu.add(jpgExport);
         jpgExport.addActionListener((e) -> {
             exportAsImage.JPG();
         });
 
+        //meneu item - export as PNG
         pngExport = new JMenuItem("Export as PNG");
         exportMenu.add(pngExport);
         pngExport.addActionListener((e) -> {
             exportAsImage.PNG();
         });
 
+        //meneu item - export as BMP
         bmpExport = new JMenuItem("Export as BMP");
         exportMenu.add(bmpExport);
         bmpExport.addActionListener((e) -> {
@@ -210,15 +225,27 @@ public class MenuBar {
         });
 
         //Creating third menu
+        settingsMenu = new JMenu("Settings");
+        menuBar.add(settingsMenu);
+
+        //Coursor Settings
+        coursorSettings = new JMenuItem("Coursor");
+        settingsMenu.add(coursorSettings);
+        coursorSettings.addActionListener((e) -> {
+            core.VisualizationGUI.visualizationGUI.coursor.newCoursorSettingsWindow();
+        });
+        
+        //Creating fourth menu
         helpMenu = new JMenu("Help");
         menuBar.add(helpMenu);
 
+        //About Autors - menu item
         info = new JMenuItem("Info");
         helpMenu.add(info);
         info.addActionListener((e) -> {
             //Displaying information
             JOptionPane.showMessageDialog(null,
-                    "Program used to drawing obstacles for EV3 LEGO robot.\n"
+                    "The program is used in visualization obstacles for EV3 LEGO robot.\n"
                     + "Made by Piotr Szpila and Adrian Wilk.");
         });
 

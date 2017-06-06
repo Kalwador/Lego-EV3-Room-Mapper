@@ -9,12 +9,19 @@ import javax.swing.JOptionPane;
 
 public class Brush {
 
+    //Choosed Color
+    //0 - white
+    //1 - Red
+    //2 - Blue
     public static Short choosedColor;
 
+    
+    //Actual chooced Brush
     public boolean dotBrush = false;
     public boolean rectangleBrush = false;
     public boolean rollBrush = false;
 
+    //Point 
     public Point rollFirstPoint = null;
     
     public static boolean isChanged = false;

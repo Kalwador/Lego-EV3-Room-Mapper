@@ -12,6 +12,7 @@ import window.ContentPane;
 import window.Rule;
 import matrix.Matrix;
 import utils.Brush;
+import utils.Coursor;
 
 /**
  * Class contain Frame and hadle his actions
@@ -26,8 +27,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     public int windowPreferedWidth = 800;
     public int windowPreferedHeight = 600;
 
-    //Default dimension of every rectangle in pixels
-    public static short RESOLUTION;
+    //Default dimension of every rectangle in pixels   
+    public static short RESOLUTION = 10;
 
     //Main Frame, contains everything
     public static JFrame frame;
@@ -60,6 +61,9 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     private Rule columnView;
     private Rule rowView;
 
+    //Coursor used in Content Pane
+    public utils.Coursor coursor;
+    
     //Class that contains camera movement information for drawing
     public utils.Camera camera;
 
@@ -78,12 +82,13 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
             isContentPaneEmpty = true;
         }
 
-        //Default size and zoom of every rectangle         
-        RESOLUTION = 10;
-
+        //Brushes on side 
         brush = new Brush();
 
+        //Contains data of Content Pane
         camera = new utils.Camera();
+        
+        coursor = new utils.Coursor();
 
         contentPane = new ContentPane(matrix, camera);
 
@@ -109,9 +114,12 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
             //turn off active buttons in menu bar
             menuBar.turnOffUnactiveButtons();
 
+            //Defoault close operation
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+            //Setting up Title of Wwndow
             frame.setTitle("Obstacle Visualization for EV3 Robot");
+
             //frame empty so is smaller
             frame.setSize(350, 350);
         } else {
@@ -119,6 +127,8 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
             //active buttons in menu bar
             menuBar.turnOnActiveButtons();
 
+            //Listener of exiting window, check if ther are unsaved
+            //changes, if ther are he ask to save
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent windowEvent) {
@@ -129,11 +139,11 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
                 }
             });
 
-            //setting up window name
+            //Setting up window name
             String title = "Obstacle Visualization for EV3 Robot  - " + path;
             frame.setTitle(title);
 
-            //Tool bar
+            //Side Tool bar
             toolBar = new window.ToolBar(brush);
             frame.add(toolBar.getToolBar(this.getRootPane()), BorderLayout.WEST);
 
@@ -141,22 +151,34 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
             scroll = new JScrollPane(contentPane);
             scroll.setViewportBorder(
                     BorderFactory.createLineBorder(Color.black));
-            scroll.getVerticalScrollBar().setUnitIncrement(30); //Scroll speed
-            scroll.addMouseListener(this); //Scroll Pane mouse Listener
 
-            // Rules
+            //Scroll speed
+            scroll.getVerticalScrollBar().setUnitIncrement(30);
+
+            //Scroll Pane mouse Listener
+            scroll.addMouseListener(this);
+            
+            //Setting up coursor graphic and settings
+            coursor.setUpCoursor(contentPane);
+
+            //New Rules
             columnView.setPreferredWidth(camera.contentPaneWidth);
             rowView.setPreferredHeight(camera.contentPaneHeight);
-            
+
+            //Adding Rules on side od ContentPane
             scroll.setColumnHeaderView(columnView);
             scroll.setRowHeaderView(rowView);
 
+            //Scroll in to centoer of Frmae
             frame.add(scroll, BorderLayout.CENTER);
+
+            //Window size
             frame.setSize(windowPreferedWidth, windowPreferedHeight);
         }
 
         //Display the window
         frame.setResizable(true);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
@@ -198,19 +220,21 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     }
 
     /**
-     * determines marked point in the matrix
+     * Determines marked point in the matrix Gets Mouse position in COntent pane
      *
      * @return matrix point
      */
     private Point getMousePositionInContentPane() {
 
-        //coordinates
+        PointerInfo pi = MouseInfo.getPointerInfo();
+
+        //Mouse position in window - frame posiotion
         int x = (int) MouseInfo.getPointerInfo().getLocation().getX() - frame.getLocationOnScreen().x;
         int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
 
         //Some pixels from window border
-        x -= 84;
-        y -= 89;
+        x += utils.Coursor.WIDTH;
+        y += utils.Coursor.HEIGHT;
 
         //Adding movement on scrolls
         x += scroll.getHorizontalScrollBar().getValue();

@@ -7,7 +7,6 @@ import java.util.Random;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 import matrix.Matrix;
 
 /**
@@ -28,7 +27,6 @@ public class MatrixData {
         File fileToOpen = null;
         JFileChooser fs = new JFileChooser();
         fs.setDialogTitle("Open Data");
-//        fs.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
         fs.setFileFilter(new FileNameExtensionFilter("MATRIX DATA", "matrix"));
         int result = fs.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {

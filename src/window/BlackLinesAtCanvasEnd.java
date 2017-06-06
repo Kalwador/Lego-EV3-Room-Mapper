@@ -10,16 +10,21 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- *
+ * Black lines at the ofas of opened canvas
+ * Helps see end of the canvas
+ * 
  * @author Kalvador
  */
 public class BlackLinesAtCanvasEnd {
 
+    //SIze of line
     public static int borderThickness = 3;
     Rectangle2D horizontalLine;
     Rectangle2D verticalLine;
 
     public BlackLinesAtCanvasEnd() {
+        
+        //Two lines
         this.horizontalLine = new Rectangle2D.Double();
         this.verticalLine = new Rectangle2D.Double();
         updateLines();
@@ -27,7 +32,7 @@ public class BlackLinesAtCanvasEnd {
 
     public void updateLines() {
 
-        // x1,y1,x2,y2
+        //Calculate start and end point of the lines
         horizontalLine = new Rectangle2D.Double(
                 0,
                 core.VisualizationGUI.matrix.getHeight() * core.VisualizationGUI.RESOLUTION,
@@ -42,7 +47,7 @@ public class BlackLinesAtCanvasEnd {
     }
 
     /**
-     * Drawing grid on screen
+     * Drawing lines on the screen
      *
      * @param g
      */
