@@ -4,11 +4,14 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
+ * Paint Rules on side of contentPane
+ * 
  * @author Kalvador
  * @author Wilk
  */
 public class Rule extends JComponent {
     
+    //variables decides is rule Horizontal or Vertical
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
     
@@ -34,6 +37,10 @@ public class Rule extends JComponent {
         setPreferredSize(new Dimension(pw, SIZE));
     }
 
+    /**
+     * Paint Rules 
+     * @param g  - grapic
+     */
     @Override
     protected void paintComponent(Graphics g) {
         Rectangle drawHere = g.getClipBounds();

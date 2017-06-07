@@ -14,7 +14,7 @@ import javax.swing.JToolBar;
 import matrix.Matrix;
 
 /**
- *
+ * Class provides window with settings of new Canvas
  * @author Kalvador
  */
 public class NewCanvas {
@@ -23,12 +23,16 @@ public class NewCanvas {
     public static int WIDTH = 0;
 
     public static void newCanvasWindow() {
+        
+        //Title
         JFrame newFrame = new JFrame("New Canvas");
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
         //######################################
+        
+        //Descriptions
         JPanel panelLabel = new JPanel();
         panelLabel.setLayout(new BoxLayout(panelLabel, BoxLayout.PAGE_AXIS));
 
@@ -41,6 +45,8 @@ public class NewCanvas {
         panelLabel.add(label2);
         panelLabel.add(new JToolBar.Separator(new Dimension(20, 20)));
         //######################################
+        
+        //Data
         JPanel panelData = new JPanel();
         panelData.setLayout(new BoxLayout(panelData, BoxLayout.PAGE_AXIS));
 
@@ -70,6 +76,8 @@ public class NewCanvas {
         panelData.add(panelData2);
 
         //######################################
+        
+        // Buttons
         JPanel panelButtons = new JPanel();
         panelButtons.setLayout(new FlowLayout());
 
@@ -80,6 +88,7 @@ public class NewCanvas {
                 HEIGHT = Integer.parseInt(textData2.getText());
                 WIDTH = Integer.parseInt(textData1.getText());
 
+                //Reload: path, matrix, frame and repaint it
                 core.VisualizationGUI.matrix = new Matrix<Short>(HEIGHT, WIDTH);
                 core.VisualizationGUI.matrix.fillMatrixWithZero();
                 core.VisualizationGUI.visualizationGUI.frame.dispose();
@@ -102,19 +111,23 @@ public class NewCanvas {
             newFrame.dispose();
         });
 
+        //adding buttons in to panel
         panelButtons.add(buttonOK);
         panelButtons.add(buttonCancel);
 
         //######################################
+        
+        //adding panels
         panel.add(panelLabel);
         panel.add(panelData);
         panel.add(panelButtons);
 
+        //settings about window
         newFrame.add(panel);
         newFrame.setSize(300, 300);
         newFrame.setLocationRelativeTo(null);
         newFrame.setResizable(false);
-        newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        newFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         newFrame.setVisible(true);
     }
 }

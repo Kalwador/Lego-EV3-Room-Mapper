@@ -48,7 +48,7 @@ public class Grid {
     /**
      * Drawing grid on screen
      *
-     * @param g
+     * @param g - grapic
      */
     public void drawGrid(Graphics2D g) {
         g.setColor(Color.BLACK);

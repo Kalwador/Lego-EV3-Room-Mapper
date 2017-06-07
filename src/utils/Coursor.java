@@ -29,10 +29,13 @@ import javax.swing.SpinnerNumberModel;
  */
 public class Coursor {
 
-    public static int HEIGHT = -107;
-    public static int WIDTH = -100;
+    public static int coursorShiftHeight = -107;
+    public static int coursorShiftWidth = -100;
 
-    public static boolean isCoursorOn = false;
+    public static int pointerShiftHeight = -107;
+    public static int pointerShiftWidth = -100;
+
+    public static boolean isPointerOn = false;
 
     private static String coursorPath = "toolbarButtonGraphics/coursor.data";
 
@@ -42,7 +45,7 @@ public class Coursor {
      */
     public void setUpCoursor(window.ContentPane contentPane) {
         loadData();
-        if (isCoursorOn) {
+        if (isPointerOn) {
             setCoursorImage(contentPane);
         }
     }
@@ -94,8 +97,12 @@ public class Coursor {
         //######################################
         JPanel panelLabel = new JPanel();
         panelLabel.setLayout(new BoxLayout(panelLabel, BoxLayout.PAGE_AXIS));
-
-        JLabel label1 = new JLabel("Set shift of coursor");
+        JLabel label1;
+        if (isPointerOn) {
+            label1 = new JLabel("Set shift of pointer");
+        } else {
+            label1 = new JLabel("Set shift of coursor");
+        }
         panelLabel.setMinimumSize(new Dimension(190, 190));
 
         panelLabel.add(new JToolBar.Separator(new Dimension(20, 20)));
@@ -109,7 +116,14 @@ public class Coursor {
         panelData1.setLayout(new FlowLayout());
 
         JLabel labelData1 = new JLabel("Width:  ");
-        JSpinner widthData = new JSpinner(new SpinnerNumberModel(WIDTH, -500, 500, 1));
+
+        JSpinner widthData;
+        if (isPointerOn) {
+            widthData = new JSpinner(new SpinnerNumberModel(pointerShiftWidth, -500, 500, 1));
+        } else {
+            widthData = new JSpinner(new SpinnerNumberModel(coursorShiftWidth, -500, 500, 1));
+        }
+
         JLabel labelUnit1 = new JLabel("[px]");
 
         panelData1.add(labelData1);
@@ -120,7 +134,14 @@ public class Coursor {
         panelData2.setLayout(new FlowLayout());
 
         JLabel labelData2 = new JLabel("Height:  ");
-        JSpinner heightData = new JSpinner(new SpinnerNumberModel(HEIGHT, -500, 500, 1));
+
+        JSpinner heightData;
+
+        if (isPointerOn) {
+            heightData = new JSpinner(new SpinnerNumberModel(pointerShiftHeight, -500, 500, 1));
+        } else {
+            heightData = new JSpinner(new SpinnerNumberModel(coursorShiftHeight, -500, 500, 1));
+        }
         JLabel labelUnit2 = new JLabel("[px]");
 
         panelData2.add(labelData2);
@@ -136,7 +157,7 @@ public class Coursor {
 
         JLabel labelBox = new JLabel("Pointer");
         JCheckBox pointerBox = new JCheckBox();
-        if (isCoursorOn) {
+        if (isPointerOn) {
             pointerBox.setSelected(true);
         } else {
             pointerBox.setSelected(false);
@@ -155,16 +176,25 @@ public class Coursor {
         buttonOK.setText("OK");
         buttonOK.addActionListener(e -> {
             try {
-                HEIGHT = (int) heightData.getValue();
-                WIDTH = (int) widthData.getValue();
-
-                if (isCoursorOn != pointerBox.isSelected()) {
+                if (isPointerOn) {
+                    pointerShiftHeight = (int) heightData.getValue();
+                    pointerShiftWidth = (int) widthData.getValue();
+                } else {
+                    coursorShiftHeight = (int) heightData.getValue();
+                    coursorShiftWidth = (int) widthData.getValue();
+                }
+                
+                //if ther is change
+                if (pointerBox.isSelected() != isPointerOn) {
                     if (pointerBox.isSelected()) {
+                        System.out.println("zminiam na pointer");
+                        isPointerOn = true;
                         setCoursorImage(core.VisualizationGUI.visualizationGUI.contentPane);
-                        isCoursorOn = true;
+
                     } else {
+                        System.out.println("zmieniam na kursor");
+                        isPointerOn = false;
                         setDefaultCoursorImage(core.VisualizationGUI.visualizationGUI.contentPane);
-                        isCoursorOn = false;
                     }
                 }
 
@@ -199,7 +229,7 @@ public class Coursor {
         newFrame.setSize(300, 300);
         newFrame.setLocationRelativeTo(null);
         newFrame.setResizable(false);
-        newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        newFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         newFrame.setVisible(true);
     }
 
@@ -216,14 +246,17 @@ public class Coursor {
                 BufferedReader bufor = new BufferedReader(file);
                 String linia = bufor.readLine();
                 String[] pola = linia.split(";");
-                HEIGHT = Integer.valueOf(pola[0]);
-                WIDTH = Integer.valueOf(pola[1]);
+                coursorShiftHeight = Integer.valueOf(pola[0]);
+                coursorShiftWidth = Integer.valueOf(pola[1]);
 
                 if (pola[2].equals("true")) {
-                    isCoursorOn = true;
+                    isPointerOn = true;
                 } else {
-                    isCoursorOn = false;
+                    isPointerOn = false;
                 }
+
+                pointerShiftHeight = Integer.valueOf(pola[3]);
+                pointerShiftWidth = Integer.valueOf(pola[4]);
 
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, "ERROR DURING COURSOR DATA REDER");
@@ -235,17 +268,24 @@ public class Coursor {
         PrintWriter save = null;
         try {
             save = new PrintWriter(new File(coursorPath));
-            String data = HEIGHT + ";" + WIDTH + ";";
 
-            if (isCoursorOn) {
+            //coursor shift data
+            String data = coursorShiftHeight + ";" + coursorShiftWidth + ";";
+
+            //is pointer on/off
+            if (isPointerOn) {
                 data += "true";
             } else {
                 data += "false";
             }
 
+            //pointer shift data
+            data += ";" + pointerShiftHeight + ";" + pointerShiftWidth;
+
             save.write(data);
             save.close();
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException e1) {
+        } catch (ArrayIndexOutOfBoundsException e2) {
         } finally {
             save.close();
         }

@@ -17,7 +17,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class BlackLinesAtCanvasEnd {
 
-    //SIze of line
+    //Size of line
     public static int borderThickness = 3;
     Rectangle2D horizontalLine;
     Rectangle2D verticalLine;

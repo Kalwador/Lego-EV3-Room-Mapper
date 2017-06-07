@@ -16,29 +16,38 @@ import matrix.Matrix;
 public class MatrixData {
 
     /**
-     * Load matrix from *.matrix data 
-     * When program strts and with "Open" menu-bar option
-     * 
+     * Load matrix from *.matrix data When program strts and with "Open"
+     * menu-bar option
+     *
      * @return matrix
      */
     public static matrix.Matrix<Short> loadDataOnProgramStart() {
         matrix.Matrix<Short> matrix = null;
 
-        File fileToOpen = null;
-        JFileChooser fs = new JFileChooser();
-        fs.setDialogTitle("Open Data");
-        fs.setFileFilter(new FileNameExtensionFilter("MATRIX DATA", "matrix"));
-        int result = fs.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            fileToOpen = fs.getSelectedFile();
+        //if in catalog file matrix.matrix exist open it
+        File fileToOpen = new File(core.VisualizationGUI.path);
+        if (fileToOpen.exists()) {
             matrix = readData(fileToOpen);
-            Optional<Matrix<Short>> optional = Optional.ofNullable(matrix);
-            if (!optional.isPresent()) {
-                return loadDataOnProgramStart();
-            } else {
-                //setting up path of new file
-                core.VisualizationGUI.path = fileToOpen.getAbsolutePath();
+        } else {
+            //in other case open file selector to chose matrix to load
+            JFileChooser fs = new JFileChooser();
+            fs.setDialogTitle("Open Data");
+            fs.setFileFilter(new FileNameExtensionFilter("MATRIX DATA", "matrix"));
+            int result = fs.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                fileToOpen = fs.getSelectedFile();
+                matrix = readData(fileToOpen);
             }
+        }
+        
+        //check if matrix isn't null
+        Optional<Matrix<Short>> optional = Optional.ofNullable(matrix);
+        if (!optional.isPresent()) {
+            //if it is run metod from start again
+            return loadDataOnProgramStart();
+        } else {
+            //setting up path of new file
+            core.VisualizationGUI.path = fileToOpen.getAbsolutePath();
         }
         return matrix;
     }
@@ -49,7 +58,7 @@ public class MatrixData {
      * @return matrix
      */
     public static matrix.Matrix<Short> readData(File f) {
-        
+
         //new Empty matrix
         matrix.Matrix<Short> matrix = new Matrix<>();
 
@@ -61,6 +70,7 @@ public class MatrixData {
                 int i = 0;
                 int j = 0;
 
+                //read line by line, and split data by regex ","
                 while ((linia = bufor.readLine()) != null) {
                     String[] pola = linia.split(",");
                     for (String wartosc : pola) {
@@ -95,6 +105,7 @@ public class MatrixData {
     public static String saveData() {
         StringBuilder fullLinia = new StringBuilder();
 
+        //parse matrix in to long string with "break line" characters
         for (int y = 0; y < core.VisualizationGUI.matrix.getHeight(); y++) {
             for (int x = 0; x < core.VisualizationGUI.matrix.getWidth(); x++) {
                 fullLinia.append(core.VisualizationGUI.matrix.getMatrix()[y][x]);
@@ -110,6 +121,7 @@ public class MatrixData {
     }
 
     /**
+     * Not used in program
      * generate random matrix
      *
      * @param path file path
@@ -157,6 +169,7 @@ public class MatrixData {
     }
 
     /**
+     * Not used in program
      * generate row designed matrix
      *
      * @param path file path

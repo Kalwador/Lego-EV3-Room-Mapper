@@ -12,7 +12,6 @@ import window.ContentPane;
 import window.Rule;
 import matrix.Matrix;
 import utils.Brush;
-import utils.Coursor;
 
 /**
  * Class contain Frame and hadle his actions
@@ -36,7 +35,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     //Scroll contains Content Pane
     public JScrollPane scroll;
 
-    public static String path = "";
+    public static String path = "matrix.matrix";
 
     /**
      * Matrix contains data from robot
@@ -63,7 +62,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
     //Coursor used in Content Pane
     public utils.Coursor coursor;
-    
+
     //Class that contains camera movement information for drawing
     public utils.Camera camera;
 
@@ -87,7 +86,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
         //Contains data of Content Pane
         camera = new utils.Camera();
-        
+
         coursor = new utils.Coursor();
 
         contentPane = new ContentPane(matrix, camera);
@@ -157,7 +156,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
 
             //Scroll Pane mouse Listener
             scroll.addMouseListener(this);
-            
+
             //Setting up coursor graphic and settings
             coursor.setUpCoursor(contentPane);
 
@@ -233,8 +232,13 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
         int y = (int) MouseInfo.getPointerInfo().getLocation().getY() - frame.getLocationOnScreen().y;
 
         //Some pixels from window border
-        x += utils.Coursor.WIDTH;
-        y += utils.Coursor.HEIGHT;
+        if (utils.Coursor.isPointerOn) {
+            x += utils.Coursor.pointerShiftWidth;
+            y += utils.Coursor.pointerShiftHeight;
+        } else {
+            x += utils.Coursor.coursorShiftWidth;
+            y += utils.Coursor.coursorShiftHeight;
+        }
 
         //Adding movement on scrolls
         x += scroll.getHorizontalScrollBar().getValue();

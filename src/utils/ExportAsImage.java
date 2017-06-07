@@ -28,6 +28,8 @@ public class ExportAsImage {
         } else {
             image = getMatrixAsBufferedImage();
         }
+
+        //Filter for only specified type of files
         FileFilter fileFilter = new FileNameExtensionFilter(".jpg", "JPG Image");
         File file = chooseFile(fileFilter);
         Optional<File> optional = Optional.ofNullable(file);
@@ -54,6 +56,8 @@ public class ExportAsImage {
         } else {
             image = getMatrixAsBufferedImage();
         }
+
+        //Filter for only specified type of files
         FileFilter fileFilter = new FileNameExtensionFilter(".png", "PNG Image");
         File file = chooseFile(fileFilter);
         Optional<File> optional = Optional.ofNullable(file);
@@ -80,6 +84,8 @@ public class ExportAsImage {
         } else {
             image = getMatrixAsBufferedImage();
         }
+
+        //Filter for only specified type of files
         FileFilter fileFilter = new FileNameExtensionFilter(".bmp", "BMP Image");
         File file = chooseFile(fileFilter);
         Optional<File> optional = Optional.ofNullable(file);
@@ -123,18 +129,21 @@ public class ExportAsImage {
     private BufferedImage getMatrixAsBufferedImage() {
 
         //dimensions of arrary needed to save in image
-        int arrayWidth = core.VisualizationGUI.visualizationGUI.matrix.getWidth();
-        int arrayHeight = core.VisualizationGUI.visualizationGUI.matrix.getHeight();
+        int arrayWidth = core.VisualizationGUI.matrix.getWidth();
+        int arrayHeight = core.VisualizationGUI.matrix.getHeight();
 
+        //image dimmension is matrix * resolution + (noumber of axis + 1)
         BufferedImage image = new BufferedImage(
-                arrayHeight * VisualizationGUI.RESOLUTION,
-                arrayWidth * VisualizationGUI.RESOLUTION,
+                (arrayWidth * VisualizationGUI.RESOLUTION),
+                (arrayHeight * VisualizationGUI.RESOLUTION),
                 BufferedImage.TYPE_3BYTE_BGR);
 
+        //table with colors value (0-255) for raster usage
         int[] rgb = new int[3];
 
-        for (int height = 0; height < arrayHeight * VisualizationGUI.RESOLUTION; height += VisualizationGUI.RESOLUTION) {
-            for (int width = 0; width < arrayWidth * VisualizationGUI.RESOLUTION; width += VisualizationGUI.RESOLUTION) {
+        //loop for evry cell in matrix
+        for (int height = 0; height < arrayHeight; height++) {
+            for (int width = 0; width < arrayWidth; width++) {
 
                 //values restart
                 rgb[0] = 0;
@@ -142,35 +151,34 @@ public class ExportAsImage {
                 rgb[2] = 0;
 
                 //checking values from matrix
-                switch ((Short) core.VisualizationGUI.matrix.getMatrix()[height / VisualizationGUI.RESOLUTION][width / VisualizationGUI.RESOLUTION]) {
+                switch ((Short) core.VisualizationGUI.matrix.getMatrix()[height][width]) {
                     case 0: {
-                        //white
+                        //white color
                         rgb[0] = 255;
                         rgb[1] = 255;
                         rgb[2] = 255;
                         break;
                     }
                     case 1: {
-                        //red
+                        //red color
                         rgb[0] = 255;
                         break;
                     }
                     case 2: {
-                        //blue
+                        //blue color
                         rgb[2] = 255;
                         break;
                     }
                 }
-
-                //loop after height of pixel
-                for (int j = height; j < (height + VisualizationGUI.RESOLUTION); j++) {
-                    //loop after width of pixel
-                    for (int k = width; k < (width + VisualizationGUI.RESOLUTION); k++) {
-                        //loop after rgb
+                //loop after height of cell
+                for (int j = height * VisualizationGUI.RESOLUTION; j < height * VisualizationGUI.RESOLUTION + VisualizationGUI.RESOLUTION; j++) {
+                    //loop after width of cell
+                    for (int k = width * VisualizationGUI.RESOLUTION; k < width * VisualizationGUI.RESOLUTION + VisualizationGUI.RESOLUTION; k++) {
+                        //loop after colors
                         for (int l = 0; l < 3; l++) {
                             //drawing only if rgb is different from 0
                             if (rgb[l] != 0) {
-                                image.getRaster().setSample(j, k, l, rgb[l]);
+                                image.getRaster().setSample(k, j, l, rgb[l]);
                             }
                         }
                     }
@@ -200,11 +208,14 @@ public class ExportAsImage {
                 (arrayHeight * VisualizationGUI.RESOLUTION) + heightAxisCount,
                 BufferedImage.TYPE_3BYTE_BGR);
 
+        //table with colors value (0-255) for raster usage
         int[] rgb = new int[3];
 
+        //variables usage in count of drawed lines in grid
         int xAxisCount = 1;
         int yAxisCount = 1;
 
+        //loop for evry cell in matrix
         for (int height = 0; height < arrayHeight; height++) {
             for (int width = 0; width < arrayWidth; width++) {
 
@@ -216,28 +227,28 @@ public class ExportAsImage {
                 //checking values from matrix
                 switch ((Short) core.VisualizationGUI.matrix.getMatrix()[height][width]) {
                     case 0: {
-                        //white
+                        //white color
                         rgb[0] = 255;
                         rgb[1] = 255;
                         rgb[2] = 255;
                         break;
                     }
                     case 1: {
-                        //red
+                        //red color
                         rgb[0] = 255;
                         break;
                     }
                     case 2: {
-                        //blue
+                        //blue color
                         rgb[2] = 255;
                         break;
                     }
                 }
-                //loop after height of pixel
+                //loop after height of cell
                 for (int j = height * VisualizationGUI.RESOLUTION + yAxisCount; j < height * VisualizationGUI.RESOLUTION + VisualizationGUI.RESOLUTION + yAxisCount; j++) {
-                    //loop after width of pixel
+                    //loop after width of cell
                     for (int k = width * VisualizationGUI.RESOLUTION + xAxisCount; k < width * VisualizationGUI.RESOLUTION + VisualizationGUI.RESOLUTION + xAxisCount; k++) {
-                        //loop after rgb
+                        //loop after colors
                         for (int l = 0; l < 3; l++) {
                             //drawing only if rgb is different from 0
                             if (rgb[l] != 0) {

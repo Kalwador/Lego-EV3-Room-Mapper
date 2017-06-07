@@ -7,11 +7,12 @@ import core.VisualizationGUI;
 import java.awt.Color;
 
 /**
- *
+ * Rectangles are filled with collors, and are diplayed on scrren
  * @author Kalwador
  */
 public class Obstacles {
 
+    //new matrix for awt.Rectangle
     private matrix.RectangleMatrix rectalngleMatrix;
 
     public Obstacles() {
@@ -39,16 +40,21 @@ public class Obstacles {
     /**
      * Drawing obstacles on screen
      *
-     * @param g
-     *
+     * @param g - grapic
      */
     public void drawOBstacles(Graphics2D g) {
+        
+        //loop on rectangle matrix
         for (int j = 0; j < rectalngleMatrix.getHeight(); j++) {
             for (int i = 0; i < rectalngleMatrix.getWidth(); i++) {
+                
+                //if color in matrix is RED
                 if ((Short) core.VisualizationGUI.matrix.getMatrix()[j][i] == 1) {
                     g.setPaint(Color.RED);
                     g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[j][i]);
                 }
+                
+                //if color in matrix is BLUE
                 if ((Short) core.VisualizationGUI.matrix.getMatrix()[j][i] == 2) {
                     g.setPaint(Color.BLUE);
                     g.fill((Rectangle2D) rectalngleMatrix.getMatrix()[j][i]);
