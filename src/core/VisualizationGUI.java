@@ -27,7 +27,7 @@ public class VisualizationGUI extends JFrame implements MouseListener, MouseMoti
     public int windowPreferedHeight = 600;
 
     //Default dimension of every rectangle in pixels   
-    public static short RESOLUTION = 10;
+    public static short RESOLUTION = 15;
 
     //Main Frame, contains everything
     public static JFrame frame;

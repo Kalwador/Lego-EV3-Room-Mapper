@@ -5,24 +5,26 @@ import javax.swing.*;
 
 /**
  * Paint Rules on side of contentPane
- * 
+ *
  * @author Kalvador
  * @author Wilk
  */
 public class Rule extends JComponent {
-    
+
     //variables decides is rule Horizontal or Vertical
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
-    
+
+    public boolean change = true;
+
     //second dimensiof for rule
     public static final int SIZE = 35;
 
     //orientacion of the rule, can be horizonatal or vertical
     public int orientation;
-    
+
     //units that are used in calculating ticks
-    private int units = core.VisualizationGUI.RESOLUTION;
+    private int units = 10;
     private int increment = units * core.VisualizationGUI.RESOLUTION;
 
     public Rule(int o) {
@@ -38,8 +40,9 @@ public class Rule extends JComponent {
     }
 
     /**
-     * Paint Rules 
-     * @param g  - grapic
+     * Paint Rules
+     *
+     * @param g - grapic
      */
     @Override
     protected void paintComponent(Graphics g) {
@@ -86,7 +89,14 @@ public class Rule extends JComponent {
         for (int i = start; i < end; i += increment) {
             tickLength = 10;
             text = Integer.toString(i / (units * units));
-            text += "[m]";
+
+            if (change) {
+                text += ",5[m]";
+                change = false;
+            } else {
+                text += "[m]";
+                change = true;
+            }
 
             if (tickLength != 0) {
                 if (orientation == HORIZONTAL) {
