@@ -37,9 +37,11 @@ public class MatrixData {
             if (result == JFileChooser.APPROVE_OPTION) {
                 fileToOpen = fs.getSelectedFile();
                 matrix = readData(fileToOpen);
+            } else {
+                return matrix;
             }
         }
-        
+
         //check if matrix isn't null
         Optional<Matrix<Short>> optional = Optional.ofNullable(matrix);
         if (!optional.isPresent()) {
@@ -121,8 +123,7 @@ public class MatrixData {
     }
 
     /**
-     * Not used in program
-     * generate random matrix
+     * Not used in program generate random matrix
      *
      * @param path file path
      * @param width of matrix
@@ -169,8 +170,7 @@ public class MatrixData {
     }
 
     /**
-     * Not used in program
-     * generate row designed matrix
+     * Not used in program generate row designed matrix
      *
      * @param path file path
      * @param width of matrix
